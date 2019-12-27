@@ -1,11 +1,11 @@
 export default interface Deal {
-  address?: Address;
+  address: Address;
   category?: Category;
   discussions?: Discussion[];
   description: string;
   title: string;
   timeAvailable?: WeekTime;
-  timestamp: string;
+  timestamp: number;
   vote?: Vote;
 }
 
@@ -21,12 +21,13 @@ export interface GetDealResponse {
 
 export interface Address {
   id?: number;
-  area: string;
-  street1: string;
-  street2: string;
-  city: string;
-  state: string;
-  zipCode: string;
+  area?: string;
+  formattedAddress?: string;
+  street1?: string;
+  street2?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
   country: string;
   coordinate?: Coordinate;
 }

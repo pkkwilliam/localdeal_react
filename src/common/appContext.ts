@@ -1,12 +1,13 @@
-import ServiceExecutor from "../middleware/serviceExecutor";
+import ServiceExecutor from "./middleware/serviceExecutor";
+import Transformer from "./transformer";
 
 export default class AppContext {
-  private ALLOW_DEAL_REFRESH: boolean = true;
+  // Deal Refresh
+  private ALLOW_DEAL_REFRESH: boolean = false;
   private readonly DEAL_REFRESH_TIME: number = 5 * 1000;
 
   // API Headers
   private readonly APIKEY = "vKZywb959gExXaEHSwdzdq7MfZu3Nb";
-  private readonly BASE_URL: string = "http://localhost:8080";
   private readonly X_MADT_APPID: string = "localdeal";
   private readonly X_MADT_APP_VERSION: string = "0.0.1";
 
@@ -15,6 +16,8 @@ export default class AppContext {
     this.serviceUrl,
     this.headers
   );
+
+  private readonly _transformer: Transformer = new Transformer(this.labels);
 
   get allowDealRefresh(): boolean {
     return this.ALLOW_DEAL_REFRESH;
@@ -38,8 +41,13 @@ export default class AppContext {
     };
   }
 
+  get labels() {
+    // TODO need lables!!!
+    return null;
+  }
+
   get isMock(): boolean {
-    return false;
+    return true;
   }
 
   get isProd(): boolean {
@@ -55,7 +63,7 @@ export default class AppContext {
     return this.isProd ? "http://127.0.0.1:8080" : "http://127.0.0.1:8080";
   }
 
-  get url(): string {
-    return this.BASE_URL;
+  get transformer(): Transformer {
+    return this._transformer;
   }
 }

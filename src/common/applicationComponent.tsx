@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import AppContext from "./appContext";
+// import { connect } from "react-redux";
 
 export default class ApplicationComponent<
   ChildProps = {},
