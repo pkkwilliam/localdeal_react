@@ -6,7 +6,8 @@ import {
   LocalDealTextField,
   AddressDisplay,
   View,
-  TwinButton
+  TwinButton,
+  RichTextEditor
 } from "../../common";
 import { Address } from "../../modal/deal";
 import { Button } from "@material-ui/core";
@@ -64,7 +65,7 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
   };
 
   DescriptionTextField = () => {
-    return null;
+    return <RichTextEditor />;
   };
 
   HeaderSection = () => {
@@ -97,6 +98,9 @@ const styles = {
     alignItems: "space-between"
   },
   rootContainer: {
-    margin: 15
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 20,
+    marginRight: 20
   }
 };
