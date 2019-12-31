@@ -34,7 +34,6 @@ export default class AppContext {
   get headers() {
     let { APIKEY, X_MADT_APPID, X_MADT_APP_VERSION } = this;
     return {
-      "Content-Type": "application/json",
       APIKEY: APIKEY,
       X_MADT_APPID: X_MADT_APPID,
       X_MADT_APP_VERSION: X_MADT_APP_VERSION

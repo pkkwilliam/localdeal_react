@@ -9,14 +9,17 @@ export default class ServiceExecutor {
   ) {}
 
   public async execute(endpoint: Endpoint): Promise<any> {
-    if (this.isMock) {
+    if (this.isMock && endpoint.hasMock) {
       return Promise.resolve(getResponse(endpoint.serviceName));
     } else {
-      let requestParam: string = endpoint.optionalRequestParam();
+      let headers = this.generateHeaders(endpoint.isMultipartFileRequest);
+      let requestParam: string = endpoint.optionalRequestParam
+        ? endpoint.optionalRequestParam()
+        : "";
       let requestUrl = this.serviceUrl + endpoint.url + requestParam;
-      console.log(requestUrl);
       return fetch(requestUrl, {
-        headers: this.headers,
+        body: endpoint.body,
+        headers,
         method: endpoint.method,
         mode: "cors"
       })
@@ -28,6 +31,15 @@ export default class ServiceExecutor {
         });
     }
   }
+
+  protected generateHeaders = (isMultipartFileRequest: boolean) => {
+    return !isMultipartFileRequest
+      ? {
+          ...this.headers,
+          "Content-Type": "application/json"
+        }
+      : { ...this.headers };
+  };
 }
 
 const getResponse = (serviceName: ServiceName): any => {

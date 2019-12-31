@@ -8,12 +8,15 @@ const LONGITUDE_URL_PARAMETER: string = "longitude";
 export enum ServiceName {
   CREATE_DEAL = "CREATE_DEAL",
   GET_DEALS = "GET_DEALS",
-  GET_CURRENT_ADDRESS = "GET_CURRENT_ADDRESS"
+  GET_CURRENT_ADDRESS = "GET_CURRENT_ADDRESS",
+  UPLOAD_IMAGE = "UPLOAD_IMAGE"
 }
 
 export const CREATE_DEAL = (currentArea: CurrentArea, deal: Deal): Endpoint => {
   return {
     body: deal,
+    hasMock: false,
+    isMultipartFileRequest: false,
     method: "POST",
     url: "/deals",
     optionalRequestParam: () =>
@@ -25,6 +28,8 @@ export const CREATE_DEAL = (currentArea: CurrentArea, deal: Deal): Endpoint => {
 export const GET_CURRENT_ADDRESS = (currentArea: CurrentArea) => {
   return {
     method: "GET",
+    hasMock: true,
+    isMultipartFileRequest: false,
     url: "/position",
     optionalRequestParam: () =>
       generateCurrentAreaRequestParameter(currentArea),
@@ -34,11 +39,24 @@ export const GET_CURRENT_ADDRESS = (currentArea: CurrentArea) => {
 
 export const GET_DEALS = (address: Address): Endpoint => {
   return {
+    hasMock: true,
+    isMultipartFileRequest: false,
     method: "GET",
     url: "/deals",
     optionalRequestParam: () =>
       `?${generateParameter(AREA_NAME_URL_PARAMETER, address.area || "")}`,
     serviceName: ServiceName.GET_DEALS
+  };
+};
+
+export const UPLOAD_IMAGE = (image: any): Endpoint => {
+  return {
+    body: image,
+    hasMock: false,
+    isMultipartFileRequest: true,
+    method: "POST",
+    url: "/image",
+    serviceName: ServiceName.UPLOAD_IMAGE
   };
 };
 
@@ -69,8 +87,10 @@ const generateParameter = (key: string, value: string) => {
 export interface Endpoint {
   body?: any;
   errorReturn?: any;
+  hasMock: boolean;
+  isMultipartFileRequest: boolean;
   method: string;
   url: string;
-  optionalRequestParam: () => string;
+  optionalRequestParam?: () => string;
   serviceName: ServiceName;
 }
