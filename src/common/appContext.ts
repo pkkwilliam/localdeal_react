@@ -1,5 +1,6 @@
 import ServiceExecutor from "./middleware/serviceExecutor";
 import Transformer from "./transformer";
+import chineseTraditionalLabel from "../content/labels/chinese.traditional.json";
 
 export default class AppContext {
   // Deal Refresh
@@ -34,7 +35,6 @@ export default class AppContext {
   get headers() {
     let { APIKEY, X_MADT_APPID, X_MADT_APP_VERSION } = this;
     return {
-      "Content-Type": "application/json",
       APIKEY: APIKEY,
       X_MADT_APPID: X_MADT_APPID,
       X_MADT_APP_VERSION: X_MADT_APP_VERSION
@@ -42,12 +42,11 @@ export default class AppContext {
   }
 
   get labels() {
-    // TODO need lables!!!
-    return null;
+    return chineseTraditionalLabel;
   }
 
   get isMock(): boolean {
-    return true;
+    return false;
   }
 
   get isProd(): boolean {

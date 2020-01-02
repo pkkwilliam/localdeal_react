@@ -24,12 +24,15 @@ export default class AddressPredictionView extends ApplicationComponent<Props> {
   }
 
   AddressPredictionSection = () => {
-    let addressPredictionOptions = this.props.addressPrediction.map(address => {
+    let addressPrediction: Address[] = this.props.addressPrediction
+      ? this.props.addressPrediction
+      : [];
+    let addressPredictionOptions = addressPrediction.map(address => {
       return <option>{address.formattedAddress}</option>;
     });
     return (
       <FormControl>
-        <InputLabel>{"Need Label - 所在地區"}</InputLabel>
+        <InputLabel>{this.appContext.labels.position.currentArea}</InputLabel>
         <NativeSelect
           onChange={event =>
             this.props.onSelectAddress(event.target.selectedIndex)
@@ -44,7 +47,7 @@ export default class AddressPredictionView extends ApplicationComponent<Props> {
   GetValue = (name: any) => (event: any) => {};
 
   PositionLoading = () => {
-    return <H4>{"Need Label - 我們正在努力為您讀取定位"}</H4>;
+    return <H4>{this.appContext.labels.position.loading}</H4>;
   };
 }
 

@@ -9,18 +9,27 @@ export default class ServiceExecutor {
   ) {}
 
   public async execute(endpoint: Endpoint): Promise<any> {
-    if (this.isMock) {
+    if (this.isMock && endpoint.hasMock) {
       return Promise.resolve(getResponse(endpoint.serviceName));
     } else {
-      let requestParam: string = endpoint.optionalRequestParam();
+      let headers = this.generateHeaders(endpoint.isMultipartFileRequest);
+      let requestParam: string = endpoint.optionalRequestParam
+        ? endpoint.optionalRequestParam()
+        : "";
       let requestUrl = this.serviceUrl + endpoint.url + requestParam;
-      console.log(requestUrl);
       return fetch(requestUrl, {
-        headers: this.headers,
+        body: endpoint.body,
+        headers,
         method: endpoint.method,
         mode: "cors"
       })
-        .then(result => result.json())
+        .then(result => {
+          if (result.status === 204) {
+            return Promise.resolve();
+          } else {
+            return result.json();
+          }
+        })
         .then(result => Promise.resolve(result))
         .catch(exception => {
           console.warn("Something is wrong while fetch: ", requestUrl);
@@ -28,6 +37,24 @@ export default class ServiceExecutor {
         });
     }
   }
+
+  protected isJsonResponse(response: string): boolean {
+    try {
+      JSON.parse(response);
+      return true;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  protected generateHeaders = (isMultipartFileRequest: boolean) => {
+    return !isMultipartFileRequest
+      ? {
+          ...this.headers,
+          "Content-Type": "application/json"
+        }
+      : { ...this.headers };
+  };
 }
 
 const getResponse = (serviceName: ServiceName): any => {
@@ -46,19 +73,59 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
     {
       address: {
         id: 0,
-        area: "",
-        formattedAddress: "",
         street1: "街道1",
         street2: "地下B座",
         city: "澳門",
         state: "",
         zipCode: "",
         country: "澳門",
-        coordinate: { latitude: 113, longitude: 234 }
+        coordinate: {
+          latitude: 113,
+          longitude: 234
+        }
       },
-      description: "蛋逹王",
+      description:
+        '<p><img src="https://storage.cloud.google.com/deal_image/1577871875967"></p>',
       title: "澳門 蛋逹王子",
-      timestamp: 1576743420199
+      timestamp: 1577872077582
+    },
+    {
+      address: {
+        id: 0,
+        street1: "街道1",
+        street2: "地下B座",
+        city: "澳門",
+        state: "",
+        zipCode: "",
+        country: "澳門",
+        coordinate: {
+          latitude: 113,
+          longitude: 234
+        }
+      },
+      description:
+        '<p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul>',
+      title: "澳門 CRAZY 蛋逹王子",
+      timestamp: 1576871229332
+    },
+    {
+      address: {
+        id: 0,
+        street1: "街道1",
+        street2: "地下B座",
+        city: "澳門",
+        state: "",
+        zipCode: "",
+        country: "澳門",
+        coordinate: {
+          latitude: 113,
+          longitude: 234
+        }
+      },
+      description:
+        '<p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul>',
+      title: "澳門 CRAZY 蛋逹王子",
+      timestamp: 1577872407269
     }
   ]
 };

@@ -27,7 +27,7 @@ export default class LocalDealCard extends Component<Props, State> {
     return (
       <Collapse
         in={this.state.isCollapsed}
-        collapsedHeight={collapsedHeight ? collapsedHeight : 80}
+        collapsedHeight={collapsedHeight ? collapsedHeight : 180}
       >
         <Card style={styles.cardContainer}>
           <CardContent onClick={() => this.onClickedContent()}>
