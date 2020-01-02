@@ -12,15 +12,13 @@ export enum ServiceName {
   UPLOAD_IMAGE = "UPLOAD_IMAGE"
 }
 
-export const CREATE_DEAL = (currentArea: CurrentArea, deal: Deal): Endpoint => {
+export const CREATE_DEAL = (deal: Deal): Endpoint => {
   return {
-    body: deal,
+    body: JSON.stringify(deal),
     hasMock: false,
     isMultipartFileRequest: false,
     method: "POST",
     url: "/deals",
-    optionalRequestParam: () =>
-      generateCurrentAreaRequestParameter(currentArea),
     serviceName: ServiceName.CREATE_DEAL
   };
 };

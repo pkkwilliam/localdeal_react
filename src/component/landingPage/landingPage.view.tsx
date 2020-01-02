@@ -1,5 +1,5 @@
 import React from "react";
-import Deal, { GetDealResponse } from "../../modal/deal";
+import Deal, { Address } from "../../modal/deal";
 import {
   LocalDealCard,
   H4,
@@ -26,6 +26,7 @@ export interface Props {
   onClickSearch: () => void;
   onChangeSearchTextField: (text: string) => void;
   onFocusTextField: () => void;
+  selectedAddress: Address;
   showSearchButton: boolean;
   textFieldValue: string;
   useAutoLocation: boolean;
@@ -58,9 +59,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
         open={this.props.isCreateDealDrawerOpen}
         onClose={() => this.props.onCloseCreateDeal()}
       >
-        <CreateDealLandingPage
-          onClickClose={() => this.props.onCloseCreateDeal()}
-        />
+        <CreateDealLandingPage onClickClose={this.props.onCloseCreateDeal} />
       </Drawer>
     );
   };
@@ -72,7 +71,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
         onClick={() => this.props.onClickCreateDeal()}
         variant="outlined"
       >
-        <H5>{"Need Label - New Deal"}</H5>
+        <H5>{this.appContext.labels.landingPage.createDealButton}</H5>
       </Button>
     );
   };
@@ -99,26 +98,32 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   };
 
   LocationButton = () => {
-    let currentSearchMethodLabel = this.props.useAutoLocation
-      ? "Need Label - 正在使用Google API定位"
-      : "Need Label - 手動輸入 - 短按換Google定位";
-    let searchMethodStyle = this.props.useAutoLocation
-      ? styles.searchMethodLabel.coordinate
-      : styles.searchMethodLabel.manual;
+    // let currentSearchMethodLabel = this.props.useAutoLocation
+    //   ? "Need Label - 正在使用Google API定位"
+    //   : "Need Label - 手動輸入 - 短按換Google定位";
+    // let searchMethodStyle = this.props.useAutoLocation
+    //   ? styles.searchMethodLabel.coordinate
+    //   : styles.searchMethodLabel.manual;
     return (
       <Button
         disabled={this.props.useAutoLocation}
         onClick={() => this.props.onClickLocationButton()}
-        style={searchMethodStyle}
+        style={styles.searchMethodLabel.coordinate}
         variant="outlined"
       >
-        <H5 color={styleSchema.font.white}>{currentSearchMethodLabel}</H5>
+        <View isFlexDirectionRow={true}>
+          <H5 color={styleSchema.font.white}>
+            {this.appContext.labels.landingPage.geolocationProvider +
+              "\n" +
+              this.props.selectedAddress.area}
+          </H5>
+        </View>
       </Button>
     );
   };
 
   NoDealInArea = () => {
-    return <p>{"Need Label - 這附近没有Deal啊..."}</p>;
+    return <p>{this.appContext.labels.landingPage.noDeal}</p>;
   };
 
   SearchButton = () => {
@@ -140,7 +145,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
         onBlur={() => this.props.onBlurTextField()}
         onChange={text => this.props.onChangeSearchTextField(text)}
         onFocus={() => this.props.onFocusTextField()}
-        text={"Need Label - 地區"}
+        text={this.appContext.labels.landingPage.area}
       />
     );
   };
@@ -173,12 +178,14 @@ export default class LandingPageView extends ApplicationComponent<Props> {
         <View isFlexDirectionRow={true} style={styles.cardContainer}>
           <H4>{title}</H4>
           <H5>
-            {this.appContext.transformer.timeDifferentCalcualtor(timestamp)}
+            {timestamp
+              ? this.appContext.transformer.timeDifferentCalcualtor(timestamp)
+              : "Need Label - 不明"}
           </H5>
         </View>
         <View>
           <AddressDisplay address={address} />
-          <p>{description}</p>
+          <div dangerouslySetInnerHTML={{ __html: description }} />
         </View>
       </>
     );

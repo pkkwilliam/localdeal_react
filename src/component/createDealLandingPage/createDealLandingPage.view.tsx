@@ -14,8 +14,8 @@ import { Button } from "@material-ui/core";
 
 export interface Props {
   currentAddress: Address;
-  onChangeDescriptionTextField: () => void;
-  onChangeTitleTextField: () => void;
+  onChangeRichTextValue: (value: string) => void;
+  onChangeTitleTextField: (value: string) => void;
   onClickClose: () => void;
   onClickSubmit: () => void;
   useAutoPosition: boolean;
@@ -54,26 +54,28 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
   };
 
   ButtonSection = () => {
+    let label = this.appContext.labels.createDealPage;
     return (
       <TwinButton
         onClickPrimaryButton={() => this.props.onClickSubmit()}
         onClickSecondaryButton={() => this.props.onClickClose()}
-        primaryButtonLabel={"Need Label - 創建"}
-        secondaryButtonLabel={"Need Label - 取消"}
+        primaryButtonLabel={label.create}
+        secondaryButtonLabel={label.cancel}
       />
     );
   };
 
   DescriptionTextField = () => {
-    return <RichTextEditor />;
+    return <RichTextEditor onChangeValue={this.props.onChangeRichTextValue} />;
   };
 
   HeaderSection = () => {
+    let label = this.appContext.labels.createDealPage;
     return (
       <View isFlexDirectionRow={true}>
-        <H4>{"Need Label - 創建Deal"}</H4>
+        <H4>{label.header}</H4>
         <Button onClick={() => this.props.onClickClose()}>
-          <H5>{"Need Label - 關閉"}</H5>
+          <H5>{label.close}</H5>
         </Button>
       </View>
     );
@@ -86,8 +88,8 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
   TitleTextField = () => {
     return (
       <LocalDealTextField
-        onChange={() => this.props.onChangeTitleTextField}
-        text={"Need Label - 標題"}
+        onChange={this.props.onChangeTitleTextField}
+        text={this.appContext.labels.createDealPage.textFieldTitle}
       />
     );
   };

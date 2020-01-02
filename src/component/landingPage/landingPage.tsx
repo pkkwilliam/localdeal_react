@@ -168,6 +168,7 @@ export class LandingPage extends ApplicationComponent<Props, State> {
         onClickSearch={this.onClickSearch}
         onChangeSearchTextField={this.onChangeSearchTextField}
         onFocusTextField={this.onFocusTextField}
+        selectedAddress={this.props.selectedAddress}
         showSearchButton={showSearchButton}
         textFieldValue={textFieldValue}
         useAutoLocation={useAutoLocation}

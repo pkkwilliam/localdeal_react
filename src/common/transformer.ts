@@ -18,13 +18,16 @@ export default class Transformer {
       return this.getLabelAccrodingToTimeDifference(timeDifference);
     } else {
       console.warn("timestamp error: ", timestamp);
-      return "Need Label - 不明";
+      return this._lables.date.unknown;
     }
   }
 
   getLabelAccrodingToTimeDifference(timeDifference: number): string {
     // Determine if display detail days needed.
-    return `${Math.round(timeDifference / DAY)}Need Label - 日`;
+    const dayDifferent = Math.round(timeDifference / DAY);
+    return dayDifferent > 0
+      ? `${dayDifferent}${this._lables.date.day}`
+      : this._lables.date.today;
   }
 
   getCurrentLocation(callBack: any): void {

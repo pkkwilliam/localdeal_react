@@ -4,6 +4,8 @@ import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { UPLOAD_IMAGE } from "./middleware/service";
 
+const RESIZE_IMAGE_PERCENTAGE: number = 0.5;
+
 const richTextEditorOptions = [
   [
     "bold",
@@ -32,46 +34,9 @@ const richTextEditorOptions = [
 //   toolbar
 // };
 
-const imageHandler = () => {
-  console.log("use image handler");
-  const input = document.createElement("input");
-
-  input.setAttribute("type", "file");
-  input.setAttribute("accept", "image/*");
-  input.click();
-
-  input.onchange = async () => {
-    if (input.files) {
-      const file = input.files[0];
-      const formData = new FormData();
-
-      formData.append("image", file);
-
-      // // Save current cursor state
-      // const range = this.quill.getSelection(true);
-
-      // // Insert temporary loading placeholder image
-      // this.quill.insertEmbed(
-      //   range.index,
-      //   "image",
-      //   `${window.location.origin}/images/loaders/placeholder.gif`
-      // );
-
-      // // Move cursor to right side of image (easier to continue typing)
-      // this.quill.setSelection(range.index + 1);
-
-      // const res = await apiPostNewsImage(formData); // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
-
-      // // Remove placeholder image
-      // this.quill.deleteText(range.index, 1);
-
-      // // Insert uploaded image
-      // this.quill.insertEmbed(range.index, "image", res.body.image);
-    }
-  };
-};
-
-export interface Props {}
+export interface Props {
+  onChangeValue: (value: string) => void;
+}
 
 export default class RichTextEditor extends ApplicationComponent<Props> {
   private quillRef: any;
@@ -81,7 +46,7 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
       <ReactQuill
         ref={ref => (this.quillRef = ref?.getEditor())}
         modules={this.getModules()}
-        onChange={value => console.log(value)}
+        onChange={value => this.props.onChangeValue(value)}
       ></ReactQuill>
     );
   }
@@ -91,58 +56,74 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
       toolbar: {
         container: richTextEditorOptions,
         handlers: {
-          image: () => this.imageHandlerTest()
+          image: this.imageHandlerTest
         }
       }
     };
   }
 
-  imageHandlerTest = () => {
-    console.log("use image handler");
-    const input = document.createElement("input");
+  // this.quillRef.format() // change the current format, it will not affect anything that is already in the content area
+  // this.quillRef.formatLine() // format the whole line, usually it will affect the whole globally.
+  // this.quillRef.formatText() // this work for image as well!!! give the style for the current dom
 
+  // TODO this method needs to be refine!!!
+  imageHandlerTest = () => {
+    const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
     input.click();
-
     input.onchange = async () => {
       if (input.files) {
         const file = input.files[0];
         const formData = new FormData();
-
         formData.append("image", file, "image");
 
-        // Save current cursor state
+        // // Save current cursor state
         const range = this.quillRef.getSelection(true);
 
-        // Insert temporary loading placeholder image
-        this.quillRef.insertEmbed(
-          range.index,
-          "image",
-          `${window.location.origin}/images/loaders/placeholder.gif`
-        );
+        // // need to replace this with in app progressor!!!
+        this.quillRef.formatLine(range.index, 1, "align", "center");
+        this.quillRef.formatText(range.index, 1, {
+          align: "center",
+          width: 100,
+          height: 100
+        });
 
-        // Move cursor to right side of image (easier to continue typing)
-        this.quillRef.setSelection(range.index + 1);
-
-        // upload picture
+        // this.quillRef.setSelection(range.index + 2);
         this.appContext.serviceExecutor
           .execute(UPLOAD_IMAGE(formData))
           .then(result => {
-            let imageUrl: string = result.name;
-            console.log(imageUrl);
+            let imageUrl: string = result.url;
+            this.quillRef.deleteText(range.index, 1);
             this.quillRef.insertEmbed(range.index, "image", imageUrl);
+            this.resizeImage(imageUrl).then(({ height, width }) => {
+              this.quillRef.formatText(range.index, 1, {
+                height,
+                width
+              });
+              this.quillRef.setSelection(range.index + 1);
+            });
           });
-
-        // https://storage.cloud.google.com/deal_image/wow.png
-        const res = "https://storage.cloud.google.com/deal_image/wow.png"; // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
-
-        // Remove placeholder image
-        this.quillRef.deleteText(range.index, 1);
-
-        // Insert uploaded image
-        // this.quillRef.insertEmbed(range.index, "image", res);
       }
     };
   };
+
+  protected getImageResizeValue() {
+    return RESIZE_IMAGE_PERCENTAGE;
+  }
+
+  protected async resizeImage(
+    url: string
+  ): Promise<{ height: number; width: number }> {
+    return new Promise((resolve, reject) => {
+      let resizeValue: number = this.getImageResizeValue();
+      let image = new Image();
+      image.src = url;
+      image.onload = () =>
+        resolve({
+          height: image.height * resizeValue,
+          width: image.width * resizeValue
+        });
+    });
+  }
 }

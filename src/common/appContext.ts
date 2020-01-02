@@ -1,5 +1,6 @@
 import ServiceExecutor from "./middleware/serviceExecutor";
 import Transformer from "./transformer";
+import chineseTraditionalLabel from "../content/labels/chinese.traditional.json";
 
 export default class AppContext {
   // Deal Refresh
@@ -41,12 +42,11 @@ export default class AppContext {
   }
 
   get labels() {
-    // TODO need lables!!!
-    return null;
+    return chineseTraditionalLabel;
   }
 
   get isMock(): boolean {
-    return true;
+    return false;
   }
 
   get isProd(): boolean {

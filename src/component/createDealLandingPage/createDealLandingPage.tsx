@@ -1,35 +1,28 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { CreateDealLandingPageView } from ".";
-import { Address } from "../../modal/deal";
-import { GET_CURRENT_ADDRESS } from "../../common/middleware/service";
+import Deal, { Address } from "../../modal/deal";
+import { CREATE_DEAL } from "../../common/middleware/service";
+import { ReduxState } from "../../common/redux/reducers";
+import { connect } from "react-redux";
 
 export interface Props {
+  currentAddress: Address;
   onClickClose: () => void;
 }
 
 export interface State {
-  currentAddress: Address;
+  richTextValue: string;
+  title: string;
   useAutoPosition: boolean;
 }
 
-export default class CreateDealLandingPage extends ApplicationComponent<
-  Props,
-  State
-> {
+export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      currentAddress: {
-        area: "",
-        street1: "",
-        street2: "",
-        city: "",
-        state: "",
-        zipCode: "",
-        country: "",
-        coordinate: { latitude: 0, longitude: 0 }
-      },
+      richTextValue: "",
+      title: "",
       useAutoPosition: true
     };
   }
@@ -37,38 +30,45 @@ export default class CreateDealLandingPage extends ApplicationComponent<
   render() {
     return (
       <CreateDealLandingPageView
-        currentAddress={this.state.currentAddress}
-        onChangeDescriptionTextField={this.onChangeDescriptionTextField}
+        currentAddress={this.props.currentAddress}
+        onChangeRichTextValue={this.onChangeRichTextValue}
         onChangeTitleTextField={this.onChangeTitleTextField}
-        onClickClose={this.props.onClickClose}
+        onClickClose={() => this.props.onClickClose()}
         onClickSubmit={this.onClickSubmit}
         useAutoPosition={this.state.useAutoPosition}
       />
     );
   }
 
-  componentDidMount() {
-    this.appContext.serviceExecutor
-      .execute(GET_CURRENT_ADDRESS({}))
-      .then((currentAddress: Address) =>
-        this.setState({
-          currentAddress
-        })
-      );
-  }
-
-  protected onChangeDescriptionTextField = () => {
-    // need to complete
-    console.log("onChangeDescriptionTextField");
+  protected onChangeRichTextValue = (richTextValue: string) => {
+    console.log(richTextValue);
+    this.setState({
+      richTextValue
+    });
   };
 
-  protected onChangeTitleTextField = () => {
-    // need to complete
-    console.log("onChangeTitleTextField");
+  protected onChangeTitleTextField = (title: string) => {
+    console.log(title);
+    this.setState({
+      title
+    });
   };
 
   protected onClickSubmit = () => {
-    // need to complete
-    console.log("onClickSubmit");
+    this.appContext.serviceExecutor.execute(CREATE_DEAL(this.generateDeal()));
   };
+
+  protected generateDeal(): Deal {
+    return {
+      address: this.props.currentAddress,
+      description: this.state.richTextValue,
+      title: this.state.title
+    };
+  }
 }
+
+const mapStateToProps = (state: ReduxState) => ({
+  currentAddress: state.selectedAddress
+});
+
+export default connect(mapStateToProps)(CreateDealLandingPage);
