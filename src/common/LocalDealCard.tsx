@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import { CardContent, Collapse } from "@material-ui/core";
-import { View } from ".";
 
 export interface Props {
   collapsedHeight?: number;
