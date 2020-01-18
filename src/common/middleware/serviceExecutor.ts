@@ -32,7 +32,11 @@ export default class ServiceExecutor {
         })
         .then(result => Promise.resolve(result))
         .catch(exception => {
-          console.warn("Something is wrong while fetch: ", requestUrl);
+          console.warn(
+            "Something is wrong while fetch: ",
+            requestUrl,
+            exception
+          );
           return Promise.reject(exception);
         });
     }

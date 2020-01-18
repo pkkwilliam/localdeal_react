@@ -1,7 +1,9 @@
 {
+  "homepage": ".",
   "name": "local_deal",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://47.56.175.46:8080",
   "dependencies": {
     "@material-ui/core": "^4.8.0",
     "@material-ui/icons": "^4.5.1",
