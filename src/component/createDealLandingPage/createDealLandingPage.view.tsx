@@ -38,10 +38,14 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
   }
 
   AddressSection = () => {
-    return this.props.useAutoPosition ? (
-      <this.AddressAutoPositionDisplay />
-    ) : (
-      <this.AddressTextField />
+    return (
+      <View style={{ margin: 10 }}>
+        {this.props.useAutoPosition ? (
+          <this.AddressAutoPositionDisplay />
+        ) : (
+          <this.AddressTextField />
+        )}
+      </View>
     );
   };
 
@@ -72,8 +76,8 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
   HeaderSection = () => {
     let label = this.appContext.labels.createDealPage;
     return (
-      <View isFlexDirectionRow={true}>
-        <H4>{label.header}</H4>
+      <View style={styles.headerContainer} isFlexDirectionRow={true}>
+        <H4 style={styles.headerText}>{label.header}</H4>
         <Button onClick={() => this.props.onClickClose()}>
           <H5>{label.close}</H5>
         </Button>
@@ -97,7 +101,11 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
 
 const styles = {
   headerContainer: {
-    alignItems: "space-between"
+    justifyContent: "space-between",
+    width: "80%"
+  },
+  headerText: {
+    marginTop: 10
   },
   rootContainer: {
     alignItems: "center",

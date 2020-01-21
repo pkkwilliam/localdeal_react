@@ -8,8 +8,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production -- Remove this for now to save computation power in cloud!!!
+# /build
 
 # misc
 .DS_Store

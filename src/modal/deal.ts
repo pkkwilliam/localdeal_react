@@ -5,7 +5,7 @@ export default interface Deal {
   description: string;
   title: string;
   timeAvailable?: WeekTime;
-  timestamp?: number;
+  timestamp: number;
   vote?: Vote;
 }
 

@@ -36,8 +36,8 @@ export default class AppContext {
     let { APIKEY, X_MADT_APPID, X_MADT_APP_VERSION } = this;
     return {
       APIKEY: APIKEY,
-      X_MADT_APPID: X_MADT_APPID,
-      X_MADT_APP_VERSION: X_MADT_APP_VERSION
+      XMADTAPPID: X_MADT_APPID,
+      XMADTAPPVERSION: X_MADT_APP_VERSION
     };
   }
 
@@ -50,7 +50,7 @@ export default class AppContext {
   }
 
   get isProd(): boolean {
-    return false;
+    return true;
   }
 
   get serviceExecutor(): ServiceExecutor {
@@ -59,7 +59,7 @@ export default class AppContext {
 
   get serviceUrl(): string {
     // TODO need prod url
-    return this.isProd ? "http://127.0.0.1:8080" : "http://127.0.0.1:8080";
+    return this.isProd ? "https://liuda.site:8082" : "http://127.0.0.1:8081";
   }
 
   get transformer(): Transformer {

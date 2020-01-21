@@ -148,6 +148,12 @@ export class LandingPage extends ApplicationComponent<Props, State> {
     });
   };
 
+  protected sortDeals(inputDeals: Deal[]) {
+    inputDeals.sort((deal1, deal2) => {
+      return deal2.timestamp - deal1.timestamp;
+    });
+  }
+
   render() {
     let {
       isCreateDealDrawerOpen,
@@ -155,6 +161,8 @@ export class LandingPage extends ApplicationComponent<Props, State> {
       textFieldValue,
       useAutoLocation
     } = this.state;
+    // sort deal
+    this.sortDeals(this.props.deals);
     return (
       <LandingPageView
         deals={this.props.deals}
