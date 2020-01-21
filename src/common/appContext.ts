@@ -59,7 +59,7 @@ export default class AppContext {
 
   get serviceUrl(): string {
     // TODO need prod url
-    return this.isProd ? "https://liuda.site:8080" : "http://127.0.0.1:8081";
+    return this.isProd ? "https://liuda.site:8082" : "http://127.0.0.1:8081";
   }
 
   get transformer(): Transformer {

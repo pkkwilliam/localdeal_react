@@ -1,14 +1,16 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { CreateDealLandingPageView } from ".";
-import Deal, { Address } from "../../modal/deal";
-import { CREATE_DEAL } from "../../common/middleware/service";
+import Deal, { Address, GetDealResponse } from "../../modal/deal";
+import { CREATE_DEAL, GET_DEALS } from "../../common/middleware/service";
 import { ReduxState } from "../../common/redux/reducers";
+import { setDeals } from "../../common/redux/action";
 import { connect } from "react-redux";
 
 export interface Props {
   currentAddress: Address;
   onClickClose: () => void;
+  setDeals?: any;
 }
 
 export interface State {
@@ -41,27 +43,34 @@ export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
   }
 
   protected onChangeRichTextValue = (richTextValue: string) => {
-    console.log(richTextValue);
     this.setState({
       richTextValue
     });
   };
 
   protected onChangeTitleTextField = (title: string) => {
-    console.log(title);
     this.setState({
       title
     });
   };
 
-  protected onClickSubmit = () => {
-    this.appContext.serviceExecutor.execute(CREATE_DEAL(this.generateDeal()));
+  protected onClickSubmit = async () => {
+    await this.appContext.serviceExecutor.execute(
+      CREATE_DEAL(this.generateDeal())
+    );
+    this.props.onClickClose();
+    await this.appContext.serviceExecutor
+      .execute(GET_DEALS(this.props.currentAddress))
+      .then((getDealResponse: GetDealResponse) =>
+        this.props.setDeals(getDealResponse)
+      );
   };
 
   protected generateDeal(): Deal {
     return {
       address: this.props.currentAddress,
       description: this.state.richTextValue,
+      timestamp: 0,
       title: this.state.title
     };
   }
@@ -71,4 +80,4 @@ const mapStateToProps = (state: ReduxState) => ({
   currentAddress: state.selectedAddress
 });
 
-export default connect(mapStateToProps)(CreateDealLandingPage);
+export default connect(mapStateToProps, { setDeals })(CreateDealLandingPage);
