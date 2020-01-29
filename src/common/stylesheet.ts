@@ -3,8 +3,9 @@ const borderRadius = 15;
 
 // color
 const BLUE = "#78C5EF";
+const DARK_GREY = "#7D7D7D";
 const GREEN = "#5CC928";
-const LIGHT_GREY = "#7D7D7D";
+const LIGHT_GREY = "#f6f6f6";
 const WHITE = "#FFFFFF";
 
 // font
@@ -17,6 +18,7 @@ export interface StyleSheet {
   color: {
     primaryColor: string;
     secondaryColor: string;
+    lightGrey: string;
   };
   font: {
     fontSize: number;
@@ -39,7 +41,8 @@ export const styleSchema: StyleSheet = {
   },
   color: {
     primaryColor: BLUE,
-    secondaryColor: LIGHT_GREY
+    secondaryColor: DARK_GREY,
+    lightGrey: LIGHT_GREY
   },
   font: {
     fontSize: FONT_SIZE,

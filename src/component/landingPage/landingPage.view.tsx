@@ -214,11 +214,13 @@ const styles = {
     marginTop: 20,
     width: "100%"
   },
+
   rootContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 20,
-    marginRight: 20
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20
   },
   searchButton: {
     borderColor: styleSchema.remind.secondaryColor,
@@ -246,7 +248,7 @@ const styles = {
   },
   topBarContainer: {
     justifyContent: "space-between",
-    marginTop: 20,
+    paddingTop: 20,
     width: "100%"
   }
 };
