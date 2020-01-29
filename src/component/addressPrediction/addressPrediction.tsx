@@ -18,13 +18,12 @@ export interface Props {
 export class AddressPrediction extends ApplicationComponent<Props> {
   render() {
     this.setDefaultSelectedAddress();
-    return (
-      <AddressPredictionView
-        addressPrediction={this.props.addressPrediction}
-        isPositionLoading={this.props.isPositionLoading}
-        onSelectAddress={this.onSelectAddress}
-      />
-    );
+    return null;
+    // <AddressPredictionView
+    //   addressPrediction={this.props.addressPrediction}
+    //   isPositionLoading={this.props.isPositionLoading}
+    //   onSelectAddress={this.onSelectAddress}
+    // />
   }
 
   protected setDefaultSelectedAddress() {

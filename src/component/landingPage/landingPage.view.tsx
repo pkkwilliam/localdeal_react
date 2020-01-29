@@ -13,6 +13,7 @@ import ApplicationComponent from "../../common/applicationComponent";
 import { Button, Box, Drawer } from "@material-ui/core";
 import { CreateDealLandingPage } from "../createDealLandingPage";
 import { AddressPrediction } from "../addressPrediction";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export interface Props {
   deals: Deal[];
@@ -98,25 +99,30 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   };
 
   LocationButton = () => {
-    // let currentSearchMethodLabel = this.props.useAutoLocation
-    //   ? "Need Label - 正在使用Google API定位"
-    //   : "Need Label - 手動輸入 - 短按換Google定位";
-    // let searchMethodStyle = this.props.useAutoLocation
-    //   ? styles.searchMethodLabel.coordinate
-    //   : styles.searchMethodLabel.manual;
+    const showCircularProgressor: boolean =
+      this.props.selectedAddress && this.props.selectedAddress.area !== "";
     return (
       <Button
-        disabled={this.props.useAutoLocation}
-        onClick={() => this.props.onClickLocationButton()}
+        disabled={true}
+        onClick={this.props.onClickLocationButton}
         style={styles.searchMethodLabel.coordinate}
         variant="outlined"
       >
         <View isFlexDirectionRow={true}>
           <H5 color={styleSchema.font.white}>
-            {this.appContext.labels.landingPage.geolocationProvider +
-              "\n" +
-              this.props.selectedAddress.area}
+            {`${this.appContext.labels.landingPage.geolocationProvider}:`}
           </H5>
+          {showCircularProgressor ? (
+            <H5 color={styleSchema.font.white}>
+              {this.props.selectedAddress.area}
+            </H5>
+          ) : (
+            <CircularProgress
+              size={15}
+              style={styles.circularProgress}
+              variant={"indeterminate"}
+            />
+          )}
         </View>
       </Button>
     );
@@ -195,6 +201,9 @@ export default class LandingPageView extends ApplicationComponent<Props> {
 const styles = {
   cardContainer: {
     justifyContent: "space-between"
+  },
+  circularProgress: {
+    marginLeft: 5
   },
   createNewButton: {
     borderColor: styleSchema.color.secondaryColor,
