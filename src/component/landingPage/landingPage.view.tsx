@@ -108,7 +108,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
         style={styles.searchMethodLabel.coordinate}
         variant="outlined"
       >
-        <View isFlexDirectionRow={true}>
+        <View isFlexDirectionRow={true} style={styles.locationButtonContainer}>
           <H5 color={styleSchema.font.white}>
             {`${this.appContext.labels.landingPage.geolocationProvider}:`}
           </H5>
@@ -214,7 +214,10 @@ const styles = {
     marginTop: 20,
     width: "100%"
   },
-
+  locationButtonContainer: {
+    alignItems: "center",
+    justifyContent: "center"
+  },
   rootContainer: {
     alignItems: "center",
     justifyContent: "center",
