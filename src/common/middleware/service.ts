@@ -53,7 +53,7 @@ export const UPLOAD_IMAGE = (image: any): Endpoint => {
     hasMock: false,
     isMultipartFileRequest: true,
     method: "POST",
-    url: "/image",
+    url: "/file/multipart",
     serviceName: ServiceName.UPLOAD_IMAGE
   };
 };

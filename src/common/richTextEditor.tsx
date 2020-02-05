@@ -3,8 +3,7 @@ import ApplicationComponent from "./applicationComponent";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { UPLOAD_IMAGE } from "./middleware/service";
-
-const RESIZE_IMAGE_PERCENTAGE: number = 0.5;
+import Resizer from "react-image-file-resizer";
 
 const richTextEditorOptions = [
   [
@@ -56,7 +55,7 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
       toolbar: {
         container: richTextEditorOptions,
         handlers: {
-          image: this.imageHandlerTest
+          image: this.imageHandler
         }
       }
     };
@@ -66,8 +65,44 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
   // this.quillRef.formatLine() // format the whole line, usually it will affect the whole globally.
   // this.quillRef.formatText() // this work for image as well!!! give the style for the current dom
 
-  // TODO this method needs to be refine!!!
-  imageHandlerTest = () => {
+  async getImageInfo(file: File) {
+    const image = new Image();
+    image.src = await URL.createObjectURL(file);
+    console.info(
+      `input image type:${file.type} size:${file.size} height:${image.height} width:${image.width}`
+    );
+    return {
+      height: image.height,
+      size: file.size,
+      type: file.type,
+      width: image.width
+    };
+  }
+
+  async imageResize(
+    file: File,
+    imageType: string,
+    height: number,
+    width: number,
+    quality: number
+  ) {
+    let image = file;
+    await Resizer.imageFileResizer(
+      file,
+      height,
+      width,
+      imageType,
+      quality,
+      0,
+      (processedImage: File) => {
+        image = processedImage;
+      },
+      "blob"
+    );
+    return image;
+  }
+
+  imageHandler = async () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
@@ -75,55 +110,80 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
     input.onchange = async () => {
       if (input.files) {
         const file = input.files[0];
-        const formData = new FormData();
-        formData.append("image", file, "image");
 
-        // // Save current cursor state
+        // TODO show spinner to indicate that the image is being upload
+
+        // save current cursor state
         const range = this.quillRef.getSelection(true);
 
-        // // need to replace this with in app progressor!!!
-        this.quillRef.formatLine(range.index, 1, "align", "center");
-        this.quillRef.formatText(range.index, 1, {
-          align: "center",
-          width: 100,
-          height: 100
-        });
+        // get input image detail info
+        const { height, size, type, width } = await this.getImageInfo(file);
 
-        // this.quillRef.setSelection(range.index + 2);
+        // resize image according to height, width and quality
+        const processedImage = await this.imageResize(file, type, 300, 300, 50);
+
+        // create a FormData object inorder to submit it as Multipart file for REST controller
+        const formData: FormData = new FormData();
+        formData.append("image", processedImage, "image");
+
+        // upload image
         this.appContext.serviceExecutor
           .execute(UPLOAD_IMAGE(formData))
-          .then(result => {
-            let imageUrl: string = result.url;
-            this.quillRef.deleteText(range.index, 1);
+          .then(response => {
+            const imageUrl: string = response.url;
             this.quillRef.insertEmbed(range.index, "image", imageUrl);
-            this.resizeImage(imageUrl).then(({ height, width }) => {
-              this.quillRef.formatText(range.index, 1, {
-                height,
-                width
-              });
-              this.quillRef.setSelection(range.index + 1);
-            });
+            this.quillRef.setSelection(range.index + 1);
+            this.quillRef.setSelection();
           });
+
+        // Resizer.imageFileResizer(
+        //   file,
+        //   300,
+        //   300,
+        //   "PNG",
+        //   50,
+        //   0,
+        //   (uri: any) => {
+        //     // const buffer = Buffer.from(uri, "base64");
+        //     const formData = new FormData();
+        //     formData.append("image", file, "image");
+        //     this.quillRef.setSelection(range.index + 2);
+        //     // this.quillRef.deleteText(range.index, 1);
+        //     this.quillRef.insertEmbed(range.index, "image", file);
+        //     this.quillRef.setSelection(range.index + 1);
+        //     // this.appContext.serviceExecutor
+        //     //   .execute(UPLOAD_IMAGE(formData))
+        //     //   .then(result => {
+        //     //     let imageUrl: string = result.url;
+        //     //     this.quillRef.deleteText(range.index, 1);
+        //     //     this.quillRef.insertEmbed(range.index, "image", imageUrl);
+        //     //     this.quillRef.setSelection(range.index + 1);
+        //     //   });
+        //   },
+        //   "blob"
+        // );
+
+        // // need to replace this with in app progressor!!!
+        // this.quillRef.formatLine(range.index, 1, "align", "center");
+        // this.quillRef.formatText(range.index, 1, {
+        //   align: "center"
+        // });
+        // this.quillRef.setSelection(range.index + 2);
+        // this.appContext.serviceExecutor
+        //   .execute(UPLOAD_IMAGE(formData))
+        //   .then(result => {
+        //     let imageUrl: string = result.url;
+        //     this.quillRef.deleteText(range.index, 1);
+        //     this.quillRef.insertEmbed(range.index, "image", imageUrl);
+        //     this.resizeImage(imageUrl).then(({ height, width }) => {
+        //       this.quillRef.formatText(range.index, 1, {
+        //         height,
+        //         width
+        //       });
+        //       this.quillRef.setSelection(range.index + 1);
+        //     });
+        //   });
       }
     };
   };
-
-  protected getImageResizeValue() {
-    return RESIZE_IMAGE_PERCENTAGE;
-  }
-
-  protected async resizeImage(
-    url: string
-  ): Promise<{ height: number; width: number }> {
-    return new Promise((resolve, reject) => {
-      let resizeValue: number = this.getImageResizeValue();
-      let image = new Image();
-      image.src = url;
-      image.onload = () =>
-        resolve({
-          height: image.height * resizeValue,
-          width: image.width * resizeValue
-        });
-    });
-  }
 }

@@ -32,6 +32,7 @@ export default class LocalDealCard extends Component<Props, State> {
           <CardContent onClick={() => this.onClickedContent()}>
             {contents}
           </CardContent>
+          hahaha
         </Card>
       </Collapse>
     );
