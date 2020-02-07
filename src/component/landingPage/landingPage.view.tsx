@@ -17,64 +17,28 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 export interface Props {
   deals: Deal[];
-  isCreateDealDrawerOpen: boolean;
   onBlurTextField: () => void;
   onClickCard: () => void;
-  onClickCreateDeal: () => void;
-  onCloseCreateDeal: () => void;
   onClickDealSection: () => void;
-  onClickLocationButton: () => void;
   onClickSearch: () => void;
   onChangeSearchTextField: (text: string) => void;
   onFocusTextField: () => void;
   selectedAddress: Address;
   showSearchButton: boolean;
   textFieldValue: string;
-  useAutoLocation: boolean;
 }
 
 export default class LandingPageView extends ApplicationComponent<Props> {
   render() {
     return (
       <View style={styles.rootContainer}>
-        <this.TopBarSection />
-        <AddressPrediction />
         <this.BodySection />
       </View>
     );
   }
 
   BodySection = () => {
-    return (
-      <>
-        <this.CreateDealSection />
-        <this.DealsSection />
-      </>
-    );
-  };
-
-  CreateDealSection = () => {
-    return (
-      <Drawer
-        anchor={"top"}
-        open={this.props.isCreateDealDrawerOpen}
-        onClose={() => this.props.onCloseCreateDeal()}
-      >
-        <CreateDealLandingPage onClickClose={this.props.onCloseCreateDeal} />
-      </Drawer>
-    );
-  };
-
-  CreateNewDealButton = () => {
-    return (
-      <Button
-        style={styles.createNewButton}
-        onClick={() => this.props.onClickCreateDeal()}
-        variant="outlined"
-      >
-        <H5>{this.appContext.labels.landingPage.createDealButton}</H5>
-      </Button>
-    );
+    return <this.DealsSection />;
   };
 
   DealsSection = () => {
@@ -95,36 +59,6 @@ export default class LandingPageView extends ApplicationComponent<Props> {
       >
         {dealsCard.length ? dealsCard : <this.NoDealInArea />}
       </Box>
-    );
-  };
-
-  LocationButton = () => {
-    const showCircularProgressor: boolean =
-      this.props.selectedAddress && this.props.selectedAddress.area !== "";
-    return (
-      <Button
-        disabled={true}
-        onClick={this.props.onClickLocationButton}
-        style={styles.searchMethodLabel.coordinate}
-        variant="outlined"
-      >
-        <View isFlexDirectionRow={true} style={styles.locationButtonContainer}>
-          <H5 color={styleSchema.font.white}>
-            {`${this.appContext.labels.landingPage.geolocationProvider}:`}
-          </H5>
-          {showCircularProgressor ? (
-            <H5 color={styleSchema.font.white}>
-              {this.props.selectedAddress.area}
-            </H5>
-          ) : (
-            <CircularProgress
-              size={15}
-              style={styles.circularProgress}
-              variant={"indeterminate"}
-            />
-          )}
-        </View>
-      </Button>
     );
   };
 
@@ -153,18 +87,6 @@ export default class LandingPageView extends ApplicationComponent<Props> {
         onFocus={() => this.props.onFocusTextField()}
         text={this.appContext.labels.landingPage.area}
       />
-    );
-  };
-
-  TopBarSection = () => {
-    return (
-      <View isFlexDirectionRow={true} style={styles.topBarContainer}>
-        <this.LocationButton />
-        {/* Not sure if we want search for now */}
-        {/* <this.TextFieldArea />
-        <this.SearchButton /> */}
-        <this.CreateNewDealButton />
-      </View>
     );
   };
 

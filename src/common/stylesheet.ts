@@ -2,6 +2,7 @@
 const borderRadius = 15;
 
 // color
+const BLACK = "black"; // TODO replace this with HEX code
 const BLUE = "#78C5EF";
 const DARK_GREY = "#7D7D7D";
 const GREEN = "#5CC928";
@@ -16,9 +17,11 @@ export interface StyleSheet {
     borderRadius: number;
   };
   color: {
+    black: string;
+    lightGrey: string;
     primaryColor: string;
     secondaryColor: string;
-    lightGrey: string;
+    white: string;
   };
   font: {
     fontSize: number;
@@ -40,9 +43,11 @@ export const styleSchema: StyleSheet = {
     borderRadius
   },
   color: {
+    black: BLACK,
     primaryColor: BLUE,
     secondaryColor: DARK_GREY,
-    lightGrey: LIGHT_GREY
+    lightGrey: LIGHT_GREY,
+    white: WHITE
   },
   font: {
     fontSize: FONT_SIZE,

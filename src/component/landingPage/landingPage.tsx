@@ -83,21 +83,6 @@ export class LandingPage extends ApplicationComponent<Props, State> {
     console.log("onBlurTextField");
   };
 
-  protected onClickCreateDeal = () => {
-    // need to complete
-    console.log("onClickCreateDeal");
-    this.setState({
-      isCreateDealDrawerOpen: true
-    });
-  };
-
-  protected onCloseCreateDeal = () => {
-    console.log("onCloseCreateDeal");
-    this.setState({
-      isCreateDealDrawerOpen: false
-    });
-  };
-
   protected onClickedCard = () => {
     // need to complete
     console.log("Card Clicked");
@@ -108,14 +93,6 @@ export class LandingPage extends ApplicationComponent<Props, State> {
     console.log("onClickedDealSection");
     this.setState({
       showSearchButton: false
-    });
-  };
-
-  protected onClickLocationButton = () => {
-    // need to complete
-    console.log("onClickLocationButton");
-    this.setState({
-      useAutoLocation: true
     });
   };
 
@@ -166,20 +143,15 @@ export class LandingPage extends ApplicationComponent<Props, State> {
     return (
       <LandingPageView
         deals={this.props.deals}
-        isCreateDealDrawerOpen={isCreateDealDrawerOpen}
         onBlurTextField={this.onBlurTextField}
         onClickCard={this.onClickedCard}
-        onClickCreateDeal={this.onClickCreateDeal}
-        onCloseCreateDeal={this.onCloseCreateDeal}
         onClickDealSection={this.onClickedDealSection}
-        onClickLocationButton={this.onClickLocationButton}
         onClickSearch={this.onClickSearch}
         onChangeSearchTextField={this.onChangeSearchTextField}
         onFocusTextField={this.onFocusTextField}
         selectedAddress={this.props.selectedAddress}
         showSearchButton={showSearchButton}
         textFieldValue={textFieldValue}
-        useAutoLocation={useAutoLocation}
       />
     );
   }
