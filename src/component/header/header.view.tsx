@@ -20,7 +20,11 @@ export interface Props {
 export default class HeaderView extends ApplicationComponent<Props> {
   render() {
     return (
-      <View isFlexDirectionRow={true} style={styles.rootContainer}>
+      <View
+        boxShadow={1}
+        isFlexDirectionRow={true}
+        style={styles.rootContainer}
+      >
         <AddressPrediction />
         <this.CreateDealDrawer />
         <this.HeaderTextAndLogo />
@@ -118,10 +122,7 @@ const styles = {
   rootContainer: {
     backgroundColor: styleSchema.color.white,
     justifyContent: "space-between",
-    padding: 20,
-    borderColor: styleSchema.remind.primaryColor,
-    borderRadius: styleSchema.button.borderRadius,
-    borderWidth: 3
+    padding: 20
   },
   searchMethodLabel: {
     backgroundColor: styleSchema.remind.primaryColor,

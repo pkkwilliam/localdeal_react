@@ -1,8 +1,8 @@
 import React from "react";
 import ApplicationComponent from "./applicationComponent";
-import { Box } from "@material-ui/core";
+import { Box, BoxProps } from "@material-ui/core";
 
-interface Props {
+interface Props extends BoxProps {
   alignItems?: string;
   chindren?: React.ReactNode;
   isFlexDirectionRow?: boolean;
@@ -23,6 +23,7 @@ export default class View extends ApplicationComponent<Props> {
         }
         onClick={() => (this.props.onClick ? this.props.onClick() : {})}
         style={this.props.style}
+        {...this.props}
       >
         {this.props.children}
       </Box>
