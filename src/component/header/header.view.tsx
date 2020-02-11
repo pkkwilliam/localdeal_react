@@ -8,7 +8,7 @@ import { Button, Drawer } from "@material-ui/core";
 import { CreateDealLandingPage } from "../createDealLandingPage";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { AddressPrediction } from "../addressPrediction";
-import logo from "../../resouces/logo_icon_character.png";
+import logo from "../../resouces/logo_icon_character-min.png";
 
 export interface Props {
   isCreateDealDrawerOpen: boolean;
