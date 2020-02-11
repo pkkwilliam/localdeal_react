@@ -9,6 +9,9 @@ const GREEN = "#5CC928";
 const LIGHT_GREY = "#f6f6f6";
 const WHITE = "#FFFFFF";
 
+// dimension
+const FILL_ALL_WIDTH = "-webkit-fill-available";
+
 // font
 const FONT_SIZE = 16;
 
@@ -22,6 +25,9 @@ export interface StyleSheet {
     primaryColor: string;
     secondaryColor: string;
     white: string;
+  };
+  dimension: {
+    FILL_ALL_WIDTH: string;
   };
   font: {
     fontSize: number;
@@ -48,6 +54,9 @@ export const styleSchema: StyleSheet = {
     secondaryColor: DARK_GREY,
     lightGrey: LIGHT_GREY,
     white: WHITE
+  },
+  dimension: {
+    FILL_ALL_WIDTH
   },
   font: {
     fontSize: FONT_SIZE,

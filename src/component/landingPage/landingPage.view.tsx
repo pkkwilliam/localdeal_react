@@ -42,28 +42,34 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   };
 
   DealsSection = () => {
-    let dealsContent = this.props.deals ? this.props.deals : [];
-    let dealsCard = dealsContent.map(deal => {
+    const dealsContent = this.props.deals ? this.props.deals : [];
+    const dealsCard = dealsContent.map(deal => {
+      const content: React.ReactNode = this.generateCardContent(deal);
       return (
         <LocalDealCard
-          contents={this.generateCardContent(deal)}
+          contents={content}
           onClick={() => this.props.onClickCard()}
           title={deal.title}
         />
       );
     });
     return (
-      <Box
-        onClick={() => this.props.onClickDealSection()}
+      <View
+        boxShadow={dealsCard.length ? 1 : 0}
+        onClick={this.props.onClickDealSection}
         style={styles.dealSectionContainer}
       >
         {dealsCard.length ? dealsCard : <this.NoDealInArea />}
-      </Box>
+      </View>
     );
   };
 
   NoDealInArea = () => {
-    return <p>{this.appContext.labels.landingPage.noDeal}</p>;
+    return (
+      <View style={styles.noDealInAreaContainer}>
+        <H5>{this.appContext.labels.landingPage.noDeal}</H5>
+      </View>
+    );
   };
 
   SearchButton = () => {
@@ -133,19 +139,18 @@ const styles = {
     borderWidth: 3
   },
   dealSectionContainer: {
-    marginTop: 20,
+    alignItems: "center",
     width: "100%"
   },
   locationButtonContainer: {
     alignItems: "center",
     justifyContent: "center"
   },
+  noDealInAreaContainer: {},
   rootContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 20
+    padding: 15
   },
   searchButton: {
     borderColor: styleSchema.remind.secondaryColor,
@@ -173,7 +178,7 @@ const styles = {
   },
   topBarContainer: {
     justifyContent: "space-between",
-    paddingTop: 20,
+    paddingTop: 15,
     width: "100%"
   }
 };

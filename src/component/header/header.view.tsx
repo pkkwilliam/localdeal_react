@@ -122,7 +122,7 @@ const styles = {
   rootContainer: {
     backgroundColor: styleSchema.color.white,
     justifyContent: "space-between",
-    padding: 20
+    padding: 15
   },
   searchMethodLabel: {
     backgroundColor: styleSchema.remind.primaryColor,
