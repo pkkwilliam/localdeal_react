@@ -6,13 +6,14 @@ import { UPLOAD_IMAGE } from "./middleware/service";
 import Resizer from "react-image-file-resizer";
 
 const richTextEditorOptions = [
+  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   [
     "bold",
     "italic",
     "underline",
     "strike",
-    { header: [1, 2, 3, 4, 5, 6, false] },
-    { align: [] }
+    { header: [1, 2, 3, 4, 5, 6, false] }
+    // { align: [] }
   ], // toggled buttons
   //   ["blockquote", "code-block"],
   ["image"],
@@ -24,7 +25,6 @@ const richTextEditorOptions = [
   //   [{ direction: "rtl" }], // text direction
 
   //   [{ size: ["small", "medium", "large", "huge"] }], // custom dropdown
-  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   //   [{ font: [] }],
   ["clean"] // remove formatting button
 ];

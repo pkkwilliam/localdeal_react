@@ -117,9 +117,9 @@ export default class LandingPageView extends ApplicationComponent<Props> {
               : "Need Label - 不明"}
           </H5>
         </View>
-        <View>
+        <View style={styles.detailSectionContainer}>
           <AddressDisplay address={address} />
-          <div dangerouslySetInnerHTML={{ __html: description }} />
+          <span dangerouslySetInnerHTML={{ __html: description }} />
         </View>
       </>
     );
@@ -141,6 +141,10 @@ const styles = {
   dealSectionContainer: {
     alignItems: "center",
     width: "100%"
+  },
+  detailSectionContainer: {
+    width: "inherit",
+    textAlign: "justify"
   },
   locationButtonContainer: {
     alignItems: "center",
