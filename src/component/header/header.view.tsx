@@ -8,6 +8,7 @@ import { Button, Drawer } from "@material-ui/core";
 import { CreateDealLandingPage } from "../createDealLandingPage";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { AddressPrediction } from "../addressPrediction";
+import logo from "../../resouces/logo_icon_character.png";
 
 export interface Props {
   isCreateDealDrawerOpen: boolean;
@@ -60,7 +61,12 @@ export default class HeaderView extends ApplicationComponent<Props> {
   };
 
   HeaderTextAndLogo = () => {
-    return <H4>{this.appContext.labels.title}</H4>;
+    return (
+      <View>
+        <img alt={"app-logo"} src={logo} style={{ width: 100 }} />
+      </View>
+    );
+    // return <H4>{this.appContext.labels.title}</H4>;
   };
 
   LocationButton = () => {
@@ -120,6 +126,7 @@ const styles = {
     justifyContent: "center"
   },
   rootContainer: {
+    alignItems: "center",
     backgroundColor: styleSchema.color.white,
     justifyContent: "space-between",
     padding: 15
