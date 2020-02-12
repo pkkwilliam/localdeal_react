@@ -49,12 +49,12 @@ export default class LandingPageView extends ApplicationComponent<Props> {
           onClick={() => this.props.onClickCard()}
           title={deal.title}
         >
-          <CardBottomVote
+          {/* <CardBottomVote
             downVoteCount={deal.vote?.downVote ?? 0}
             onClickDownVote={() => console.log("onclick down vote")}
             onClickUpVote={() => console.log("onclick up vote")}
             upVoteCount={deal.vote?.upVote ?? 0}
-          />
+          /> */}
         </LocalDealCard>
       );
     });

@@ -17,9 +17,16 @@ export default class CardBottomVote extends ApplicationComponent<Props> {
   render() {
     return (
       <View isFlexDirectionRow>
-        <ThumbUp style={{ color: styleSchema.color.primaryColor }} />
-        <ThumbDown style={{ color: styleSchema.color.primaryColor }} />
+        <ThumbUp style={styles.icon} />
+        <ThumbDown style={styles.icon} />
       </View>
     );
   }
 }
+
+const styles = {
+  icon: {
+    backgroundColor: styleSchema.color.blueTransparent,
+    color: styleSchema.color.primaryColor
+  }
+};

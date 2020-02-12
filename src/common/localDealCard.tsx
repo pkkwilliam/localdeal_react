@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from "react";
 import { ExpandMore, ExpandLess } from "@material-ui/icons";
 import { View } from ".";
 import { styleSchema } from "./stylesheet";
+import { Button } from "@material-ui/core";
 
 export interface Props {
   children?: React.ReactNode;
@@ -31,7 +32,6 @@ export default class LocalDealCard extends Component<Props, State> {
     this.setState({
       contentNeedCollapse: (this.contentRef?.clientHeight ?? 0) > 180
     });
-    console.log(this.state.contentNeedCollapse);
   }
 
   render() {
@@ -49,7 +49,6 @@ export default class LocalDealCard extends Component<Props, State> {
 
   protected BottomToolBar = () => {
     const expandSign: React.ReactNode = () => {};
-    console.log(expandSign);
     return (
       <View isFlexDirectionRow style={styles.bottonToolBar}>
         <View style={{ alignSelf: "flex-start" }}>{this.props.children}</View>
@@ -64,7 +63,7 @@ export default class LocalDealCard extends Component<Props, State> {
     return (
       <ExpandLess
         onClick={this.onClickedContent}
-        style={{ color: styleSchema.color.secondaryColor }}
+        style={styles.expandSignIcon}
       />
     );
   };
@@ -73,17 +72,21 @@ export default class LocalDealCard extends Component<Props, State> {
     return (
       <ExpandMore
         onClick={this.onClickedContent}
-        style={{ color: styleSchema.color.secondaryColor }}
+        style={styles.expandSignIcon}
       />
     );
   };
 
   protected ExpandSign = () => {
     if (this.state.contentNeedCollapse) {
-      return this.state.isCollapsed ? (
-        <this.ExpandMoreSign />
-      ) : (
-        <this.ExpandLessSign />
+      return (
+        <Button style={styles.expandSignButton}>
+          {this.state.isCollapsed ? (
+            <this.ExpandMoreSign />
+          ) : (
+            <this.ExpandLessSign />
+          )}
+        </Button>
       );
     } else {
       return null;
@@ -103,7 +106,6 @@ export default class LocalDealCard extends Component<Props, State> {
       contentNeedCollapse && isCollapsed
         ? styles.contentCollapsedStyle
         : styles.contentOpenedStyle;
-    console.log("content body: ", contentNeedCollapse, isCollapsed);
     return (
       <View
         style={{ ...styles.contentContainer, ...style }}
@@ -142,6 +144,13 @@ const styles = {
     width: styleSchema.dimension.FILL_ALL_WIDTH
   },
   contentOpenedStyle: {},
+  expandSignButton: {
+    backgroundColor: styleSchema.color.blueTransparent,
+    padding: 0
+  },
+  expandSignIcon: {
+    color: styleSchema.color.primaryColor
+  },
   rootContainer: {
     backgroundColor: styleSchema.color.white,
     borderColor: styleSchema.color.lightGrey,
