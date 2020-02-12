@@ -1,12 +1,10 @@
 import React, { Component, ReactNode } from "react";
-import Card from "@material-ui/core/Card";
-import { CardContent, Collapse } from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
+import { ExpandMore, ExpandLess } from "@material-ui/icons";
 import { View } from ".";
 import { styleSchema } from "./stylesheet";
 
 export interface Props {
-  bottomToolBar?: React.ReactNode;
+  children?: React.ReactNode;
   collapsedHeight?: number;
   contents: React.ReactNode;
   onClick: (any?: any) => void;
@@ -14,7 +12,7 @@ export interface Props {
 }
 
 export interface State {
-  height: number;
+  contentNeedCollapse: boolean;
   isCollapsed: boolean;
 }
 
@@ -24,15 +22,16 @@ export default class LocalDealCard extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      height: 0,
+      contentNeedCollapse: true,
       isCollapsed: true
     };
   }
 
   componentDidMount() {
     this.setState({
-      height: this.contentRef?.clientHeight ?? 0
+      contentNeedCollapse: (this.contentRef?.clientHeight ?? 0) > 180
     });
+    console.log(this.state.contentNeedCollapse);
   }
 
   render() {
@@ -40,27 +39,71 @@ export default class LocalDealCard extends Component<Props, State> {
       <View borderBottom={1} style={styles.rootContainer}>
         <this.ContentBody
           content={this.props.contents}
-          height={this.state.height}
+          contentNeedCollapse={this.state.contentNeedCollapse}
           isCollapsed={this.state.isCollapsed}
         />
-        <View>{this.props.bottomToolBar}</View>
+        <this.BottomToolBar />
       </View>
     );
   }
 
+  protected BottomToolBar = () => {
+    const expandSign: React.ReactNode = () => {};
+    console.log(expandSign);
+    return (
+      <View isFlexDirectionRow style={styles.bottonToolBar}>
+        <View style={{ alignSelf: "flex-start" }}>{this.props.children}</View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <this.ExpandSign />
+        </View>
+      </View>
+    );
+  };
+
+  protected ExpandLessSign = () => {
+    return (
+      <ExpandLess
+        onClick={this.onClickedContent}
+        style={{ color: styleSchema.color.secondaryColor }}
+      />
+    );
+  };
+
+  protected ExpandMoreSign = () => {
+    return (
+      <ExpandMore
+        onClick={this.onClickedContent}
+        style={{ color: styleSchema.color.secondaryColor }}
+      />
+    );
+  };
+
+  protected ExpandSign = () => {
+    if (this.state.contentNeedCollapse) {
+      return this.state.isCollapsed ? (
+        <this.ExpandMoreSign />
+      ) : (
+        <this.ExpandLessSign />
+      );
+    } else {
+      return null;
+    }
+  };
+
   protected ContentBody = ({
     content,
-    height,
+    contentNeedCollapse,
     isCollapsed
   }: {
     content: ReactNode;
-    height: number;
+    contentNeedCollapse: boolean;
     isCollapsed: boolean;
   }) => {
     const style =
-      height < 180 || !isCollapsed
-        ? styles.contentOpenedStyle
-        : styles.contentCollapsedStyle;
+      contentNeedCollapse && isCollapsed
+        ? styles.contentCollapsedStyle
+        : styles.contentOpenedStyle;
+    console.log("content body: ", contentNeedCollapse, isCollapsed);
     return (
       <View
         style={{ ...styles.contentContainer, ...style }}
@@ -79,43 +122,6 @@ export default class LocalDealCard extends Component<Props, State> {
     );
   };
 
-  // render() {
-  //   let { collapsedHeight, contents } = this.props;
-  //   return (
-  //     <View
-  //       borderBottom={5}
-  //       style={styles.rootContainer}
-  //       onClick={this.onClickedContent}
-  //     >
-  //       <Collapse
-  //         style={styles.collapseComponentStyle}
-  //         in={this.state.isCollapsed}
-  //         collapsedHeight={
-  //           collapsedHeight
-  //             ? collapsedHeight
-  //             : this.getCollapseHeight(this.state.height)
-  //         }
-  //       >
-  //         <Card>
-  //           <CardContent onClick={() => this.onClickedContent()}>
-  //             <div
-  //               ref={viewRef => {
-  //                 this.ref = viewRef;
-  //               }}
-  //             >
-  //               {contents}
-  //             </div>
-  //           </CardContent>
-  //         </Card>
-  //       </Collapse>
-  //     </View>
-  //   );
-  // }
-
-  // protected getCollapseHeight = (contentHeight: number): number => {
-  //   return contentHeight < 180 ? contentHeight + 42 : 180;
-  // };
-
   protected onClickedContent = () => {
     this.setState({
       isCollapsed: !this.state.isCollapsed
@@ -125,8 +131,8 @@ export default class LocalDealCard extends Component<Props, State> {
 
 const styles = {
   bottonToolBar: {
-    alightItem: "flex-end",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    width: "inherit"
   },
   contentCollapsedStyle: {
     height: "150px",

@@ -7,13 +7,11 @@ import {
   LocalDealTextField,
   styleSchema,
   View,
-  AddressDisplay
+  AddressDisplay,
+  CardBottomVote
 } from "../../common";
 import ApplicationComponent from "../../common/applicationComponent";
-import { Button, Box, Drawer } from "@material-ui/core";
-import { CreateDealLandingPage } from "../createDealLandingPage";
-import { AddressPrediction } from "../addressPrediction";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { Button } from "@material-ui/core";
 
 export interface Props {
   deals: Deal[];
@@ -50,7 +48,14 @@ export default class LandingPageView extends ApplicationComponent<Props> {
           contents={content}
           onClick={() => this.props.onClickCard()}
           title={deal.title}
-        />
+        >
+          <CardBottomVote
+            downVoteCount={deal.vote?.downVote ?? 0}
+            onClickDownVote={() => console.log("onclick down vote")}
+            onClickUpVote={() => console.log("onclick up vote")}
+            upVoteCount={deal.vote?.upVote ?? 0}
+          />
+        </LocalDealCard>
       );
     });
     return (
