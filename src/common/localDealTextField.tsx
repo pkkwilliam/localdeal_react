@@ -16,15 +16,6 @@ const overrideStyles = (style: StyleSheet) => {
   };
 };
 
-const styles = {
-  textFieldStyle: {
-    height: "100%",
-    marginLeft: 10,
-    marginRight: 10,
-    width: "80%"
-  }
-};
-
 export interface Props {
   classes?: any;
   children?: React.ReactNode;
@@ -33,6 +24,7 @@ export interface Props {
   onChange: (textInput: any) => void;
   onFocus?: () => void;
   text: string;
+  style?: any;
 }
 
 class LocalDealTextField extends ApplicationComponent<Props> {
@@ -41,6 +33,7 @@ class LocalDealTextField extends ApplicationComponent<Props> {
     let onFocusFunction = this.props.onFocus ? this.props.onFocus : () => {};
     return (
       <TextField
+        defaultValue={this.props.defaultValue}
         InputProps={{
           classes: {
             notchedOutline: this.props.classes.notchedOutline
@@ -50,8 +43,7 @@ class LocalDealTextField extends ApplicationComponent<Props> {
         onBlur={() => onBlurFunction()}
         onChange={text => this.props.onChange(text.target.value)}
         onFocus={() => onFocusFunction()}
-        style={styles.textFieldStyle}
-        defaultValue={this.props.defaultValue}
+        style={{ ...styles.textFieldStyle, ...this.props.style }}
         variant="outlined"
       >
         {this.props.children}
@@ -59,5 +51,11 @@ class LocalDealTextField extends ApplicationComponent<Props> {
     );
   }
 }
+
+const styles = {
+  textFieldStyle: {
+    width: "inherit"
+  }
+};
 
 export default withStyles(overrideStyles(styleSchema))(LocalDealTextField);

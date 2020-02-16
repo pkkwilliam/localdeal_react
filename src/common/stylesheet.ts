@@ -5,9 +5,11 @@ const borderRadius = 15;
 const BLACK = "black"; // TODO replace this with HEX code
 const BLUE = "#007AFF";
 const BLUE_TRANSPARENT = "rgba(0,132,255,.1)";
-const DARK_GREY = "#7D7D7D";
+const GREY_DARK = "#7D7D7D";
+const GREY_LIGHT = "#f6f6f6";
+const GREY_TRANSPARENT = "rgba(12, 12, 12, .1)";
 const GREEN = "#5CC928";
-const LIGHT_GREY = "#f6f6f6";
+const RED = "red";
 const WHITE = "#FFFFFF";
 
 // dimension
@@ -23,8 +25,11 @@ export interface StyleSheet {
   color: {
     black: string;
     blueTransparent: string;
-    lightGrey: string;
+    greyDark: string;
+    greyLight: string;
+    greyTransparent: string;
     primaryColor: string;
+    red: string;
     secondaryColor: string;
     white: string;
   };
@@ -53,9 +58,12 @@ export const styleSchema: StyleSheet = {
   color: {
     black: BLACK,
     blueTransparent: BLUE_TRANSPARENT,
+    greyDark: GREY_DARK,
+    greyLight: GREY_LIGHT,
+    greyTransparent: GREY_TRANSPARENT,
     primaryColor: BLUE,
-    secondaryColor: DARK_GREY,
-    lightGrey: LIGHT_GREY,
+    red: RED,
+    secondaryColor: GREY_DARK,
     white: WHITE
   },
   dimension: {

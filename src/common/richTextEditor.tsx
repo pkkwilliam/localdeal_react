@@ -5,6 +5,8 @@ import "react-quill/dist/quill.snow.css";
 import { UPLOAD_IMAGE } from "./middleware/service";
 import Resizer from "react-image-file-resizer";
 
+var Delta = Quill.import("delta");
+
 const richTextEditorOptions = [
   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   [
@@ -33,8 +35,23 @@ const richTextEditorOptions = [
 //   toolbar
 // };
 
+var Parchment = Quill.import("parchment");
+var offsetAttributor = new Parchment.Attributor.Attribute(
+  "nameClass",
+  "class",
+  {
+    scope: Parchment.Scope.INLINE
+  }
+);
+Quill.register(offsetAttributor);
+
+// var Block = Quill.import("blots/block");
+// Block.tagName = "DIV";
+// Quill.register(Block, true);
+
 export interface Props {
   onChangeValue: (value: string) => void;
+  style?: any;
 }
 
 export default class RichTextEditor extends ApplicationComponent<Props> {
@@ -45,12 +62,26 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
       <ReactQuill
         ref={ref => (this.quillRef = ref?.getEditor())}
         modules={this.getModules()}
-        onChange={value => this.props.onChangeValue(value)}
+        onChange={(content, delta, source, editor) => {
+          this.props.onChangeValue(content);
+        }}
+        style={{ ...styles.quillStyle, ...this.props.style }}
       ></ReactQuill>
     );
   }
 
-  getModules() {
+  protected createNewFormData(
+    content: any,
+    name: string = "content",
+    fileName: string = "newFile"
+  ): FormData {
+    console.log("create new FormData object");
+    const newFormData: FormData = new FormData();
+    newFormData.append(name, content, fileName);
+    return newFormData;
+  }
+
+  protected getModules() {
     return {
       toolbar: {
         container: richTextEditorOptions,
@@ -65,41 +96,48 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
   // this.quillRef.formatLine() // format the whole line, usually it will affect the whole globally.
   // this.quillRef.formatText() // this work for image as well!!! give the style for the current dom
 
-  async getImageInfo(file: File) {
-    const image = new Image();
-    image.src = await URL.createObjectURL(file);
-    console.info(
-      `input image type:${file.type} size:${file.size} height:${image.height} width:${image.width}`
-    );
-    return {
-      height: image.height,
-      size: file.size,
-      type: file.type,
-      width: image.width
-    };
+  protected async getImageInfo(
+    file: File
+  ): Promise<{ height: number; size: number; type: string; width: number }> {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = URL.createObjectURL(file);
+      image.onload = () => {
+        console.debug(
+          `type:${file.type} size:${file.size} height:${image.height} width:${image.width}`
+        );
+        return resolve({
+          height: image.height,
+          size: file.size,
+          type: file.type,
+          width: image.width
+        });
+      };
+    });
   }
 
-  async imageResize(
+  protected imageResize(
     file: File,
     imageType: string,
     height: number,
     width: number,
     quality: number
-  ) {
-    let image = file;
-    await Resizer.imageFileResizer(
-      file,
-      height,
-      width,
-      imageType,
-      quality,
-      0,
-      (processedImage: File) => {
-        image = processedImage;
-      },
-      "blob"
-    );
-    return image;
+  ): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const callBackFunction = (processedImage: File) => {
+        resolve(processedImage);
+      };
+      Resizer.imageFileResizer(
+        file,
+        width,
+        height,
+        imageType,
+        quality,
+        0,
+        callBackFunction,
+        "blob"
+      );
+    });
   }
 
   imageHandler = async () => {
@@ -109,18 +147,28 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
     input.click();
     input.onchange = async () => {
       if (input.files) {
+        // save current cursor state
+        const range = this.quillRef.getSelection(true);
         const file = input.files[0];
 
         // TODO show spinner to indicate that the image is being upload
 
-        // save current cursor state
-        const range = this.quillRef.getSelection(true);
-
         // get input image detail info
-        const { height, size, type, width } = await this.getImageInfo(file);
+        console.debug("original");
+        const originalImageInfo = await this.getImageInfo(file);
 
         // resize image according to height, width and quality
-        const processedImage = await this.imageResize(file, type, 300, 300, 50);
+        const processedImage = await this.imageResize(
+          file,
+          originalImageInfo.type,
+          originalImageInfo.height,
+          originalImageInfo.width / 5,
+          10
+        );
+
+        // just print file detail in log, no functionality
+        console.debug("processed");
+        await this.getImageInfo(processedImage);
 
         // create a FormData object inorder to submit it as Multipart file for REST controller
         const formData: FormData = new FormData();
@@ -135,55 +183,14 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
             this.quillRef.setSelection(range.index + 1);
             this.quillRef.setSelection();
           });
-
-        // Resizer.imageFileResizer(
-        //   file,
-        //   300,
-        //   300,
-        //   "PNG",
-        //   50,
-        //   0,
-        //   (uri: any) => {
-        //     // const buffer = Buffer.from(uri, "base64");
-        //     const formData = new FormData();
-        //     formData.append("image", file, "image");
-        //     this.quillRef.setSelection(range.index + 2);
-        //     // this.quillRef.deleteText(range.index, 1);
-        //     this.quillRef.insertEmbed(range.index, "image", file);
-        //     this.quillRef.setSelection(range.index + 1);
-        //     // this.appContext.serviceExecutor
-        //     //   .execute(UPLOAD_IMAGE(formData))
-        //     //   .then(result => {
-        //     //     let imageUrl: string = result.url;
-        //     //     this.quillRef.deleteText(range.index, 1);
-        //     //     this.quillRef.insertEmbed(range.index, "image", imageUrl);
-        //     //     this.quillRef.setSelection(range.index + 1);
-        //     //   });
-        //   },
-        //   "blob"
-        // );
-
-        // // need to replace this with in app progressor!!!
-        // this.quillRef.formatLine(range.index, 1, "align", "center");
-        // this.quillRef.formatText(range.index, 1, {
-        //   align: "center"
-        // });
-        // this.quillRef.setSelection(range.index + 2);
-        // this.appContext.serviceExecutor
-        //   .execute(UPLOAD_IMAGE(formData))
-        //   .then(result => {
-        //     let imageUrl: string = result.url;
-        //     this.quillRef.deleteText(range.index, 1);
-        //     this.quillRef.insertEmbed(range.index, "image", imageUrl);
-        //     this.resizeImage(imageUrl).then(({ height, width }) => {
-        //       this.quillRef.formatText(range.index, 1, {
-        //         height,
-        //         width
-        //       });
-        //       this.quillRef.setSelection(range.index + 1);
-        //     });
-        //   });
       }
     };
   };
 }
+
+const styles = {
+  quillStyle: {
+    borderRadius: 5,
+    width: "inherit"
+  }
+};

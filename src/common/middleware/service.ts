@@ -1,5 +1,7 @@
 import CurrentArea from "../../modal/currentArea";
 import Deal, { Address } from "../../modal/deal";
+import VoteRequest from "../../modal/voteRequest";
+import { connect } from "http2";
 
 const AREA_NAME_URL_PARAMETER: string = "areaName";
 const LATITUDE_URL_PARAMETER: string = "latitude";
@@ -7,6 +9,7 @@ const LONGITUDE_URL_PARAMETER: string = "longitude";
 
 export enum ServiceName {
   CREATE_DEAL = "CREATE_DEAL",
+  CREATE_VOTE = "CREATE_VOTE",
   GET_DEALS = "GET_DEALS",
   GET_CURRENT_ADDRESS = "GET_CURRENT_ADDRESS",
   UPLOAD_IMAGE = "UPLOAD_IMAGE"
@@ -20,6 +23,17 @@ export const CREATE_DEAL = (deal: Deal): Endpoint => {
     method: "POST",
     url: "/deals",
     serviceName: ServiceName.CREATE_DEAL
+  };
+};
+
+export const CREATE_VOTE = (voteRequest: VoteRequest) => {
+  return {
+    body: JSON.stringify(voteRequest),
+    hasMock: false,
+    isMultipartFileRequest: false,
+    method: "POST",
+    url: "/vote",
+    serviceName: ServiceName.CREATE_VOTE
   };
 };
 
@@ -37,7 +51,7 @@ export const GET_CURRENT_ADDRESS = (currentArea: CurrentArea) => {
 
 export const GET_DEALS = (address: Address): Endpoint => {
   return {
-    hasMock: true,
+    hasMock: false,
     isMultipartFileRequest: false,
     method: "GET",
     url: "/deals",

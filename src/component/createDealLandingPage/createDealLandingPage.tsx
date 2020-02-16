@@ -14,6 +14,8 @@ export interface Props {
 }
 
 export interface State {
+  hasTitle: boolean;
+  hasDescription: boolean;
   richTextValue: string;
   title: string;
   useAutoPosition: boolean;
@@ -23,6 +25,8 @@ export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      hasTitle: true,
+      hasDescription: true,
       richTextValue: "",
       title: "",
       useAutoPosition: true
@@ -33,6 +37,8 @@ export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
     return (
       <CreateDealLandingPageView
         currentAddress={this.props.currentAddress}
+        hasDescription={this.state.hasDescription}
+        hasTitle={this.state.hasTitle}
         onChangeRichTextValue={this.onChangeRichTextValue}
         onChangeTitleTextField={this.onChangeTitleTextField}
         onClickClose={() => this.props.onClickClose()}
@@ -55,24 +61,41 @@ export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
   };
 
   protected onClickSubmit = async () => {
-    await this.appContext.serviceExecutor.execute(
-      CREATE_DEAL(this.generateDeal())
-    );
-    this.props.onClickClose();
-    await this.appContext.serviceExecutor
-      .execute(GET_DEALS(this.props.currentAddress))
-      .then((getDealResponse: GetDealResponse) =>
-        this.props.setDeals(getDealResponse)
+    await this.validateDescription();
+    await this.validateTitle();
+    if (this.state.hasDescription && this.state.hasTitle) {
+      await this.appContext.serviceExecutor.execute(
+        CREATE_DEAL(this.generateDeal())
       );
+      this.props.onClickClose();
+      await this.appContext.serviceExecutor
+        .execute(GET_DEALS(this.props.currentAddress))
+        .then((getDealResponse: GetDealResponse) =>
+          this.props.setDeals(getDealResponse)
+        );
+    }
   };
 
   protected generateDeal(): Deal {
     return {
       address: this.props.currentAddress,
       description: this.state.richTextValue,
+      serverIdentifierName: "", // TODO - this might not be correct!!!
       timestamp: 0,
       title: this.state.title
     };
+  }
+
+  protected validateDescription() {
+    this.setState({
+      hasDescription: this.state.richTextValue.length > 0
+    });
+  }
+
+  protected validateTitle() {
+    this.setState({
+      hasTitle: this.state.title.length > 0
+    });
   }
 }
 

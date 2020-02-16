@@ -1,8 +1,11 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
-import Deal, { Coordinate, Address } from "../../modal/deal";
+import Deal, { Coordinate, Address, GetDealResponse } from "../../modal/deal";
 import { LandingPageView } from ".";
-import { GET_CURRENT_ADDRESS } from "../../common/middleware/service";
+import {
+  GET_CURRENT_ADDRESS,
+  GET_DEALS
+} from "../../common/middleware/service";
 import CurrentArea from "../../modal/currentArea";
 import { connect } from "react-redux";
 import {
@@ -45,6 +48,7 @@ export class LandingPage extends ApplicationComponent<Props, State> {
   async componentDidMount() {
     await this.setCurrentPosition();
     await this.setCurrentAddress();
+    await this.executeGetDeals();
   }
 
   protected async setCurrentPosition() {
@@ -107,6 +111,14 @@ export class LandingPage extends ApplicationComponent<Props, State> {
     // this.getDeals();
   };
 
+  protected onClickDownVote = () => {
+    console.log("onClickDownVote");
+  };
+
+  protected onClickUpVote = () => {
+    console.log("onClickUpVote");
+  };
+
   protected onChangeSearchTextField = (textFieldValue: string) => {
     // TODO need to think about if we need to allow user to search by area. because user will have coordinate by their location.
     // search can be only for item!!!!!!!
@@ -125,8 +137,18 @@ export class LandingPage extends ApplicationComponent<Props, State> {
     });
   };
 
-  protected sortDeals(inputDeals: Deal[]) {
-    inputDeals.sort((deal1, deal2) => {
+  protected executeGetDeals = () => {
+    if (this.props.selectedAddress.area) {
+      this.appContext.serviceExecutor
+        .execute(GET_DEALS(this.props.selectedAddress))
+        .then((getDealResponse: GetDealResponse) => {
+          this.props.setDeals(getDealResponse);
+        });
+    }
+  };
+
+  protected sortDeals(inputDeals: Deal[]): Deal[] {
+    return inputDeals.sort((deal1, deal2) => {
       return deal2.timestamp - deal1.timestamp;
     });
   }
@@ -139,10 +161,13 @@ export class LandingPage extends ApplicationComponent<Props, State> {
       useAutoLocation
     } = this.state;
     // sort deal
-    this.sortDeals(this.props.deals);
+    const sortedDeal: Deal[] = this.sortDeals(
+      this.props.deals ? this.props.deals : []
+    );
     return (
       <LandingPageView
-        deals={this.props.deals}
+        deals={sortedDeal}
+        executeGetDeals={this.executeGetDeals}
         onBlurTextField={this.onBlurTextField}
         onClickCard={this.onClickedCard}
         onClickDealSection={this.onClickedDealSection}

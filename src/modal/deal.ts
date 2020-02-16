@@ -1,8 +1,10 @@
 export default interface Deal {
+  id?: number;
   address: Address;
   category?: Category;
   discussions?: Discussion[];
   description: string;
+  serverIdentifierName?: string;
   title: string;
   timeAvailable?: WeekTime;
   timestamp: number;

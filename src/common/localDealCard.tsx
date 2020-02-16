@@ -1,8 +1,9 @@
-import React, { Component, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { ExpandMore, ExpandLess } from "@material-ui/icons";
-import { View } from ".";
+import { View, H5 } from ".";
 import { styleSchema } from "./stylesheet";
 import { Button } from "@material-ui/core";
+import ApplicationComponent from "./applicationComponent";
 
 export interface Props {
   children?: React.ReactNode;
@@ -17,7 +18,7 @@ export interface State {
   isCollapsed: boolean;
 }
 
-export default class LocalDealCard extends Component<Props, State> {
+export default class LocalDealCard extends ApplicationComponent<Props, State> {
   private contentRef: HTMLDivElement | null = null;
 
   constructor(props: Props) {
@@ -61,26 +62,30 @@ export default class LocalDealCard extends Component<Props, State> {
 
   protected ExpandLessSign = () => {
     return (
-      <ExpandLess
-        onClick={this.onClickedContent}
-        style={styles.expandSignIcon}
-      />
+      <>
+        <H5 style={{ color: styleSchema.color.primaryColor }}>
+          {this.appContext.labels.localDealCardPage.collapse}
+        </H5>
+        <ExpandLess style={styles.expandSignIcon} />
+      </>
     );
   };
 
   protected ExpandMoreSign = () => {
     return (
-      <ExpandMore
-        onClick={this.onClickedContent}
-        style={styles.expandSignIcon}
-      />
+      <>
+        <H5 style={{ color: styleSchema.color.primaryColor }}>
+          {this.appContext.labels.localDealCardPage.expand}
+        </H5>
+        <ExpandMore style={styles.expandSignIcon} />
+      </>
     );
   };
 
   protected ExpandSign = () => {
     if (this.state.contentNeedCollapse) {
       return (
-        <Button style={styles.expandSignButton}>
+        <Button onClick={this.onClickedContent} style={styles.expandSignButton}>
           {this.state.isCollapsed ? (
             <this.ExpandMoreSign />
           ) : (
@@ -146,14 +151,16 @@ const styles = {
   contentOpenedStyle: {},
   expandSignButton: {
     backgroundColor: styleSchema.color.blueTransparent,
-    padding: 0
+    padding: 3,
+    paddingLeft: 15,
+    paddingRight: 5
   },
   expandSignIcon: {
     color: styleSchema.color.primaryColor
   },
   rootContainer: {
     backgroundColor: styleSchema.color.white,
-    borderColor: styleSchema.color.lightGrey,
+    borderColor: styleSchema.color.greyLight,
     padding: 20,
     width: styleSchema.dimension.FILL_ALL_WIDTH
   }

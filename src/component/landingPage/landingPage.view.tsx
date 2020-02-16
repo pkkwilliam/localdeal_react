@@ -15,6 +15,7 @@ import { Button } from "@material-ui/core";
 
 export interface Props {
   deals: Deal[];
+  executeGetDeals: () => void;
   onBlurTextField: () => void;
   onClickCard: () => void;
   onClickDealSection: () => void;
@@ -49,19 +50,13 @@ export default class LandingPageView extends ApplicationComponent<Props> {
           onClick={() => this.props.onClickCard()}
           title={deal.title}
         >
-          {/* <CardBottomVote
-            downVoteCount={deal.vote?.downVote ?? 0}
-            onClickDownVote={() => console.log("onclick down vote")}
-            onClickUpVote={() => console.log("onclick up vote")}
-            upVoteCount={deal.vote?.upVote ?? 0}
-          /> */}
+          <CardBottomVote deal={deal} />
         </LocalDealCard>
       );
     });
     return (
       <View
         boxShadow={dealsCard.length ? 1 : 0}
-        onClick={this.props.onClickDealSection}
         style={styles.dealSectionContainer}
       >
         {dealsCard.length ? dealsCard : <this.NoDealInArea />}
@@ -124,7 +119,11 @@ export default class LandingPageView extends ApplicationComponent<Props> {
         </View>
         <View style={styles.detailSectionContainer}>
           <AddressDisplay address={address} />
-          <span dangerouslySetInnerHTML={{ __html: description }} />
+          <div
+            style={{ width: "inherit" }}
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
+          {/* <ReactQuill value={description} readOnly={true} /> */}
         </View>
       </>
     );

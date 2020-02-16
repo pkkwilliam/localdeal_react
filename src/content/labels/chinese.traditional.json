@@ -1,10 +1,20 @@
 {
+  "addressDisplay": {
+    "nearBy": "附近"
+  },
   "createDealPage": {
     "cancel": "取消",
     "close": "關閉",
     "create": "創建",
+    "descriptionMissing": "* 没有詳細啊...",
     "header": "創建好去處",
-    "textFieldTitle": "標題"
+    "textFieldTitle": "標題",
+    "titleMissing": "* 没有標題啊..."
+  },
+  "date": {
+    "day": "日",
+    "today": "今日",
+    "unknown": "不明"
   },
   "landingPage": {
     "area": "地區",
@@ -13,10 +23,9 @@
     "geolocationProvider": "API定位",
     "noDeal": "網友們未曾添加好去處，請你幫助我們一起覆蓋這個區域好嗎?"
   },
-  "date": {
-    "day": "日",
-    "today": "今日",
-    "unknown": "不明"
+  "localDealCardPage": {
+    "expand": "展開",
+    "collapse": "收起"
   },
   "position": {
     "currentArea": "所在地區",

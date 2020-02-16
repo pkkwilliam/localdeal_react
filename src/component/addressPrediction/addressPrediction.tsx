@@ -39,19 +39,8 @@ export class AddressPrediction extends ApplicationComponent<Props> {
     if (this.props.addressPrediction) {
       const selectedAddress: Address = this.props.addressPrediction[index];
       this.props.setSelectedAddress(selectedAddress);
-      this.setDeals(selectedAddress);
     }
   };
-
-  protected setDeals(selectedAddress: Address) {
-    if (selectedAddress.area !== this.props.selectedAddress?.area) {
-      this.appContext.serviceExecutor
-        .execute(GET_DEALS(selectedAddress))
-        .then((getDealResponse: GetDealResponse) => {
-          this.props.setDeals(getDealResponse);
-        });
-    }
-  }
 }
 
 const mapStateToProps = (state: ReduxState): Props => ({

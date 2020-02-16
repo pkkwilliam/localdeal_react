@@ -90,6 +90,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       },
       description:
         '<p><img src="https://storage.cloud.google.com/deal_image/1577871875967"></p>',
+      serverIdentifierName: "MACAU",
       title: "澳門 蛋逹王子",
       timestamp: 1577872077582
     },
@@ -109,6 +110,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       },
       description:
         '<p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul>',
+      serverIdentifierName: "MACAU",
       title: "澳門 CRAZY 蛋逹王子",
       timestamp: 1576871229332
     },
@@ -128,6 +130,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       },
       description:
         '<p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul><p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul>',
+      serverIdentifierName: "MACAU",
       title: "澳門 CRAZY 蛋逹王子",
       timestamp: 1577872407269
     }
