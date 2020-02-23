@@ -29,6 +29,7 @@ export interface Props {
 
 export interface State {
   isCreateDealDrawerOpen: boolean;
+  isLoading: boolean;
   showSearchButton: boolean;
   textFieldValue: string;
   useAutoLocation: boolean;
@@ -39,6 +40,7 @@ export class LandingPage extends ApplicationComponent<Props, State> {
     super(props);
     this.state = {
       isCreateDealDrawerOpen: false,
+      isLoading: true,
       showSearchButton: false,
       textFieldValue: "",
       useAutoLocation: true
@@ -143,6 +145,9 @@ export class LandingPage extends ApplicationComponent<Props, State> {
         .execute(GET_DEALS(this.props.selectedAddress))
         .then((getDealResponse: GetDealResponse) => {
           this.props.setDeals(getDealResponse);
+          this.setState({
+            isLoading: false
+          });
         });
     }
   };
@@ -168,6 +173,7 @@ export class LandingPage extends ApplicationComponent<Props, State> {
       <LandingPageView
         deals={sortedDeal}
         executeGetDeals={this.executeGetDeals}
+        isLoadingDeals={this.state.isLoading}
         onBlurTextField={this.onBlurTextField}
         onClickCard={this.onClickedCard}
         onClickDealSection={this.onClickedDealSection}

@@ -16,6 +16,7 @@ import { Button } from "@material-ui/core";
 export interface Props {
   deals: Deal[];
   executeGetDeals: () => void;
+  isLoadingDeals: boolean;
   onBlurTextField: () => void;
   onClickCard: () => void;
   onClickDealSection: () => void;
@@ -54,12 +55,30 @@ export default class LandingPageView extends ApplicationComponent<Props> {
         </LocalDealCard>
       );
     });
+    const dealSection = () => {
+      if (dealsCard.length) {
+        return dealsCard;
+      } else if (this.props.isLoadingDeals) {
+        return <this.LoadingDeals />;
+      } else {
+        return <this.NoDealInArea />;
+      }
+    };
     return (
       <View
         boxShadow={dealsCard.length ? 1 : 0}
         style={styles.dealSectionContainer}
       >
-        {dealsCard.length ? dealsCard : <this.NoDealInArea />}
+        {/* {dealsCard.length ? dealsCard : <this.NoDealInArea />} */}
+        {dealSection}
+      </View>
+    );
+  };
+
+  LoadingDeals = () => {
+    return (
+      <View style={styles.noDealInAreaContainer}>
+        <H5>{this.appContext.labels.landingPage.loadingDeals}</H5>
       </View>
     );
   };
