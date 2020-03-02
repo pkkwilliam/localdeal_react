@@ -15,6 +15,7 @@ import {
   setLoadingPosition
 } from "../../common/redux/action";
 import { ReduxState } from "../../common/redux/reducers";
+import "../../App.css";
 
 export interface Props {
   addressesPrediction: Address[];

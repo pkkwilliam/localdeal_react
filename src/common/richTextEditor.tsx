@@ -8,15 +8,8 @@ import Resizer from "react-image-file-resizer";
 var Delta = Quill.import("delta");
 
 const richTextEditorOptions = [
-  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-  [
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    { header: [1, 2, 3, 4, 5, 6, false] }
-    // { align: [] }
-  ], // toggled buttons
+  [{ color: [] }], // dropdown with defaults from theme
+  ["bold", "italic", "strike", { header: [1, false] }, { align: [] }], // toggled buttons
   //   ["blockquote", "code-block"],
   ["image"],
   ["link"],
@@ -55,6 +48,7 @@ export interface Props {
 }
 
 export default class RichTextEditor extends ApplicationComponent<Props> {
+  private line: number = 0;
   private quillRef: any;
 
   render() {
@@ -140,6 +134,25 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
     });
   }
 
+  protected centerAlignLine(start: number, end: number): void {
+    this.quillRef.formatLine(start, end, "align", "center");
+  }
+
+  protected leftAlignLine(start: number, end: number): void {
+    this.quillRef.formatLine(start, end, "align", "");
+  }
+
+  protected createImageElement(imageUrl: string): HTMLImageElement {
+    const image: HTMLImageElement = document.createElement("img");
+    image.src = imageUrl;
+    image.setAttribute("style", "width:10px");
+    return image;
+  }
+
+  protected createNewLine(index: number) {
+    this.quillRef.insertText(index + 1, "\n");
+  }
+
   imageHandler = async () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
@@ -148,7 +161,6 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
     input.onchange = async () => {
       if (input.files) {
         // save current cursor state
-        const range = this.quillRef.getSelection(true);
         const file = input.files[0];
 
         // TODO show spinner to indicate that the image is being upload
@@ -168,7 +180,7 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
 
         // just print file detail in log, no functionality
         console.debug("processed");
-        await this.getImageInfo(processedImage);
+        this.getImageInfo(processedImage);
 
         // create a FormData object inorder to submit it as Multipart file for REST controller
         const formData: FormData = new FormData();
@@ -177,15 +189,30 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
         // upload image
         this.appContext.serviceExecutor
           .execute(UPLOAD_IMAGE(formData))
-          .then(response => {
-            const imageUrl: string = response.url;
-            this.quillRef.insertEmbed(range.index, "image", imageUrl);
-            this.quillRef.setSelection(range.index + 1);
-            this.quillRef.setSelection();
-          });
+          .then(response => this.onImageSucceedUpload(response.url));
       }
     };
   };
+
+  protected async onImageSucceedUpload(imageUrl: string) {
+    const range = this.quillRef.getSelection();
+    this.quillRef.insertEmbed(range.index, "image", imageUrl);
+  }
+
+  private getAndAddLine(): number {
+    const currentLine: number = this.getLine();
+    this.setLine(currentLine + 1);
+    return currentLine;
+  }
+
+  private getLine(): number {
+    console.log("current line:", this.line);
+    return this.line;
+  }
+
+  private setLine(lineNumber: number): void {
+    this.line = lineNumber;
+  }
 }
 
 const styles = {

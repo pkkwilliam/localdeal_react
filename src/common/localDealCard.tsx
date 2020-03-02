@@ -49,7 +49,6 @@ export default class LocalDealCard extends ApplicationComponent<Props, State> {
   }
 
   protected BottomToolBar = () => {
-    const expandSign: React.ReactNode = () => {};
     return (
       <View isFlexDirectionRow style={styles.bottonToolBar}>
         <View style={{ alignSelf: "flex-start" }}>{this.props.children}</View>
