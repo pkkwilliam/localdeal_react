@@ -131,7 +131,8 @@ const styles = {
     padding: 0
   },
   rootContainer: {
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 10
   },
   VotedButtonContainer: {
     backgroundColor: styleSchema.color.greyTransparent

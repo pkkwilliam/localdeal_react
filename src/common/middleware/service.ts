@@ -51,7 +51,7 @@ export const GET_CURRENT_ADDRESS = (currentArea: CurrentArea) => {
 
 export const GET_DEALS = (address: Address): Endpoint => {
   return {
-    hasMock: false,
+    hasMock: true,
     isMultipartFileRequest: false,
     method: "GET",
     url: "/deals",

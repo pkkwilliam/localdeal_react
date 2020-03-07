@@ -4,6 +4,7 @@ import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { UPLOAD_IMAGE } from "./middleware/service";
 import Resizer from "react-image-file-resizer";
+import { isObject } from "util";
 
 var Delta = Quill.import("delta");
 
@@ -21,7 +22,7 @@ const richTextEditorOptions = [
 
   //   [{ size: ["small", "medium", "large", "huge"] }], // custom dropdown
   //   [{ font: [] }],
-  ["clean"] // remove formatting button
+  ["clean"] // remove formatting button,
 ];
 
 // const modules = {
@@ -38,10 +39,6 @@ var offsetAttributor = new Parchment.Attributor.Attribute(
 );
 Quill.register(offsetAttributor);
 
-// var Block = Quill.import("blots/block");
-// Block.tagName = "DIV";
-// Quill.register(Block, true);
-
 export interface Props {
   onChangeValue: (value: string) => void;
   style?: any;
@@ -54,11 +51,26 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
   render() {
     return (
       <ReactQuill
-        ref={ref => (this.quillRef = ref?.getEditor())}
-        modules={this.getModules()}
+        ref={ref => (this.quillRef = ref)}
+        modules={this.modules()}
         onChange={(content, delta, source, editor) => {
+          if (source === "user") {
+            if (delta.ops?.length) {
+              delta.ops.forEach(line => {
+                if (isObject(line.insert) && line.insert.image) {
+                  console.log("got image");
+                  fetch(line.insert.image)
+                    .then(base64 => base64.blob())
+                    .then(blob => {
+                      this.imageHandler(blob);
+                    });
+                }
+              });
+            }
+          }
           this.props.onChangeValue(content);
         }}
+        placeholder={"Need Label - 請加入內容..."}
         style={{ ...styles.quillStyle, ...this.props.style }}
       ></ReactQuill>
     );
@@ -75,20 +87,18 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
     return newFormData;
   }
 
-  protected getModules() {
+  protected modules() {
     return {
       toolbar: {
-        container: richTextEditorOptions,
-        handlers: {
-          image: this.imageHandler
-        }
+        container: richTextEditorOptions
       }
     };
   }
 
-  // this.quillRef.format() // change the current format, it will not affect anything that is already in the content area
-  // this.quillRef.formatLine() // format the whole line, usually it will affect the whole globally.
-  // this.quillRef.formatText() // this work for image as well!!! give the style for the current dom
+  protected getCurrentIndex(): number {
+    const currentIndex: number = this.quillRef.getEditor().getSelection().index;
+    return currentIndex;
+  }
 
   protected async getImageInfo(
     file: File
@@ -134,12 +144,18 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
     });
   }
 
-  protected centerAlignLine(start: number, end: number): void {
-    this.quillRef.formatLine(start, end, "align", "center");
+  protected centerAlignLine(): void {
+    const currentIndex: number = this.getCurrentIndex();
+    this.quillRef
+      .getEditor()
+      .formatLine(currentIndex, currentIndex + 1, "align", "center");
   }
 
-  protected leftAlignLine(start: number, end: number): void {
-    this.quillRef.formatLine(start, end, "align", "");
+  protected leftAlignLine(): void {
+    const currentIndex: number = this.getCurrentIndex();
+    this.quillRef
+      .getEditor()
+      .formatLine(currentIndex, currentIndex + 1, "align", "");
   }
 
   protected createImageElement(imageUrl: string): HTMLImageElement {
@@ -149,69 +165,60 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
     return image;
   }
 
-  protected createNewLine(index: number) {
-    this.quillRef.insertText(index + 1, "\n");
+  protected createNewLine() {
+    this.quillRef.getEditor().insertText(this.getCurrentIndex(), "\n");
   }
 
-  imageHandler = async () => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-    input.click();
-    input.onchange = async () => {
-      if (input.files) {
-        // save current cursor state
-        const file = input.files[0];
-
-        // TODO show spinner to indicate that the image is being upload
-
-        // get input image detail info
-        console.debug("original");
-        const originalImageInfo = await this.getImageInfo(file);
-
-        // resize image according to height, width and quality
-        const processedImage = await this.imageResize(
-          file,
-          originalImageInfo.type,
-          originalImageInfo.height,
-          originalImageInfo.width / 5,
-          10
-        );
-
-        // just print file detail in log, no functionality
-        console.debug("processed");
-        this.getImageInfo(processedImage);
-
-        // create a FormData object inorder to submit it as Multipart file for REST controller
-        const formData: FormData = new FormData();
-        formData.append("image", processedImage, "image");
-
-        // upload image
-        this.appContext.serviceExecutor
-          .execute(UPLOAD_IMAGE(formData))
-          .then(response => this.onImageSucceedUpload(response.url));
-      }
-    };
+  imageHandler = async (file: any) => {
+    console.log("enter image handler function");
+    console.debug("original");
+    const originalImageInfo = await this.getImageInfo(file);
+    // resize image according to height, width and quality
+    const processedImage = await this.imageResize(
+      file,
+      originalImageInfo.type,
+      originalImageInfo.height,
+      originalImageInfo.width / 5,
+      10
+    );
+    // just print file detail in log, no functionality
+    console.debug("processed");
+    this.getImageInfo(processedImage);
+    // create a FormData object inorder to submit it as Multipart file for REST controller
+    const formData: FormData = new FormData();
+    formData.append("image", processedImage, "image");
+    // upload image
+    this.appContext.serviceExecutor
+      .execute(UPLOAD_IMAGE(formData))
+      .then(response => {
+        this.onImageSucceedUpload(response.url);
+      });
   };
 
   protected async onImageSucceedUpload(imageUrl: string) {
-    const range = this.quillRef.getSelection();
-    this.quillRef.insertEmbed(range.index, "image", imageUrl);
+    this.removePreviousInput();
+    this.quillRef
+      .getEditor()
+      .insertEmbed(this.getCurrentIndex(), "image", imageUrl);
+    this.setCursorAtNextIndex();
+    this.centerAlignLine();
+    this.createNewLine();
+    this.leftAlignLine();
   }
 
-  private getAndAddLine(): number {
-    const currentLine: number = this.getLine();
-    this.setLine(currentLine + 1);
-    return currentLine;
+  protected removePreviousInput(): void {
+    const currentIndex: number = this.getCurrentIndex();
+    console.log("remove content at index:", currentIndex);
+    this.quillRef.getEditor().deleteText(currentIndex - 1, 1);
   }
 
-  private getLine(): number {
-    console.log("current line:", this.line);
-    return this.line;
-  }
-
-  private setLine(lineNumber: number): void {
+  protected setLine(lineNumber: number): void {
     this.line = lineNumber;
+  }
+
+  protected setCursorAtNextIndex(): void {
+    const currentIndex: number = this.getCurrentIndex();
+    this.quillRef.getEditor().setSelection(currentIndex + 1, currentIndex + 1);
   }
 }
 
