@@ -47,6 +47,7 @@ export interface Discussion {
 export interface Vote {
   downVote: number;
   upVote: number;
+  ableToVote: boolean;
 }
 
 export interface WeekTime {

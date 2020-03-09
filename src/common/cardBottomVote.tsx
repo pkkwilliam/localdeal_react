@@ -47,7 +47,7 @@ export class CardBottomVote extends ApplicationComponent<Props, State> {
   }) => {
     let buttonContainerStyle = null;
     let iconStyle = null;
-    if (this.state.voted) {
+    if (this.state.voted || !this.props.deal.vote?.ableToVote) {
       buttonContainerStyle = styles.VotedButtonContainer;
       iconStyle = { ...styles.mainIconStyle, ...styles.votedIcon };
     } else {

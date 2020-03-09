@@ -174,7 +174,7 @@ const styles = {
     marginLeft: 5
   },
   createNewDealIcon: {
-    color: styleSchema.color.orange,
+    color: styleSchema.color.primaryColor,
     ...styleSchema.icon
   },
   createNewButton: {
