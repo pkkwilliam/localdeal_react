@@ -1,7 +1,7 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import {
-  H4,
+  H1,
   H5,
   LocalDealTextField,
   AddressDisplay,
@@ -97,7 +97,7 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
     let label = this.appContext.labels.createDealPage;
     return (
       <View style={styles.headerContainer} isFlexDirectionRow={true}>
-        <H4>{label.header}</H4>
+        <H1>{label.header}</H1>
         <Button onClick={() => this.props.onClickClose()}>
           <H5>{label.close}</H5>
         </Button>

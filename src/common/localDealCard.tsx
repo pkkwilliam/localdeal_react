@@ -149,7 +149,7 @@ const styles = {
   },
   contentOpenedStyle: {},
   expandSignButton: {
-    backgroundColor: styleSchema.color.blueTransparent,
+    backgroundColor: styleSchema.color.primaryColorTransparent,
     padding: 3,
     paddingLeft: 15,
     paddingRight: 5
@@ -159,7 +159,7 @@ const styles = {
   },
   rootContainer: {
     backgroundColor: styleSchema.color.white,
-    borderColor: styleSchema.color.greyLight,
+    borderColor: styleSchema.common.borderColor,
     padding: 20,
     width: styleSchema.dimension.FILL_ALL_WIDTH
   }

@@ -135,10 +135,10 @@ const styles = {
     marginTop: 10
   },
   VotedButtonContainer: {
-    backgroundColor: styleSchema.color.greyTransparent
+    backgroundColor: styleSchema.color.secondaryColorTransparent
   },
   VoteButtonContainer: {
-    backgroundColor: styleSchema.color.blueTransparent
+    backgroundColor: styleSchema.color.primaryColorTransparent
   },
   votedIcon: {
     color: styleSchema.color.secondaryColor

@@ -1,21 +1,7 @@
-import React, { Component } from "react";
+import { H1, styleSchema } from ".";
 
-interface Props {
-  style?: any;
-}
-
-export default class H4 extends Component<Props> {
-  render() {
-    return (
-      <h4 style={this.props.style ? this.props.style : styles.textStyle}>
-        {this.props.children}
-      </h4>
-    );
+export default class H4 extends H1 {
+  protected getDefaultColor(): string {
+    return styleSchema.color.primaryColor;
   }
 }
-
-const styles = {
-  textStyle: {
-    margin: 0
-  }
-};

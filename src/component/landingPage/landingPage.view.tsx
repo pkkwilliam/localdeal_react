@@ -2,7 +2,7 @@ import React from "react";
 import Deal, { Address } from "../../modal/deal";
 import {
   LocalDealCard,
-  H4,
+  H1,
   H5,
   LocalDealTextField,
   styleSchema,
@@ -129,11 +129,11 @@ export default class LandingPageView extends ApplicationComponent<Props> {
     return (
       <>
         <View isFlexDirectionRow={true} style={styles.cardContainer}>
-          <H4>{title}</H4>
+          <H1>{title}</H1>
           <H5>
             {timestamp
               ? this.appContext.transformer.timeDifferentCalcualtor(timestamp)
-              : "Need Label - 不明"}
+              : this.appContext.labels.date.unknown}
           </H5>
         </View>
         <View style={styles.detailSectionContainer}>

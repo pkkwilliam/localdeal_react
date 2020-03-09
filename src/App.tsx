@@ -7,8 +7,10 @@ import Header from "./component/header/header";
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div className="App-header">
         <Header />
+      </div>
+      <div className="Content">
         <LandingPage />
       </div>
     </Provider>

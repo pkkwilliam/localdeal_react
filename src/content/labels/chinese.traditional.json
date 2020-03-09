@@ -7,6 +7,7 @@
     "close": "關閉",
     "create": "創建",
     "descriptionMissing": "* 没有詳細啊...",
+    "descriptionPlaceHolder": "請加入內容...",
     "header": "創建好去處",
     "textFieldTitle": "標題",
     "titleMissing": "* 没有標題啊..."
@@ -15,6 +16,10 @@
     "day": "日",
     "today": "今日",
     "unknown": "不明"
+  },
+  "header": {
+    "currentLocation": "當前地區:",
+    "loading": "Google API 正在為你定位"
   },
   "landingPage": {
     "area": "地區",

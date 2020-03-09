@@ -70,7 +70,9 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
           }
           this.props.onChangeValue(content);
         }}
-        placeholder={"Need Label - 請加入內容..."}
+        placeholder={
+          this.appContext.labels.createDealPage.descriptionPlaceHolder
+        }
         style={{ ...styles.quillStyle, ...this.props.style }}
       ></ReactQuill>
     );

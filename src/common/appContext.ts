@@ -62,6 +62,10 @@ export default class AppContext {
     return this.isProd ? "https://liuda.site:8082" : "http://127.0.0.1:8081";
   }
 
+  get showHamburgerMenu(): boolean {
+    return false;
+  }
+
   get transformer(): Transformer {
     return this._transformer;
   }
