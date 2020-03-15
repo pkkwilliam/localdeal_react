@@ -54,20 +54,20 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
         ref={ref => (this.quillRef = ref)}
         modules={this.modules()}
         onChange={(content, delta, source, editor) => {
-          if (source === "user") {
-            if (delta.ops?.length) {
-              delta.ops.forEach(line => {
-                if (isObject(line.insert) && line.insert.image) {
-                  console.log("got image");
-                  fetch(line.insert.image)
-                    .then(base64 => base64.blob())
-                    .then(blob => {
-                      this.imageHandler(blob);
-                    });
-                }
-              });
-            }
-          }
+          // if (source === "user") {
+          //   if (delta.ops?.length) {
+          //     delta.ops.forEach(line => {
+          //       if (isObject(line.insert) && line.insert.image) {
+          //         console.log("got image");
+          //         fetch(line.insert.image)
+          //           .then(base64 => base64.blob())
+          //           .then(blob => {
+          //             this.imageHandler(blob);
+          //           });
+          //       }
+          //     });
+          //   }
+          // }
           this.props.onChangeValue(content);
         }}
         placeholder={
