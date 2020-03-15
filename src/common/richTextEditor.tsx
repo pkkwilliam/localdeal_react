@@ -5,6 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import { UPLOAD_IMAGE } from "./middleware/service";
 import Resizer from "react-image-file-resizer";
 import { isObject } from "util";
+import loadImage from "blueimp-load-image";
 
 // var Delta = Quill.import("delta");
 
@@ -46,28 +47,34 @@ export interface Props {
 
 export default class RichTextEditor extends ApplicationComponent<Props> {
   // private line: number = 0;
-  // private quillRef: any;
+  private quillRef: any;
 
   render() {
     return (
       <ReactQuill
-        // ref={ref => (this.quillRef = ref)}
+        ref={ref => (this.quillRef = ref)}
         modules={{ toolbar: ["image"] }}
         onChange={(content, delta, source, editor) => {
-          // if (source === "user") {
-          //   if (delta.ops?.length) {
-          //     delta.ops.forEach(line => {
-          //       if (isObject(line.insert) && line.insert.image) {
-          //         console.log("got image");
-          //         fetch(line.insert.image)
-          //           .then(base64 => base64.blob())
-          //           .then(blob => {
-          //             this.imageHandler(blob);
-          //           });
-          //       }
-          //     });
-          //   }
-          // }
+          if (source === "user") {
+            if (delta.ops?.length) {
+              delta.ops.forEach(line => {
+                if (isObject(line.insert) && line.insert.image) {
+                  console.log("got image");
+                  fetch(line.insert.image)
+                    .then(base64 => base64.blob())
+                    .then(blob => {
+                      this.fixRotationOfFile(blob);
+                    })
+                    .then(fixedImage => {
+                      console.log("about to insert!!!", fixedImage);
+                      this.quillRef
+                        .getEditor()
+                        .insertEmbed(0, "image", fixedImage);
+                    });
+                }
+              });
+            }
+          }
           this.props.onChangeValue(content);
         }}
         // placeholder={
@@ -76,6 +83,22 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
         // style={{ ...styles.quillStyle, ...this.props.style }}
       ></ReactQuill>
     );
+  }
+
+  protected fixRotationOfFile(file: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      loadImage(
+        file,
+        (img: any) => {
+          console.log("fixRotationOfFilee");
+          // resolve(img.toDataURL("image/jpeg"));
+          this.quillRef
+            .getEditor()
+            .insertEmbed(0, "image", img.toDataURL("image/jpeg"));
+        },
+        { maxWidth: 300, orientation: true }
+      );
+    });
   }
 
   // protected createNewFormData(
