@@ -2,38 +2,50 @@ import React, { Component } from "react";
 import { styleSchema } from "./stylesheet";
 
 interface Props {
-  color?: string;
   style?: any;
 }
 
 export default class H1 extends Component<Props> {
   render() {
     return (
-      <h4
-        style={{ ...this.getStyle(), ...this.getColor(), ...this.props.style }}
+      <p
+        style={{
+          ...this.getDefaultStyle(),
+          ...this.getDefaultColor(),
+          ...this.props.style
+        }}
       >
         {this.props.children}
-      </h4>
+      </p>
     );
   }
 
-  protected getColor(): { color: string } {
+  protected getDefaultColor(): { color: string } {
     return {
-      color: this.props.color ? this.props.color : this.getDefaultColor()
+      color: this.getColor()
     };
+  }
+
+  protected getColor(): string {
+    return styleSchema.color.black;
+  }
+
+  protected getDefaultStyle() {
+    return { ...styles.defaultStyle, ...this.getStyle() };
   }
 
   protected getStyle(): any {
     return styles.text;
   }
-
-  protected getDefaultColor(): string {
-    return styleSchema.color.black;
-  }
 }
 
 const styles = {
+  defaultStyle: {
+    margin: 0,
+    marginTop: 2
+  },
   text: {
-    margin: 0
+    fontSize: 18,
+    fontWeight: 600
   }
 };

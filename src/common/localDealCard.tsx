@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { ExpandMore, ExpandLess } from "@material-ui/icons";
-import { View, H5 } from ".";
+import { View, H4, H5 } from ".";
 import { styleSchema } from "./stylesheet";
 import { Button } from "@material-ui/core";
 import ApplicationComponent from "./applicationComponent";
@@ -73,9 +73,7 @@ export default class LocalDealCard extends ApplicationComponent<Props, State> {
   protected ExpandMoreSign = () => {
     return (
       <>
-        <H5 style={{ color: styleSchema.color.primaryColor }}>
-          {this.appContext.labels.localDealCardPage.expand}
-        </H5>
+        <H4>{this.appContext.labels.localDealCardPage.expand}</H4>
         <ExpandMore style={styles.expandSignIcon} />
       </>
     );
@@ -150,7 +148,7 @@ const styles = {
   contentOpenedStyle: {},
   expandSignButton: {
     backgroundColor: styleSchema.color.primaryColorTransparent,
-    padding: 3,
+    padding: 0,
     paddingLeft: 15,
     paddingRight: 5
   },

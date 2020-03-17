@@ -1,6 +1,6 @@
 import { H1, styleSchema } from ".";
 
-export default class H4 extends H1 {
+export default class Paragraph extends H1 {
   protected getColor(): string {
     return styleSchema.color.primaryColor;
   }
@@ -11,8 +11,5 @@ export default class H4 extends H1 {
 }
 
 const styles = {
-  text: {
-    fontSize: 15,
-    fontWeight: 500
-  }
+  text: {}
 };

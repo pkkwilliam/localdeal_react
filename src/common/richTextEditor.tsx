@@ -42,22 +42,8 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
             if (delta.ops?.length) {
               delta.ops.forEach(line => {
                 if (isObject(line.insert) && line.insert.image) {
-                  console.log("got image");
+                  console.debug("got image");
                   this.imageHandler(line.insert.image);
-
-                  // this.fixRotationOfFile(line.insert.image);
-
-                  // fetch(line.insert.image)
-                  //   .then(base64 => base64.blob())
-                  //   .then(blob => {
-                  //     this.fixRotationOfFile(blob);
-                  //   })
-                  //   .then(fixedImage => {
-                  //     console.log("about to insert!!!", fixedImage);
-                  //     this.quillRef
-                  //       .getEditor()
-                  //       .insertEmbed(0, "image", fixedImage);
-                  //   });
                 }
               });
             }
@@ -72,17 +58,12 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
     );
   }
 
-  // protected async testImageHandler(file: File) {
-  //   const image: any = await this.fixRotation(file);
-  //   this.quillRef.getEditor().insertEmbed(0, "image", image);
-  // }
-
   protected createNewFormData(
     content: any,
     name: string = "content",
     fileName: string = "newFile"
   ): FormData {
-    console.log("create new FormData object");
+    console.debug("create new FormData object");
     const newFormData: FormData = new FormData();
     newFormData.append(name, content, fileName);
     return newFormData;
@@ -176,7 +157,6 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
 
   protected transferToBlob(file: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      console.log("doing transfer");
       return fetch(file)
         .then(originalImage => originalImage.blob())
         .then(result => resolve(result));
@@ -196,18 +176,20 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
   }
 
   imageHandler = async (file: any) => {
-    console.log("enter image handler function");
+    console.debug("enter image handler function");
     console.debug("original");
+
+    this.removePreviousInput();
 
     let fixed = await this.fixRotation(file, this.guessImageMime(file));
 
-    let yofile = await this.transferToBlob(fixed);
+    let iamgeBlob = await this.transferToBlob(fixed);
 
-    const originalImageInfo = await this.getImageInfo(yofile);
+    const originalImageInfo = await this.getImageInfo(iamgeBlob);
 
     // resize image according to height, width and quality
     const processedImage = await this.imageResize(
-      yofile,
+      iamgeBlob,
       originalImageInfo.type,
       originalImageInfo.height,
       originalImageInfo.width / 5,
@@ -236,7 +218,7 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
   }
 
   protected async onImageSucceedUpload(imageUrl: string) {
-    this.removePreviousInput();
+    // this.removePreviousInput();
     this.quillRef
       .getEditor()
       .insertEmbed(this.getCurrentIndex(), "image", imageUrl);
@@ -248,8 +230,8 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
 
   protected removePreviousInput(): void {
     const currentIndex: number = this.getCurrentIndex();
-    console.log("remove content at index:", currentIndex);
-    this.quillRef.getEditor().deleteText(currentIndex - 1, 1);
+    console.debug("remove content at index:", currentIndex);
+    this.quillRef.getEditor().deleteText(currentIndex, currentIndex + 1);
   }
 
   protected setCursorAtNextIndex(): void {

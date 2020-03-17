@@ -21,6 +21,12 @@
     "currentLocation": "當前地區:",
     "loading": "Google API 正在為你定位"
   },
+  "headerMenu": {
+    "bugReportDescription": "歡迎告訴我們任何bug，或需要的功能",
+    "closeButton": "關閉",
+    "emailAddress": "pkkwilliam919@gmail.com",
+    "moreFeatureIsComingDescription": "產品經理正在鞭撻理程序員推出更多新功能"
+  },
   "landingPage": {
     "area": "地區",
     "clickToChange": "點擊更改",

@@ -3,8 +3,7 @@ import ApplicationComponent from "../../common/applicationComponent";
 import "../../App.css";
 
 import { Address } from "../../modal/deal";
-import { H5, styleSchema, View, H4 } from "../../common";
-import { Drawer } from "@material-ui/core";
+import { styleSchema, View, DrawerMenu } from "../../common";
 import { CreateDealLandingPage } from "../createDealLandingPage";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { AddressPrediction } from "../addressPrediction";
@@ -15,6 +14,7 @@ import {
   Room as LocationIcon
 } from "@material-ui/icons";
 import ToolTips from "../../common/ToolTips";
+import { HeaderMenu } from "../menu";
 
 export interface Props {
   isCreateDealDrawerOpen: boolean;
@@ -37,7 +37,6 @@ export default class HeaderView extends ApplicationComponent<Props> {
       >
         <AddressPrediction />
         <this.CreateDealDrawer />
-        <this.HamburgerMenuDrawer />
         <this.HeaderTextAndLogo />
         <this.TopBarSection />
       </View>
@@ -48,13 +47,13 @@ export default class HeaderView extends ApplicationComponent<Props> {
 
   CreateDealDrawer = () => {
     return (
-      <Drawer
+      <DrawerMenu
         anchor={"top"}
         onClose={this.props.onCloseCreateDeal}
         open={this.props.isCreateDealDrawerOpen}
       >
         <CreateDealLandingPage onClickClose={this.props.onCloseCreateDeal} />
-      </Drawer>
+      </DrawerMenu>
     );
   };
 
@@ -76,35 +75,32 @@ export default class HeaderView extends ApplicationComponent<Props> {
     // );
   };
 
-  HamburgerMenu = () => {
-    if (this.appContext.showHamburgerMenu) {
-      return (
-        <View borderLeft={1} style={styles.hamburgerMenuIconContainer}>
-          <HamburgerMenuIcon
-            style={styles.hamburgerMenuIcon}
-            onClick={this.props.onClickHamburgerMenu}
-          />
-        </View>
-      );
-    } else {
-      return null;
-    }
-  };
+  // HamburgerMenu = () => {
+  //   if (this.appContext.showHamburgerMenu) {
+  //     return (
+  //       <View borderLeft={1} style={styles.hamburgerMenuIconContainer}>
+  //         <HamburgerMenuIcon
+  //           style={styles.hamburgerMenuIcon}
+  //           onClick={this.props.onClickHamburgerMenu}
+  //         />
+  //       </View>
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // };
 
-  HamburgerMenuDrawer = () => {
-    return (
-      <Drawer
-        anchor={"right"}
-        onClose={this.props.onCloseHamburgerMenu}
-        open={this.props.isHamburgerMenuDrawerOpen}
-      >
-        <View>
-          <this.LocationButton />
-          <this.CreateNewDealButton />
-        </View>
-      </Drawer>
-    );
-  };
+  // HamburgerMenuDrawer = () => {
+  //   return (
+  //     <Drawer
+  //       anchor={"right"}
+  //       onClose={this.props.onCloseHamburgerMenu}
+  //       open={this.props.isHamburgerMenuDrawerOpen}
+  //     >
+  //       <View></View>
+  //     </Drawer>
+  //   );
+  // };
 
   HeaderTextAndLogo = () => {
     return (
@@ -159,7 +155,7 @@ export default class HeaderView extends ApplicationComponent<Props> {
         >
           <this.LocationButton />
         </ToolTips>
-        <this.HamburgerMenu />
+        <HeaderMenu />
       </View>
     );
   };
@@ -181,14 +177,6 @@ const styles = {
     borderColor: styleSchema.color.secondaryColor,
     borderRadius: styleSchema.button.borderRadius,
     borderWidth: 3
-  },
-  hamburgerMenuIconContainer: {
-    borderColor: styleSchema.color.greyTransparent,
-    marginLeft: 18
-  },
-  hamburgerMenuIcon: {
-    color: styleSchema.color.greyDark,
-    ...styleSchema.icon
   },
   locationButtonContainer: {
     alignItems: "center",

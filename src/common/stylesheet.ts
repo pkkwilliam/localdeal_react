@@ -17,6 +17,7 @@ const RED_DARK = "#DA4B3C";
 const WHITE = "#FFFFFF";
 
 // dimension
+const FILL_ALL_HEIGHT = "-webkit-fill-available";
 const FILL_ALL_WIDTH = "-webkit-fill-available";
 
 // font
@@ -48,6 +49,7 @@ export interface StyleSheet {
     borderColor: string;
   };
   dimension: {
+    FILL_ALL_HEIGHT: string;
     FILL_ALL_WIDTH: string;
   };
   font: {
@@ -92,6 +94,7 @@ export const styleSchema: StyleSheet = {
     borderColor: GREY_LIGHT
   },
   dimension: {
+    FILL_ALL_HEIGHT,
     FILL_ALL_WIDTH
   },
   font: {

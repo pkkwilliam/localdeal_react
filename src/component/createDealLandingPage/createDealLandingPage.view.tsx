@@ -163,8 +163,6 @@ const styles = {
   rootContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 20,
-    marginRight: 20,
     width: styleSchema.dimension.FILL_ALL_WIDTH
   },
   titleTextField: {

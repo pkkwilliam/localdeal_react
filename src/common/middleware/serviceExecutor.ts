@@ -80,6 +80,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
         street1: "街道1",
         street2: "地下B座",
         city: "澳門",
+        formattedAddress: "澳門漁翁街24號",
         state: "",
         zipCode: "",
         country: "澳門",
@@ -100,6 +101,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
         street1: "街道1",
         street2: "地下B座",
         city: "澳門",
+        formattedAddress: "澳門漁翁街24號",
         state: "",
         zipCode: "",
         country: "澳門",
@@ -120,6 +122,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
         street1: "街道1",
         street2: "地下B座",
         city: "澳門",
+        formattedAddress: "澳門漁翁街24號",
         state: "",
         zipCode: "",
         country: "澳門",
@@ -141,7 +144,7 @@ const GET_POSITION_RESPONSE: Address[] = [
   {
     id: 0,
     area: "澳門",
-    formattedAddress: "澳門馬交石巷信昌工業大廈",
+    formattedAddress: "澳門漁翁街166號",
     country: "澳門"
   },
   {

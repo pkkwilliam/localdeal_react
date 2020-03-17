@@ -91,17 +91,17 @@ export default class LandingPageView extends ApplicationComponent<Props> {
     );
   };
 
-  SearchButton = () => {
-    return this.props.showSearchButton ? (
-      <Button
-        onClick={() => this.props.onClickSearch()}
-        style={styles.searchButton}
-        variant="outlined"
-      >
-        <H5 color={styleSchema.font.white}>{"Need Label - 搜尋"}</H5>
-      </Button>
-    ) : null;
-  };
+  // SearchButton = () => {
+  //   return this.props.showSearchButton ? (
+  //     <Button
+  //       onClick={() => this.props.onClickSearch()}
+  //       style={styles.searchButton}
+  //       variant="outlined"
+  //     >
+  //       <H5 color={styleSchema.font.white}>{"Need Label - 搜尋"}</H5>
+  //     </Button>
+  //   ) : null;
+  // };
 
   TextFieldArea = () => {
     return (
