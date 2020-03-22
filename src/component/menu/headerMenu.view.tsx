@@ -6,10 +6,13 @@ import {
   TextButton,
   H4,
   H5,
-  DrawerMenu
+  DrawerMenu,
+  MainButton
 } from "../../common";
 import { Menu as MenuIcon } from "@material-ui/icons";
 import Link from "@material-ui/core/Link";
+import { Login } from "../login";
+import { Feature } from "../../common/feature/feature";
 
 export interface Props {
   isMenuOpen: boolean;
@@ -19,19 +22,22 @@ export interface Props {
 
 export default class HeaderMenuView extends ApplicationComponent<Props> {
   render() {
-    return (
-      <View borderLeft={1} style={styles.menuIconContainer}>
-        <MenuIcon style={styles.menuIcon} onClick={this.props.onClickMenu} />
-        <DrawerMenu
-          anchor={"right"}
-          onClose={this.props.onCloseMenu}
-          open={this.props.isMenuOpen}
-        >
-          <this.UpperPortion />
-          <this.LowerPortion />
-        </DrawerMenu>
-      </View>
-    );
+    if (this.appContext.features.includes(Feature.HEADER_MENU)) {
+      return (
+        <View borderLeft={1} style={styles.menuIconContainer}>
+          <MenuIcon style={styles.menuIcon} onClick={this.props.onClickMenu} />
+          <DrawerMenu
+            anchor={"right"}
+            onClose={this.props.onCloseMenu}
+            open={this.props.isMenuOpen}
+          >
+            <this.MenuContainer />
+          </DrawerMenu>
+        </View>
+      );
+    } else {
+      return null;
+    }
   }
 
   CloseButton = () => {
@@ -45,10 +51,28 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
 
   ContactInfomation = () => {
     const emailAddress = this.appContext.labels.headerMenu.emailAddress;
+    if (this.appContext.features.includes(Feature.CONTACT_SHOW_EMAIL)) {
+      return (
+        <Link href={`mailto:${emailAddress}`} underline={"none"}>
+          <H4>{emailAddress}</H4>
+        </Link>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  DevelopingFeatures = () => {
+    const featues: any = this.appContext.labels.headerMenu.currentDevelopingFeatuers.map(
+      (feature: string, index: number) => {
+        return <H5>{`${index + 1}) ${feature}`}</H5>;
+      }
+    );
     return (
-      <Link href={`mailto:${emailAddress}`} underline={"none"}>
-        <H4>{emailAddress}</H4>
-      </Link>
+      <View style={styles.developingFeatureContainer}>
+        <H5>{this.appContext.labels.headerMenu.developingFeature}</H5>
+        {featues}
+      </View>
     );
   };
 
@@ -61,18 +85,34 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
     );
   };
 
+  MenuContainer = () => {
+    return (
+      <View style={styles.menuContainer}>
+        <this.UpperPortion />
+        <this.LowerPortion />
+      </View>
+    );
+  };
+
   UpperPortion = () => {
     const label = this.appContext.labels.headerMenu;
     return (
       <View style={styles.upperPortionContainer}>
         <H5>{label.moreFeatureIsComingDescription}</H5>
+
+        <this.DevelopingFeatures />
+
         <H5>{label.bugReportDescription}</H5>
+        <Login />
       </View>
     );
   };
 }
 
 const styles = {
+  developingFeatureContainer: {
+    padding: 15
+  },
   lowerPortionContainer: {
     alignItems: "center",
     paddingTop: 20,
@@ -85,6 +125,11 @@ const styles = {
   menuIcon: {
     color: styleSchema.color.greyDark,
     ...styleSchema.icon
+  },
+  menuContainer: {
+    alignItems: "center",
+    height: "inherit",
+    justifyContent: "space-between"
   },
   upperPortionContainer: {
     alignItems: "center",

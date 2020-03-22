@@ -24,6 +24,8 @@
   "headerMenu": {
     "bugReportDescription": "歡迎告訴我們任何bug，或需要的功能",
     "closeButton": "關閉",
+    "currentDevelopingFeatuers": ["微信登入", "Google登入"],
+    "developingFeature": "等待開發中的功能:",
     "emailAddress": "pkkwilliam919@gmail.com",
     "moreFeatureIsComingDescription": "產品經理正在鞭撻理程序員推出更多新功能"
   },
@@ -38,6 +40,14 @@
   "localDealCardPage": {
     "expand": "展開",
     "collapse": "收起"
+  },
+  "login": {
+    "formName": "登入",
+    "loginNotYetAvaiable": "未用得啊 等陣先啦",
+    "password": "密碼",
+    "register": "注冊賬號",
+    "submit": "登入",
+    "username": "UID/用戶名/EMAIL"
   },
   "position": {
     "currentArea": "所在地區",

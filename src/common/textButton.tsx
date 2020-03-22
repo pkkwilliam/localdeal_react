@@ -26,6 +26,7 @@ export default class TextButton extends Component<Props> {
 const styles = {
   buttonStyle: {
     color: styleSchema.color.primaryColor,
+    marginTop: 10,
     paddingBottom: 2,
     paddingTop: 2
   }

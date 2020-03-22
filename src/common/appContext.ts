@@ -1,6 +1,7 @@
 import ServiceExecutor from "./middleware/serviceExecutor";
 import Transformer from "./transformer";
 import chineseTraditionalLabel from "../content/labels/chinese.traditional.json";
+import { Feature } from "./feature/feature";
 
 export default class AppContext {
   // Deal Refresh
@@ -32,6 +33,14 @@ export default class AppContext {
     return this.DEAL_REFRESH_TIME;
   }
 
+  get features(): Feature[] {
+    return [
+      Feature.CONTACT_SHOW_EMAIL,
+      Feature.HEADER_MENU,
+      Feature.LOGIN_LOCALDEAL
+    ];
+  }
+
   get headers() {
     let { APIKEY, X_MADT_APPID, X_MADT_APP_VERSION } = this;
     return {
@@ -46,11 +55,11 @@ export default class AppContext {
   }
 
   get isMock(): boolean {
-    return false;
+    return true;
   }
 
   get isProd(): boolean {
-    return true;
+    return false;
   }
 
   get serviceExecutor(): ServiceExecutor {
@@ -60,10 +69,6 @@ export default class AppContext {
   get serviceUrl(): string {
     // TODO need prod url
     return this.isProd ? "https://liuda.site:8082" : "http://127.0.0.1:8081";
-  }
-
-  get showHamburgerMenu(): boolean {
-    return false;
   }
 
   get transformer(): Transformer {

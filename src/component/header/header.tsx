@@ -29,6 +29,10 @@ export class Header extends ApplicationComponent<Props, State> {
     };
   }
 
+  componentDidMount() {
+    this.init.checkOAuth();
+  }
+
   render() {
     return (
       <HeaderView
