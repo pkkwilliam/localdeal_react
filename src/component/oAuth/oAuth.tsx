@@ -1,45 +1,22 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { OAuthView } from ".";
-import { OAuthProvider } from "../../common/feature/oAuthProvider";
+import { UserProfile } from "../../modal/userProfile";
+import { ReduxState } from "../../common/redux/reducers";
+import { connect } from "react-redux";
 
-interface State {
-  isModalOpen: boolean;
-  selectedOAuthProvider: OAuthProvider;
+interface Props {
+  userProfile: UserProfile;
 }
 
-export default class OAuth extends ApplicationComponent<{}, State> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      isModalOpen: false,
-      selectedOAuthProvider: OAuthProvider.WECHAT
-    };
-  }
-
+export class OAuth extends ApplicationComponent<Props> {
   render() {
-    return (
-      <OAuthView
-        isModalOpen={this.state.isModalOpen}
-        onCloseModal={this.onCloseModal}
-        onSelectedProvider={this.onSelectedProvider}
-        selectedOAuthProvider={this.state.selectedOAuthProvider}
-      />
-    );
+    return <OAuthView userProfile={this.props.userProfile} />;
   }
-
-  protected onCloseModal = () => {
-    console.debug("onCloseModal");
-    this.setState({
-      isModalOpen: false
-    });
-  };
-
-  protected onSelectedProvider = (selectedOAuthProvider: OAuthProvider) => {
-    console.debug("onSelectedProvider");
-    this.setState({
-      isModalOpen: true,
-      selectedOAuthProvider
-    });
-  };
 }
+
+const mapStateToProps = (reduxState: ReduxState): Props => ({
+  userProfile: reduxState.userProfile
+});
+
+export default connect(mapStateToProps)(OAuth);

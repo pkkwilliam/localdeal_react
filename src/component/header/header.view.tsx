@@ -8,11 +8,7 @@ import { CreateDealLandingPage } from "../createDealLandingPage";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { AddressPrediction } from "../addressPrediction";
 import logo from "../../resouces/logo_icon_character-min.png";
-import {
-  Add as AddIcon,
-  Menu as HamburgerMenuIcon,
-  Room as LocationIcon
-} from "@material-ui/icons";
+import { Add as AddIcon, Room as LocationIcon } from "@material-ui/icons";
 import ToolTips from "../../common/ToolTips";
 import { HeaderMenu } from "../menu";
 

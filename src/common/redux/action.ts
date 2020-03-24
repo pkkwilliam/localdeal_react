@@ -1,12 +1,14 @@
 import { Coordinate, GetDealResponse, Address } from "../../modal/deal";
 import { type } from "os";
+import { UserProfile } from "../../modal/userProfile";
 
 export enum ReduxActopnTypes {
   SET_ADDRESS_PREDICTION = "SET_ADDRESS_PREDICTION",
   SET_DEALS = "SET_DEAL",
   SET_LOADING_POSITION = "SET_LOADING_POSITION",
   SET_GEOLOCATION = "SET_GEOLOCATION",
-  SET_SELECTED_ADDRESS = "SET_SELECTED_ADDRESS"
+  SET_SELECTED_ADDRESS = "SET_SELECTED_ADDRESS",
+  SET_USER_PROFILE = "SET_USER_PROFILE"
 }
 
 export const setAddressPrediction = (addresses: Address[]) => {
@@ -50,6 +52,15 @@ export const setSelectedAddress = (address: Address) => {
     dispatch({
       type: ReduxActopnTypes.SET_SELECTED_ADDRESS,
       payload: address
+    });
+  };
+};
+
+export const setUserProfile = (userProfile: UserProfile) => {
+  return function(dispatch: any) {
+    dispatch({
+      type: ReduxActopnTypes.SET_USER_PROFILE,
+      payload: userProfile
     });
   };
 };

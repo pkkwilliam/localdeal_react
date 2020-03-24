@@ -1,4 +1,5 @@
 export enum OAuthProvider {
   GOOGLE = "GOOGLE",
-  WECHAT = "WECHAT"
+  WECHAT = "WECHAT",
+  NONE = "NONE"
 }

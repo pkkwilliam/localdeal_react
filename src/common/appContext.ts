@@ -34,11 +34,7 @@ export default class AppContext {
   }
 
   get features(): Feature[] {
-    return [
-      Feature.CONTACT_SHOW_EMAIL,
-      Feature.HEADER_MENU,
-      Feature.LOGIN_LOCALDEAL
-    ];
+    return [Feature.CONTACT_SHOW_EMAIL, Feature.HEADER_MENU];
   }
 
   get headers() {
@@ -55,11 +51,15 @@ export default class AppContext {
   }
 
   get isMock(): boolean {
-    return true;
+    return false;
   }
 
   get isProd(): boolean {
     return false;
+  }
+
+  get oAuthRedirectUrl(): string {
+    return this.isProd ? "https://liuda.site" : "http://127.0.0.1:3000";
   }
 
   get serviceExecutor(): ServiceExecutor {

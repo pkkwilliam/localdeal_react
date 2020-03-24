@@ -4,14 +4,19 @@ import VoteRequest from "../../modal/voteRequest";
 import { connect } from "http2";
 
 const AREA_NAME_URL_PARAMETER: string = "areaName";
+const AUTHORIZATION_CODE_PARAMETER: string = "authorizationCode";
 const LATITUDE_URL_PARAMETER: string = "latitude";
 const LONGITUDE_URL_PARAMETER: string = "longitude";
+const REDIRECT_URL_PARAMETER: string = "redirectUrl";
 
 export enum ServiceName {
   CREATE_DEAL = "CREATE_DEAL",
   CREATE_VOTE = "CREATE_VOTE",
-  GET_DEALS = "GET_DEALS",
   GET_CURRENT_ADDRESS = "GET_CURRENT_ADDRESS",
+  GET_DEALS = "GET_DEALS",
+  GET_USER_PROFILE = "GET_USER_PROFILE",
+  LOGIN_OAUTH_GOOGLE = "LOGIN_OAUTH_GOOGLE",
+  TEST = "TEST",
   UPLOAD_IMAGE = "UPLOAD_IMAGE"
 }
 
@@ -61,6 +66,52 @@ export const GET_DEALS = (address: Address): Endpoint => {
   };
 };
 
+export const GET_USER_PROFILE = (): Endpoint => ({
+  hasMock: false,
+  isMultipartFileRequest: false,
+  method: "GET",
+  url: "/userProfile",
+  serviceName: ServiceName.GET_USER_PROFILE
+});
+
+export const LOGIN_OAUTH_GOOGLE = (
+  authorizationCode: string,
+  redirectUrl: string
+): Endpoint => {
+  return {
+    hasMock: false,
+    isMultipartFileRequest: false,
+    method: "POST",
+    url: "/oauth/google",
+    optionalRequestParam: () =>
+      generateMultipleUrlParameters([
+        AUTHORIZATION_CODE_PARAMETER,
+        authorizationCode,
+        REDIRECT_URL_PARAMETER,
+        redirectUrl
+      ]),
+    serviceName: ServiceName.LOGIN_OAUTH_GOOGLE
+  };
+};
+
+export const TEST = (): Endpoint => ({
+  hasMock: false,
+  isMultipartFileRequest: false,
+  method: "PUT",
+  url: "/deals",
+  optionalRequestParam: () =>
+    generateMultipleUrlParameters(["domain", "127.0.0.1"]),
+  serviceName: ServiceName.TEST
+});
+
+export const TEST_COOKIES = (): Endpoint => ({
+  hasMock: false,
+  isMultipartFileRequest: false,
+  method: "DELETE",
+  url: "/deals",
+  serviceName: ServiceName.TEST
+});
+
 export const UPLOAD_IMAGE = (image: any): Endpoint => {
   return {
     body: image,
@@ -90,6 +141,20 @@ const generateCurrentAreaRequestParameter = (
     console.warn("CurrentArea input might be invalid");
     return "";
   }
+};
+
+const generateMultipleUrlParameters = (keyAndValue: string[]): string => {
+  let parameter: string = "?";
+  if (keyAndValue.length % 2 === 0) {
+    for (let i = 0; i < keyAndValue.length; i += 2) {
+      if (i !== 0) {
+        parameter += "&";
+      }
+      parameter += `${keyAndValue[i]}=${keyAndValue[i + 1]}`;
+    }
+  }
+  console.debug("generateUrlParameter:", parameter);
+  return parameter;
 };
 
 const generateParameter = (key: string, value: string) => {

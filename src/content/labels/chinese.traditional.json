@@ -49,6 +49,12 @@
     "submit": "登入",
     "username": "UID/用戶名/EMAIL"
   },
+  "oAuth": {
+    "google": "Google",
+    "login": "登入",
+    "weChat": "微信",
+    "undefined": "不明"
+  },
   "position": {
     "currentArea": "所在地區",
     "loading": "我們正在努力為您讀取定位"

@@ -6,11 +6,19 @@ import { ReduxState } from "../../common/redux/reducers";
 import CurrentArea from "../../modal/currentArea";
 import { Address } from "../../modal/deal";
 import { connect } from "react-redux";
+import { UserProfile } from "../../modal/userProfile";
+import { OAuthProvider } from "../../common/feature/oAuthProvider";
+import {
+  LOGIN_OAUTH_GOOGLE,
+  GET_USER_PROFILE
+} from "../../common/middleware/service";
+import { setUserProfile } from "../../common/redux/action";
 
 interface Props {
   addressesPrediction: Address[];
   position: CurrentArea;
   selectedAddress: Address;
+  setUserProfile?: any;
 }
 
 interface State {
@@ -30,7 +38,15 @@ export class Header extends ApplicationComponent<Props, State> {
   }
 
   componentDidMount() {
-    this.init.checkOAuth();
+    const { authorizationCode, oAuthProvider } = this.checkOAuth();
+    if (oAuthProvider === OAuthProvider.GOOGLE) {
+      this.appContext.serviceExecutor.execute(
+        LOGIN_OAUTH_GOOGLE(authorizationCode, this.appContext.oAuthRedirectUrl)
+      );
+    }
+    this.appContext.serviceExecutor
+      .execute(GET_USER_PROFILE())
+      .then(result => this.props.setUserProfile(result));
   }
 
   render() {
@@ -91,4 +107,4 @@ const mapStateToProps = (state: ReduxState): Props => ({
   selectedAddress: state.selectedAddress
 });
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, { setUserProfile })(Header);

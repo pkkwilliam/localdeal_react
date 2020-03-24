@@ -9,7 +9,6 @@ import {
   H4
 } from "../../common";
 import { Feature } from "../../common/feature/feature";
-import { OAuth } from "../oAuth";
 
 interface Props {
   onClickSubmit: () => void;
@@ -36,9 +35,6 @@ export default class LoginView extends ApplicationComponent<Props> {
           <this.UsernameTextField />
           <this.PasswordTextField />
           <this.SubmitButton />
-        </BackgroundTheme>
-        <BackgroundTheme>
-          <OAuth />
         </BackgroundTheme>
       </>
     );

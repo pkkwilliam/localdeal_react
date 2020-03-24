@@ -19,6 +19,7 @@ export default class ServiceExecutor {
       let requestUrl = this.serviceUrl + endpoint.url + requestParam;
       return fetch(requestUrl, {
         body: endpoint.body,
+        credentials: "include", // this is for CORS sending cookies
         headers,
         method: endpoint.method,
         mode: "cors"

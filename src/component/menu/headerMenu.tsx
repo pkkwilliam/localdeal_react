@@ -7,7 +7,7 @@ interface State {
 }
 
 export default class HeaderMenu extends ApplicationComponent<{}, State> {
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       isMenuOpen: false

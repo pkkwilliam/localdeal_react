@@ -6,13 +6,13 @@ import {
   TextButton,
   H4,
   H5,
-  DrawerMenu,
-  MainButton
+  DrawerMenu
 } from "../../common";
 import { Menu as MenuIcon } from "@material-ui/icons";
 import Link from "@material-ui/core/Link";
 import { Login } from "../login";
 import { Feature } from "../../common/feature/feature";
+import { OAuth } from "../oAuth";
 
 export interface Props {
   isMenuOpen: boolean;
@@ -101,9 +101,11 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
         <H5>{label.moreFeatureIsComingDescription}</H5>
 
         <this.DevelopingFeatures />
-
         <H5>{label.bugReportDescription}</H5>
         <Login />
+        <View style={styles.oAuthContainer}>
+          <OAuth />
+        </View>
       </View>
     );
   };
@@ -130,6 +132,9 @@ const styles = {
     alignItems: "center",
     height: "inherit",
     justifyContent: "space-between"
+  },
+  oAuthContainer: {
+    marginTop: 20
   },
   upperPortionContainer: {
     alignItems: "center",

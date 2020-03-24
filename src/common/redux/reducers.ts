@@ -1,6 +1,8 @@
 import Deal, { Address, GetDealResponse, Coordinate } from "../../modal/deal";
 import CurrentArea from "../../modal/currentArea";
 import { ReduxActopnTypes } from "./action";
+import { UserProfile } from "../../modal/userProfile";
+import { OAuthProvider } from "../feature/oAuthProvider";
 
 export interface ReduxState {
   addressesPrediction: Address[];
@@ -8,6 +10,7 @@ export interface ReduxState {
   isLoadingPosition: boolean;
   position: CurrentArea;
   selectedAddress: Address;
+  userProfile: UserProfile;
 }
 
 const initialState: ReduxState = {
@@ -29,6 +32,12 @@ const initialState: ReduxState = {
     state: "",
     country: "",
     zipCode: ""
+  },
+  userProfile: {
+    id: 0,
+    name: "",
+    imageUrl: "",
+    oAuthProvider: OAuthProvider.NONE
   }
 };
 
@@ -45,6 +54,8 @@ export default function(state: ReduxState = initialState, action: any) {
       return setLoadingPosition(state, action.payload);
     case ReduxActopnTypes.SET_SELECTED_ADDRESS:
       return setSelectedAddress(state, action.payload);
+    case ReduxActopnTypes.SET_USER_PROFILE:
+      return setUserProfile(state, action.payload);
     default:
       return state;
   }
@@ -96,5 +107,15 @@ const setSelectedAddress = (
   return {
     ...state,
     selectedAddress
+  };
+};
+
+const setUserProfile = (
+  state: ReduxState,
+  userProfile: UserProfile
+): ReduxState => {
+  return {
+    ...state,
+    userProfile
   };
 };
