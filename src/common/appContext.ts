@@ -55,7 +55,7 @@ export default class AppContext {
   }
 
   get isProd(): boolean {
-    return false;
+    return true;
   }
 
   get oAuthRedirectUrl(): string {

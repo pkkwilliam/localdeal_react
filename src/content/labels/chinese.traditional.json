@@ -52,6 +52,7 @@
   "oAuth": {
     "google": "Google",
     "login": "登入",
+    "logout": "登出",
     "weChat": "微信",
     "undefined": "不明"
   },

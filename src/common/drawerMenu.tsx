@@ -1,6 +1,7 @@
 import React, { Component, ReactNode } from "react";
 import { Drawer, DrawerProps } from "@material-ui/core";
 import { View } from ".";
+import { styleSchema } from "./stylesheet";
 
 export default class DrawerMenu extends Component<DrawerProps> {
   render() {
@@ -18,6 +19,7 @@ const styles = {
     justifyContent: "space-between",
     height: "inherit",
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
+    width: styleSchema.dimension.FILL_ALL_WIDTH
   }
 };

@@ -23,7 +23,6 @@ export default class View extends ApplicationComponent<Props> {
           this.props.justifyContent ? this.props.justifyContent : "start"
         }
         onClick={() => (this.props.onClick ? this.props.onClick() : {})}
-        style={{ ...this.props.style }}
         {...this.props}
       >
         {this.props.children}

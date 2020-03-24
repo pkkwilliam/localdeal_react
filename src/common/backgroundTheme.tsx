@@ -28,8 +28,6 @@ const styles = {
     alignItems: "center",
     backgroundColor: styleSchema.color.primaryColorTransparent,
     borderRadius: 8,
-    // padding: 20,
-    // marginTop: 20,
     width: styleSchema.dimension.FILL_ALL_WIDTH
   },
   primaryTheme: {

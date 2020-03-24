@@ -11,7 +11,6 @@ import {
   CardBottomVote
 } from "../../common";
 import ApplicationComponent from "../../common/applicationComponent";
-import { Button } from "@material-ui/core";
 
 export interface Props {
   deals: Deal[];

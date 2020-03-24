@@ -37,18 +37,6 @@ export class Header extends ApplicationComponent<Props, State> {
     };
   }
 
-  componentDidMount() {
-    const { authorizationCode, oAuthProvider } = this.checkOAuth();
-    if (oAuthProvider === OAuthProvider.GOOGLE) {
-      this.appContext.serviceExecutor.execute(
-        LOGIN_OAUTH_GOOGLE(authorizationCode, this.appContext.oAuthRedirectUrl)
-      );
-    }
-    this.appContext.serviceExecutor
-      .execute(GET_USER_PROFILE())
-      .then(result => this.props.setUserProfile(result));
-  }
-
   render() {
     return (
       <HeaderView

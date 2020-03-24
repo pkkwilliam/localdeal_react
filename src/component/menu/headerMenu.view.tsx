@@ -131,13 +131,16 @@ const styles = {
   menuContainer: {
     alignItems: "center",
     height: "inherit",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    width: "inherit"
   },
   oAuthContainer: {
-    marginTop: 20
+    marginTop: 20,
+    width: "inherit"
   },
   upperPortionContainer: {
     alignItems: "center",
-    paddingTop: 20
+    paddingTop: 20,
+    width: "inherit"
   }
 };
