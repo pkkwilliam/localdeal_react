@@ -34,7 +34,12 @@ export default class AppContext {
   }
 
   get features(): Feature[] {
-    return [Feature.CONTACT_SHOW_EMAIL, Feature.HEADER_MENU];
+    return [
+      Feature.CONTACT_SHOW_EMAIL,
+      Feature.HEADER_MENU,
+      Feature.LOGIN_GOOGLE_OAUTH,
+      Feature.LOGIN_WECHAT_OAUTH
+    ];
   }
 
   get headers() {
