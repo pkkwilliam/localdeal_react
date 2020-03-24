@@ -4,10 +4,7 @@ import { Button, Link } from "@material-ui/core";
 import { OAuthProvider } from "../../common/feature/oAuthProvider";
 import { BackgroundTheme, View, H4, Image, P } from "../../common";
 import { UserProfile } from "../../modal/userProfile";
-import oAuth from "./oAuth";
-
-const url: string =
-  "https://accounts.google.com/o/oauth2/v2/auth?scope=profile&access_type=offline&include_granted_scopes=true&response_type=code&state=GOOGLE&redirect_uri=http://127.0.0.1:3000&client_id=965687889406-d0pqe0hr6i3c4uo18rr5j0spqq73phth.apps.googleusercontent.com";
+import { request } from "http";
 
 interface Props {
   userProfile: UserProfile;
@@ -16,6 +13,12 @@ interface Props {
 export default class OAuthView extends ApplicationComponent<Props> {
   render() {
     return <this.Container />;
+  }
+
+  protected getGoogleOAuthRequestURL(): string {
+    const requestUrl = `https://accounts.google.com/o/oauth2/v2/auth?scope=profile&access_type=offline&include_granted_scopes=true&response_type=code&state=GOOGLE&redirect_uri=${this.appContext.oAuthRedirectUrl}&client_id=965687889406-d0pqe0hr6i3c4uo18rr5j0spqq73phth.apps.googleusercontent.com`;
+    console.log(requestUrl);
+    return requestUrl;
   }
 
   protected Container = () => {
@@ -31,7 +34,7 @@ export default class OAuthView extends ApplicationComponent<Props> {
   protected GoogleOAuthLoginIcon = () => {
     return (
       <Button>
-        <Link href={url}>Google</Link>
+        <Link href={this.getGoogleOAuthRequestURL()}>Google</Link>
       </Button>
     );
   };
