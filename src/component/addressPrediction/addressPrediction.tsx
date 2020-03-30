@@ -39,6 +39,7 @@ export class AddressPrediction extends ApplicationComponent<Props> {
     if (this.props.addressPrediction) {
       const selectedAddress: Address = this.props.addressPrediction[index];
       this.props.setSelectedAddress(selectedAddress);
+      this.appState.address.setSelectedAddress(selectedAddress);
     }
   };
 }

@@ -16,6 +16,7 @@ export enum ServiceName {
   GET_DEALS = "GET_DEALS",
   GET_USER_PROFILE = "GET_USER_PROFILE",
   LOGIN_OAUTH_GOOGLE = "LOGIN_OAUTH_GOOGLE",
+  LOGOUT_OAUTH = "LOGOUT_OAUTH",
   TEST = "TEST",
   UPLOAD_IMAGE = "UPLOAD_IMAGE"
 }
@@ -67,7 +68,7 @@ export const GET_DEALS = (address: Address): Endpoint => {
 };
 
 export const GET_USER_PROFILE = (): Endpoint => ({
-  hasMock: false,
+  hasMock: true,
   isMultipartFileRequest: false,
   method: "GET",
   url: "/userProfile",
@@ -94,22 +95,12 @@ export const LOGIN_OAUTH_GOOGLE = (
   };
 };
 
-export const TEST = (): Endpoint => ({
-  hasMock: false,
-  isMultipartFileRequest: false,
-  method: "PUT",
-  url: "/deals",
-  optionalRequestParam: () =>
-    generateMultipleUrlParameters(["domain", "127.0.0.1"]),
-  serviceName: ServiceName.TEST
-});
-
-export const TEST_COOKIES = (): Endpoint => ({
+export const LOGOUT_OAUTH = (): Endpoint => ({
   hasMock: false,
   isMultipartFileRequest: false,
   method: "DELETE",
-  url: "/deals",
-  serviceName: ServiceName.TEST
+  url: "/oauth",
+  serviceName: ServiceName.LOGOUT_OAUTH
 });
 
 export const UPLOAD_IMAGE = (image: any): Endpoint => {

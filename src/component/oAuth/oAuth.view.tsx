@@ -1,12 +1,14 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { Button, Link } from "@material-ui/core";
 import { OAuthProvider } from "../../common/feature/oAuthProvider";
-import { BackgroundTheme, View, H4, Image, P } from "../../common";
+import { BackgroundTheme, View, H4, Image, TextButton, H1 } from "../../common";
 import { UserProfile } from "../../modal/userProfile";
-import { request } from "http";
+import Modal from "../../common/modal";
+import { Feature } from "../../common/feature/feature";
 
 interface Props {
+  onClickLogout: () => void;
   userProfile: UserProfile;
 }
 
@@ -32,10 +34,22 @@ export default class OAuthView extends ApplicationComponent<Props> {
   };
 
   protected GoogleOAuthLoginIcon = () => {
+    if (this.appContext.features.includes(Feature.LOGIN_GOOGLE_OAUTH)) {
+      return (
+        <Button>
+          <Link href={this.getGoogleOAuthRequestURL()}>Google</Link>
+        </Button>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  protected LogoutButton = () => {
     return (
-      <Button>
-        <Link href={this.getGoogleOAuthRequestURL()}>Google</Link>
-      </Button>
+      <TextButton onClick={this.props.onClickLogout} underline>
+        {this.appContext.labels.oAuth.logout}
+      </TextButton>
     );
   };
 
@@ -44,16 +58,22 @@ export default class OAuthView extends ApplicationComponent<Props> {
   };
 
   protected UserProfileSection = () => {
-    const userProfile: UserProfile = this.props.userProfile;
-    return (
-      <View isFlexDirectionRow style={styles.rootContainer}>
-        <Image src={userProfile.imageUrl} />
-        <View>
-          <H4>{this.getProviderLabel(userProfile.oAuthProvider)}</H4>
-          <H4>{userProfile.name}</H4>
+    if (
+      this.appContext.features.includes(Feature.USER_PROFILE_IN_HEADER_MENU)
+    ) {
+      const userProfile: UserProfile = this.props.userProfile;
+      return (
+        <View isFlexDirectionRow style={styles.rootContainer}>
+          <Image src={userProfile.imageUrl} />
+          <View style={styles.userTextInfoContainer}>
+            <H4>{this.getProviderLabel(userProfile.oAuthProvider)}</H4>
+            <H4>{userProfile.name}</H4>
+          </View>
         </View>
-      </View>
-    );
+      );
+    } else {
+      return null;
+    }
   };
 
   protected getProviderLabel(oAuthProvider: OAuthProvider): string {
@@ -70,10 +90,19 @@ export default class OAuthView extends ApplicationComponent<Props> {
 }
 
 const styles = {
+  logoutButtonContainer: {
+    height: "inherit",
+    alignItems: "right",
+    justifyContent: "right"
+  },
   rootContainer: {
     alignItems: "center",
     justifyContent: "space-around",
     padding: 10,
+    width: "inherit"
+  },
+  userTextInfoContainer: {
+    marginLeft: 15,
     width: "inherit"
   }
 };

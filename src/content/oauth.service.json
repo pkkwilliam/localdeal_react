@@ -1,0 +1,14 @@
+{
+  "oauths": [
+    {
+      "logoIamgeUrl": "https://lh3.googleusercontent.com/proxy/3ZW5UaksIQ2fe-JpE-wz4ErBF5jSME9vGk6NtlpX_7m11eUo_T_ud_86s8PCAufDL2PhLNVqF35MVwAwwbW4u0aQBlz16Y3zmGh1IA",
+      "provider": "GOOGLE",
+      "redirectKey": "&redirect_uri=",
+      "url": "https://accounts.google.com/o/oauth2/v2/auth?scope=profile&access_type=offline&include_granted_scopes=true&response_type=code&state=GOOGLE&client_id=965687889406-d0pqe0hr6i3c4uo18rr5j0spqq73phth.apps.googleusercontent.com"
+    }
+  ],
+  "redirectUrl": {
+    "nonProd": "http://127.0.0.1:3000",
+    "prod": "https://liuda.site"
+  }
+}

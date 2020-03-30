@@ -1,15 +1,28 @@
 import { Component } from "react";
 import AppContext from "./appContext";
 import { OAuthProvider } from "./feature/oAuthProvider";
+import ImageProcessor from "./imageProcessor";
+import AppState from "../common/context/appState";
+import AppStateInterface from "./context/appStateInterface";
 
 export default class ApplicationComponent<
   ChildProps = {},
   ChildState = {}
 > extends Component<ChildProps, ChildState> {
+  static contextType = AppState;
   private readonly _appContext: AppContext = new AppContext();
+  private readonly _imageProcessor: ImageProcessor = new ImageProcessor();
 
   get appContext(): AppContext {
     return this._appContext;
+  }
+
+  get appState(): AppStateInterface {
+    return this.context;
+  }
+
+  get imageProcessor(): ImageProcessor {
+    return this._imageProcessor;
   }
 
   public checkOAuth(): {

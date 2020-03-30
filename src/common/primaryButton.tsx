@@ -2,25 +2,16 @@ import React, { Component } from "react";
 import { Button, ButtonProps } from "@material-ui/core";
 import { styleSchema } from "./stylesheet";
 
-interface Props extends ButtonProps {
-  isDisable?: boolean;
-  styles?: any;
-  text?: string;
-}
-
-export default class MainButton extends Component<Props> {
+export default class PrimaryButton extends Component<ButtonProps> {
   render() {
     const color: any = {
-      backgroundColor: this.props.isDisable
+      backgroundColor: this.props.disabled
         ? styleSchema.color.greyDark
         : styleSchema.color.primaryColor
     };
     return (
-      <Button
-        style={{ ...color, ...styles.buttonStyle, ...this.props.styles }}
-        {...this.props}
-      >
-        <p style={styles.text}>{this.props.text}</p>
+      <Button style={{ ...color, ...styles.buttonStyle }} {...this.props}>
+        <p style={styles.text}>{this.props.children}</p>
       </Button>
     );
   }

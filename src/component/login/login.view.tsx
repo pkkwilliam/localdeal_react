@@ -4,7 +4,7 @@ import {
   View,
   LocalDealTextField,
   styleSchema,
-  MainButton,
+  PrimaryButton,
   BackgroundTheme,
   H4
 } from "../../common";
@@ -58,14 +58,8 @@ export default class LoginView extends ApplicationComponent<Props> {
   };
 
   protected SubmitButton = () => {
-    return (
-      <MainButton
-        disabled
-        isDisable
-        styles={styles.submitButton}
-        text={this.appContext.labels.login.loginNotYetAvaiable}
-      />
-    );
+    // this need to be fix if use!!!
+    return <PrimaryButton disabled />;
   };
 
   protected UsernameTextField = () => {

@@ -3,20 +3,20 @@ import { Button, ButtonProps } from "@material-ui/core";
 import { styleSchema } from "./stylesheet";
 
 interface Props extends ButtonProps {
-  text: string;
   onClick: () => void;
+  underline?: boolean;
 }
 
 export default class TextButton extends Component<Props> {
   render() {
+    const additionalStyle = this.props.underline ? styles.underline : "";
     return (
       <Button
         onClick={this.props.onClick}
-        style={styles.buttonStyle}
+        style={{ ...styles.buttonStyle, ...additionalStyle }}
         variant="text"
         {...this.props}
       >
-        {this.props.text}
         {this.props.children}
       </Button>
     );
@@ -26,8 +26,10 @@ export default class TextButton extends Component<Props> {
 const styles = {
   buttonStyle: {
     color: styleSchema.color.primaryColor,
-    marginTop: 10,
     paddingBottom: 2,
     paddingTop: 2
+  },
+  underline: {
+    textDecoration: "underline"
   }
 };

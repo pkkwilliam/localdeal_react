@@ -44,6 +44,8 @@ const initialState: ReduxState = {
 export default function(state: ReduxState = initialState, action: any) {
   console.log("Redux", action.type);
   switch (action.type) {
+    case ReduxActopnTypes.REMOVE_USER_PROFILE:
+      return removeUserProfile(state, action.payload);
     case ReduxActopnTypes.SET_ADDRESS_PREDICTION:
       return setAddressPrediction(state, action.payload);
     case ReduxActopnTypes.SET_DEALS:
@@ -60,6 +62,11 @@ export default function(state: ReduxState = initialState, action: any) {
       return state;
   }
 }
+
+const removeUserProfile = (state: ReduxState, userProfile: UserProfile) => ({
+  ...state,
+  userProfile
+});
 
 const setAddressPrediction = (
   state: ReduxState,

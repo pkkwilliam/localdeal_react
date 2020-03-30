@@ -1,23 +1,30 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import {
+  Image,
   View,
   styleSchema,
   TextButton,
   H4,
   H5,
-  DrawerMenu
+  DrawerMenu,
+  P,
+  Toast
 } from "../../common";
 import { Menu as MenuIcon } from "@material-ui/icons";
 import Link from "@material-ui/core/Link";
 import { Login } from "../login";
 import { Feature } from "../../common/feature/feature";
 import { OAuth } from "../oAuth";
+import { UserProfile } from "../../modal/userProfile";
+import { OAuthProvider } from "../../common/feature/oAuthProvider";
 
 export interface Props {
   isMenuOpen: boolean;
   onClickMenu: () => void;
+  onClickLogout: () => void;
   onCloseMenu: () => void;
+  userProfile: UserProfile;
 }
 
 export default class HeaderMenuView extends ApplicationComponent<Props> {
@@ -42,19 +49,18 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
 
   CloseButton = () => {
     return (
-      <TextButton
-        onClick={this.props.onCloseMenu}
-        text={this.appContext.labels.headerMenu.closeButton}
-      />
+      <TextButton onClick={this.props.onCloseMenu}>
+        {this.appContext.labels.headerMenu.closeButton}
+      </TextButton>
     );
   };
 
   ContactInfomation = () => {
-    const emailAddress = this.appContext.labels.headerMenu.emailAddress;
+    const label = this.appContext.labels.headerMenu;
     if (this.appContext.features.includes(Feature.CONTACT_SHOW_EMAIL)) {
       return (
-        <Link href={`mailto:${emailAddress}`} underline={"none"}>
-          <H4>{emailAddress}</H4>
+        <Link href={`mailto:${label.emailAddress}`} underline={"none"}>
+          <P>{label.contactUs}</P>
         </Link>
       );
     } else {
@@ -68,9 +74,11 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
         return <H5>{`${index + 1}) ${feature}`}</H5>;
       }
     );
+    const label = this.appContext.labels.headerMenu;
     return (
       <View style={styles.developingFeatureContainer}>
-        <H5>{this.appContext.labels.headerMenu.developingFeature}</H5>
+        <H5>{label.moreFeatureIsComingDescription}</H5>
+        <H5>{label.developingFeature}</H5>
         {featues}
       </View>
     );
@@ -98,8 +106,7 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
     const label = this.appContext.labels.headerMenu;
     return (
       <View style={styles.upperPortionContainer}>
-        <H5>{label.moreFeatureIsComingDescription}</H5>
-
+        <this.UserProfileHeaderSection />
         <this.DevelopingFeatures />
         <H5>{label.bugReportDescription}</H5>
         <Login />
@@ -109,8 +116,27 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
       </View>
     );
   };
-}
 
+  UserProfileHeaderSection = () => {
+    const userProfile = this.props.userProfile;
+    if (userProfile.oAuthProvider !== OAuthProvider.NONE) {
+      return (
+        <View
+          boxShadow={1}
+          isFlexDirectionRow
+          style={styles.userProfileHeaderSectionContainer}
+        >
+          <Image size="miniCircularImage" src={userProfile.imageUrl} />
+          <H4>{userProfile.name}</H4>
+          <TextButton onClick={this.props.onClickLogout} underline>
+            {this.appContext.labels.headerMenu.logout}
+          </TextButton>
+        </View>
+      );
+    }
+    return null;
+  };
+}
 const styles = {
   developingFeatureContainer: {
     padding: 15
@@ -141,6 +167,14 @@ const styles = {
   upperPortionContainer: {
     alignItems: "center",
     paddingTop: 20,
+    width: "inherit"
+  },
+  userProfileHeaderSectionContainer: {
+    alignItems: "center",
+    // backgroundColor: styleSchema.color.greyTransparent,
+    borderRadius: 5,
+    justifyContent: "space-between",
+    padding: 5,
     width: "inherit"
   }
 };

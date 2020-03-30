@@ -90,18 +90,6 @@ export default class LandingPageView extends ApplicationComponent<Props> {
     );
   };
 
-  // SearchButton = () => {
-  //   return this.props.showSearchButton ? (
-  //     <Button
-  //       onClick={() => this.props.onClickSearch()}
-  //       style={styles.searchButton}
-  //       variant="outlined"
-  //     >
-  //       <H5 color={styleSchema.font.white}>{"Need Label - 搜尋"}</H5>
-  //     </Button>
-  //   ) : null;
-  // };
-
   TextFieldArea = () => {
     return (
       <LocalDealTextField
@@ -115,16 +103,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   };
 
   protected generateCardContent = (deal: Deal): React.ReactNode => {
-    let {
-      address,
-      category,
-      discussions,
-      description,
-      title,
-      timeAvailable,
-      timestamp,
-      vote
-    } = deal;
+    let { address, description, title, timestamp } = deal;
     return (
       <>
         <View isFlexDirectionRow={true} style={styles.cardContainer}>

@@ -3,14 +3,21 @@ import ApplicationComponent from "../../common/applicationComponent";
 import "../../App.css";
 
 import { Address } from "../../modal/deal";
-import { styleSchema, View, DrawerMenu } from "../../common";
-import { CreateDealLandingPage } from "../createDealLandingPage";
+import { styleSchema, View, DrawerMenu, Image } from "../../common";
+import {
+  CreateDealLandingPage,
+  CreateDealLandingPageV2
+} from "../createDealLandingPage";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { AddressPrediction } from "../addressPrediction";
 import logo from "../../resouces/logo_icon_character-min.png";
 import { Add as AddIcon, Room as LocationIcon } from "@material-ui/icons";
 import ToolTips from "../../common/ToolTips";
 import { HeaderMenu } from "../menu";
+import { UserProfile } from "../../modal/userProfile";
+import { OAuthProvider } from "../../common/feature/oAuthProvider";
+import { Feature } from "../../common/feature/feature";
+import { Avatar } from "@material-ui/core";
 
 export interface Props {
   isCreateDealDrawerOpen: boolean;
@@ -21,6 +28,7 @@ export interface Props {
   onCloseHamburgerMenu: () => void;
   onClickLocationButton: () => void;
   selectedAddress: Address;
+  userProfile: UserProfile;
 }
 
 export default class HeaderView extends ApplicationComponent<Props> {
@@ -42,13 +50,21 @@ export default class HeaderView extends ApplicationComponent<Props> {
   }
 
   CreateDealDrawer = () => {
+    const createDealSection = !this.appContext.features.includes(
+      Feature.CREATE_DEAL_LEGACY
+    ) ? (
+      <CreateDealLandingPageV2 onClose={this.props.onCloseCreateDeal} />
+    ) : (
+      <CreateDealLandingPage onClickClose={this.props.onCloseCreateDeal} />
+    );
+
     return (
       <DrawerMenu
         anchor={"top"}
         onClose={this.props.onCloseCreateDeal}
         open={this.props.isCreateDealDrawerOpen}
       >
-        <CreateDealLandingPage onClickClose={this.props.onCloseCreateDeal} />
+        {createDealSection}
       </DrawerMenu>
     );
   };
@@ -107,53 +123,47 @@ export default class HeaderView extends ApplicationComponent<Props> {
   };
 
   LocationButton = () => {
-    const showCircularProgressor: boolean =
-      this.props.selectedAddress && this.props.selectedAddress.area !== "";
+    const label = this.appContext.labels.header;
     return (
-      <LocationIcon style={styles.locationIcon} />
-      // <Button
-      //   disabled={true}
-      //   onClick={this.props.onClickLocationButton}
-      //   style={styles.searchMethodLabel}
-      //   variant="outlined"
-      // >
-      //   <View isFlexDirectionRow={true} style={styles.locationButtonContainer}>
-      //     <H5 color={styleSchema.font.white}>
-      //       {`${this.appContext.labels.landingPage.geolocationProvider}:`}
-      //     </H5>
-      //     {showCircularProgressor ? (
-      //       <H5 color={styleSchema.font.white}>
-      //         {this.props.selectedAddress.area}
-      //       </H5>
-      //     ) : (
-      //       <CircularProgress
-      //         size={15}
-      //         style={styles.circularProgress}
-      //         variant={"indeterminate"}
-      //       />
-      //     )}
-      //   </View>
-      // </Button>
+      <ToolTips
+        title={`${label.currentLocation} ${
+          this.props.selectedAddress.area
+            ? this.props.selectedAddress.area
+            : label.loading
+        }`}
+      >
+        <LocationIcon style={styles.locationIcon} />
+      </ToolTips>
     );
   };
 
   TopBarSection = () => {
-    const label = this.appContext.labels.header;
     return (
       <View isFlexDirectionRow={true} style={styles.buttonContainer}>
         <this.CreateNewDealButton />
-        <ToolTips
-          title={`${label.currentLocation} ${
-            this.props.selectedAddress.area
-              ? this.props.selectedAddress.area
-              : label.loading
-          }`}
-        >
-          <this.LocationButton />
-        </ToolTips>
+        <this.LocationButton />
         <HeaderMenu />
+        <this.UserProfileImage />
       </View>
     );
+  };
+
+  UserProfileImage = () => {
+    if (
+      this.appContext.features.includes(Feature.USER_PROFILE_IN_HEADER) &&
+      this.props.userProfile.oAuthProvider !== OAuthProvider.NONE
+    ) {
+      return (
+        <View style={styles.userProfileImageContainer}>
+          {/* <Image
+            size="miniCircularImage"
+            src={this.props.userProfile.imageUrl}
+          /> */}
+          <Avatar src={this.props.userProfile.imageUrl} />
+        </View>
+      );
+    }
+    return null;
   };
 }
 
@@ -197,5 +207,8 @@ const styles = {
     borderWidth: 3,
     paddingBottom: 5,
     paddingTop: 5
+  },
+  userProfileImageContainer: {
+    marginLeft: 15
   }
 };

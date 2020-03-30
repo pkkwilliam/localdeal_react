@@ -12,6 +12,12 @@
     "textFieldTitle": "標題",
     "titleMissing": "* 没有標題啊..."
   },
+  "createDealPageV2": {
+    "descriptionPlaceHolder": "講一下特別的地方",
+    "saveDraft": "存草稿",
+    "submitPost": "發布好玩",
+    "titlePlaceHolder": "標題有趣會有更多Like哦"
+  },
   "date": {
     "day": "日",
     "today": "今日",
@@ -22,11 +28,17 @@
     "loading": "Google API 正在為你定位"
   },
   "headerMenu": {
-    "bugReportDescription": "歡迎告訴我們任何bug，或需要的功能",
+    "bugReportDescription": "歡迎告訴我們任何bug，或有趣的功能",
     "closeButton": "關閉",
-    "currentDevelopingFeatuers": ["微信登入", "Google登入"],
+    "contactUs": "聯絡我們",
+    "currentDevelopingFeatuers": [
+      "微信登入 進度: 0%",
+      "Google登入 進度: 80%",
+      "深色模式 進度: 20%"
+    ],
     "developingFeature": "等待開發中的功能:",
     "emailAddress": "pkkwilliam919@gmail.com",
+    "logout": "登出",
     "moreFeatureIsComingDescription": "產品經理正在鞭撻理程序員推出更多新功能"
   },
   "landingPage": {
@@ -35,7 +47,7 @@
     "createDealButton": "創建好去處",
     "loadingDeals": "正在全力為你讀取好去處",
     "geolocationProvider": "API定位",
-    "noDeal": "網友們未曾添加好去處，請你幫助我們一起覆蓋這個區域好嗎?"
+    "noDeal": "網友們未曾添加好去處\n請你幫助我們一起覆蓋這個區域好嗎?"
   },
   "localDealCardPage": {
     "expand": "展開",
@@ -53,6 +65,7 @@
     "google": "Google",
     "login": "登入",
     "logout": "登出",
+    "successfullyLogout": "成功登出",
     "weChat": "微信",
     "undefined": "不明"
   },

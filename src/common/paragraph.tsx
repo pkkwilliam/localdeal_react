@@ -11,5 +11,7 @@ export default class Paragraph extends H1 {
 }
 
 const styles = {
-  text: {}
+  text: {
+    fontSize: "0.875rem"
+  }
 };

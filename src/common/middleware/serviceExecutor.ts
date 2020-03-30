@@ -68,6 +68,8 @@ const getResponse = (serviceName: ServiceName): any => {
       return GET_DEALS_RESPONSE;
     case ServiceName.GET_CURRENT_ADDRESS:
       return GET_POSITION_RESPONSE;
+    case ServiceName.GET_USER_PROFILE:
+      return GET_USER_PROFILE;
     default:
       return Promise.reject();
   }
@@ -186,3 +188,11 @@ const GET_POSITION_RESPONSE: Address[] = [
     country: "澳門"
   }
 ];
+
+const GET_USER_PROFILE = {
+  id: 0,
+  name: "Ka Kei Pun",
+  imageUrl:
+    "https://lh3.googleusercontent.com/a-/AOh14GgslmYMBYeO6hidzEhx83gMUrNHuN6M1nbOOFHhmg",
+  oAuthProvider: "GOOGLE"
+};

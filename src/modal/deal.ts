@@ -4,6 +4,7 @@ export default interface Deal {
   category?: Category;
   discussions?: Discussion[];
   description: string;
+  filesUrl?: string[];
   serverIdentifierName?: string;
   title: string;
   timeAvailable?: WeekTime;

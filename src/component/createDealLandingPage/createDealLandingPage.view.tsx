@@ -1,17 +1,9 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
-import {
-  H1,
-  H5,
-  LocalDealTextField,
-  AddressDisplay,
-  View,
-  TwinButton,
-  RichTextEditor,
-  styleSchema
-} from "../../common";
+import { H1, H5, View, TwinButton, styleSchema } from "../../common";
 import { Address } from "../../modal/deal";
 import { Button } from "@material-ui/core";
+import { LegacyCreateDealView } from ".";
 
 export interface Props {
   currentAddress: Address;
@@ -31,34 +23,11 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
     return (
       <View style={styles.rootContainer}>
         <this.HeaderSection />
-        <this.AddressSection />
-        <this.TitleTextField />
-        <this.HourOfOperationSection />
-        <this.DescriptionTextField />
+        <this.ContentInput />
         <this.ButtonSection />
       </View>
     );
   }
-
-  AddressSection = () => {
-    return (
-      <View style={styles.addressSectionContainer}>
-        {this.props.useAutoPosition ? (
-          <this.AddressAutoPositionDisplay />
-        ) : (
-          <this.AddressTextField />
-        )}
-      </View>
-    );
-  };
-
-  AddressAutoPositionDisplay = () => {
-    return <AddressDisplay address={this.props.currentAddress} />;
-  };
-
-  AddressTextField = () => {
-    return null;
-  };
 
   ButtonSection = () => {
     let label = this.appContext.labels.createDealPage;
@@ -73,22 +42,23 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
     );
   };
 
-  DescriptionTextField = () => {
+  ContentInput = () => {
+    const {
+      currentAddress,
+      hasTitle,
+      hasDescription,
+      onChangeRichTextValue,
+      onChangeTitleTextField,
+      useAutoPosition
+    } = this.props;
     return (
-      <View style={styles.descriptionContainer}>
-        <this.DescriptionMissing />
-        <RichTextEditor
-          onChangeValue={this.props.onChangeRichTextValue}
-          style={styles.richTextEditor}
-        />
-      </View>
-    );
-  };
-
-  DescriptionMissing = () => {
-    return this.props.hasDescription ? null : (
-      <this.MissingContentText
-        label={this.appContext.labels.createDealPage.descriptionMissing}
+      <LegacyCreateDealView
+        currentAddress={currentAddress}
+        hasTitle={hasTitle}
+        hasDescription={hasDescription}
+        onChangeRichTextValue={onChangeRichTextValue}
+        onChangeTitleTextField={onChangeTitleTextField}
+        useAutoPosition={useAutoPosition}
       />
     );
   };
@@ -101,35 +71,6 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
         <Button onClick={() => this.props.onClickClose()}>
           <H5>{label.close}</H5>
         </Button>
-      </View>
-    );
-  };
-
-  HourOfOperationSection = () => {
-    return null;
-  };
-
-  MissingContentText = ({ label }: { label: string }) => {
-    return <H5 style={styles.missingContentText}>{label}</H5>;
-  };
-
-  TitleMissing = () => {
-    return this.props.hasTitle ? null : (
-      <this.MissingContentText
-        label={this.appContext.labels.createDealPage.titleMissing}
-      />
-    );
-  };
-
-  TitleTextField = () => {
-    return (
-      <View style={styles.titleTextFiledContainer}>
-        <this.TitleMissing />
-        <LocalDealTextField
-          onChange={this.props.onChangeTitleTextField}
-          text={this.appContext.labels.createDealPage.textFieldTitle}
-          style={styles.titleTextField}
-        />
       </View>
     );
   };
@@ -163,6 +104,7 @@ const styles = {
   rootContainer: {
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
     width: styleSchema.dimension.FILL_ALL_WIDTH
   },
   titleTextField: {

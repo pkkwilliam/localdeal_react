@@ -3,7 +3,7 @@ import React, { Component } from "react";
 interface Props {
   alt?: string;
   src: string;
-  size?: "big" | "medium" | "small";
+  size?: "big" | "medium" | "small" | "miniCircularImage";
 }
 
 export default class Image extends Component<Props> {
@@ -23,6 +23,8 @@ export default class Image extends Component<Props> {
         return styles.bigImage;
       case "medium":
         return styles.mediumImage;
+      case "miniCircularImage":
+        return styles.miniCircularImage;
       default:
         return styles.smallImage;
     }
@@ -33,6 +35,10 @@ const styles = {
   bigImage: { width: 100 },
   defaultStyle: {
     borderRadius: 5
+  },
+  miniCircularImage: {
+    borderRadius: 30,
+    width: 35
   },
   mediumImage: { width: 75 },
   smallImage: { width: 50 }

@@ -35,6 +35,7 @@ export default class AppContext {
 
   get features(): Feature[] {
     return [
+      Feature.CREATE_DEAL_DRAFT,
       Feature.CONTACT_SHOW_EMAIL,
       Feature.HEADER_MENU,
       Feature.LOGIN_GOOGLE_OAUTH,
@@ -60,7 +61,7 @@ export default class AppContext {
   }
 
   get isProd(): boolean {
-    return true;
+    return false;
   }
 
   get oAuthRedirectUrl(): string {

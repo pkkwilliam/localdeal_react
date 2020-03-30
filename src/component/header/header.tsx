@@ -7,18 +7,12 @@ import CurrentArea from "../../modal/currentArea";
 import { Address } from "../../modal/deal";
 import { connect } from "react-redux";
 import { UserProfile } from "../../modal/userProfile";
-import { OAuthProvider } from "../../common/feature/oAuthProvider";
-import {
-  LOGIN_OAUTH_GOOGLE,
-  GET_USER_PROFILE
-} from "../../common/middleware/service";
-import { setUserProfile } from "../../common/redux/action";
 
 interface Props {
   addressesPrediction: Address[];
   position: CurrentArea;
   selectedAddress: Address;
-  setUserProfile?: any;
+  userProfile: UserProfile;
 }
 
 interface State {
@@ -48,6 +42,7 @@ export class Header extends ApplicationComponent<Props, State> {
         onCloseHamburgerMenu={this.onCloseHamburgerMenu}
         onClickLocationButton={this.onClickLocationButton}
         selectedAddress={this.props.selectedAddress}
+        userProfile={this.props.userProfile}
       />
     );
   }
@@ -92,7 +87,8 @@ export class Header extends ApplicationComponent<Props, State> {
 const mapStateToProps = (state: ReduxState): Props => ({
   addressesPrediction: state.addressesPrediction,
   position: state.position,
-  selectedAddress: state.selectedAddress
+  selectedAddress: state.selectedAddress,
+  userProfile: state.userProfile
 });
 
-export default connect(mapStateToProps, { setUserProfile })(Header);
+export default connect(mapStateToProps)(Header);

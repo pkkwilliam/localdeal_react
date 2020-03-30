@@ -149,6 +149,7 @@ export class LandingPage extends ApplicationComponent<Props, State> {
           this.setState({
             isLoading: false
           });
+          this.appState.deal.setDeals(getDealResponse.deals);
         });
     }
   };
