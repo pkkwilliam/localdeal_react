@@ -6,27 +6,7 @@ import {
   GET_CURRENT_ADDRESS,
   GET_DEALS
 } from "../../common/middleware/service";
-import CurrentArea from "../../modal/currentArea";
-import { connect } from "react-redux";
-import {
-  setAddressPrediction,
-  setDeals,
-  setGeolocation,
-  setLoadingPosition
-} from "../../common/redux/action";
-import { ReduxState } from "../../common/redux/reducers";
 import "../../App.css";
-
-export interface Props {
-  addressesPrediction: Address[];
-  position: CurrentArea;
-  deals: Deal[];
-  selectedAddress: Address;
-  setAddressPrediction?: any;
-  setDeals?: any;
-  setGeolocation?: any;
-  setLoadingPosition?: any;
-}
 
 export interface State {
   isCreateDealDrawerOpen: boolean;
@@ -36,8 +16,8 @@ export interface State {
   useAutoLocation: boolean;
 }
 
-export class LandingPage extends ApplicationComponent<Props, State> {
-  constructor(props: Props) {
+export default class LandingPage extends ApplicationComponent<{}, State> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       isCreateDealDrawerOpen: false,
@@ -62,7 +42,8 @@ export class LandingPage extends ApplicationComponent<Props, State> {
       this.appContext.transformer.getCurrentLocation(
         (coordinate: Coordinate) => {
           console.debug("Current Coordinate: ", coordinate);
-          this.props.setGeolocation(coordinate);
+          // this.props.setGeolocation(coordinate);
+          this.appState.position.setGeolocation(coordinate);
           return resolve();
         }
       );
@@ -74,12 +55,12 @@ export class LandingPage extends ApplicationComponent<Props, State> {
       this.appContext.serviceExecutor
         .execute(
           GET_CURRENT_ADDRESS({
-            coordinate: this.props.position.coordinate
+            coordinate: this.appState.position.coordinate
           })
         )
         .then((addresses: Address[]) => {
-          this.props.setAddressPrediction(addresses);
-          this.props.setLoadingPosition(false);
+          this.appState.address.setPredicteAddresses(addresses);
+          this.appState.position.setLoadingPosition(false);
           return resolve();
         });
     });
@@ -141,11 +122,10 @@ export class LandingPage extends ApplicationComponent<Props, State> {
   };
 
   protected executeGetDeals = () => {
-    if (this.props.selectedAddress.area) {
+    if (this.appState.address.selectedAddress?.area) {
       this.appContext.serviceExecutor
-        .execute(GET_DEALS(this.props.selectedAddress))
+        .execute(GET_DEALS(this.appState.address.selectedAddress))
         .then((getDealResponse: GetDealResponse) => {
-          this.props.setDeals(getDealResponse);
           this.setState({
             isLoading: false
           });
@@ -169,7 +149,7 @@ export class LandingPage extends ApplicationComponent<Props, State> {
     } = this.state;
     // sort deal
     const sortedDeal: Deal[] = this.sortDeals(
-      this.props.deals ? this.props.deals : []
+      this.appState.deal.deals ? this.appState.deal.deals : []
     );
     return (
       <LandingPageView
@@ -182,7 +162,7 @@ export class LandingPage extends ApplicationComponent<Props, State> {
         onClickSearch={this.onClickSearch}
         onChangeSearchTextField={this.onChangeSearchTextField}
         onFocusTextField={this.onFocusTextField}
-        selectedAddress={this.props.selectedAddress}
+        selectedAddress={this.appState.address.selectedAddress}
         showSearchButton={showSearchButton}
         textFieldValue={textFieldValue}
       />
@@ -190,16 +170,16 @@ export class LandingPage extends ApplicationComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: ReduxState): Props => ({
-  addressesPrediction: state.addressesPrediction,
-  deals: state.deals,
-  position: state.position,
-  selectedAddress: state.selectedAddress
-});
+// const mapStateToProps = (state: ReduxState): Props => ({
+//   addressesPrediction: state.addressesPrediction,
+//   deals: state.deals,
+//   position: state.position,
+//   selectedAddress: state.selectedAddress
+// });
 
-export default connect(mapStateToProps, {
-  setAddressPrediction,
-  setDeals,
-  setGeolocation,
-  setLoadingPosition
-})(LandingPage);
+// export default connect(mapStateToProps, {
+//   setAddressPrediction,
+//   setDeals,
+//   setGeolocation,
+//   setLoadingPosition
+// })(LandingPage);

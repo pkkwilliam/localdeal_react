@@ -65,7 +65,11 @@ export default class GlobalStateComponent extends Component<{}, State> {
     return (
       <AppState.Provider
         value={{
-          address: { ...address, setSelectedAddress: this.setSelectedAddress },
+          address: {
+            ...address,
+            setSelectedAddress: this.setSelectedAddress,
+            setPredicteAddresses: this.setPredicteAddresses
+          },
           deal: { ...deal, setDeals: this.setDeals },
           position: {
             ...position,
@@ -74,6 +78,7 @@ export default class GlobalStateComponent extends Component<{}, State> {
           },
           user: {
             ...user,
+            removeUserProfile: this.removeUserProfile,
             setUserProfile: this.setUserProfile
           }
         }}
@@ -82,6 +87,21 @@ export default class GlobalStateComponent extends Component<{}, State> {
       </AppState.Provider>
     );
   }
+
+  protected removeUserProfile = () => {
+    const userProfile: UserProfile = {
+      id: 0,
+      imageUrl: "",
+      name: "",
+      oAuthProvider: OAuthProvider.NONE
+    };
+    this.setState({
+      user: {
+        ...this.state.user,
+        userProfile
+      }
+    });
+  };
 
   protected setDeals = (deals: Deal[]) => {
     this.setState({

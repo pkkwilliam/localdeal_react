@@ -22,7 +22,7 @@ export interface Props {
   onClickSearch: () => void;
   onChangeSearchTextField: (text: string) => void;
   onFocusTextField: () => void;
-  selectedAddress: Address;
+  selectedAddress?: Address;
   showSearchButton: boolean;
   textFieldValue: string;
 }

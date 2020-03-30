@@ -6,9 +6,6 @@ import { styleSchema } from "./stylesheet";
 import { Button } from "@material-ui/core";
 import Deal, { Address, GetDealResponse } from "../modal/deal";
 import { CREATE_VOTE } from "./middleware/service";
-import { ReduxState } from "./redux/reducers";
-import { setDeals } from "./redux/action";
-import { connect } from "react-redux";
 
 export interface Props {
   deal: Deal;
@@ -20,7 +17,7 @@ export interface State {
   voted: boolean;
 }
 
-export class CardBottomVote extends ApplicationComponent<Props, State> {
+export default class CardBottomVote extends ApplicationComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -104,12 +101,6 @@ export class CardBottomVote extends ApplicationComponent<Props, State> {
     }
   };
 }
-
-const mapStateToProps = (state: ReduxState) => ({
-  selectedAddress: state.selectedAddress
-});
-
-export default connect(mapStateToProps, { setDeals })(CardBottomVote);
 
 const styles = {
   buttonContainer: {

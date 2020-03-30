@@ -1,7 +1,6 @@
 import CurrentArea from "../../modal/currentArea";
 import Deal, { Address } from "../../modal/deal";
 import VoteRequest from "../../modal/voteRequest";
-import { connect } from "http2";
 
 const AREA_NAME_URL_PARAMETER: string = "areaName";
 const AUTHORIZATION_CODE_PARAMETER: string = "authorizationCode";

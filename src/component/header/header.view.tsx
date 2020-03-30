@@ -27,7 +27,7 @@ export interface Props {
   onCloseCreateDeal: () => void;
   onCloseHamburgerMenu: () => void;
   onClickLocationButton: () => void;
-  selectedAddress: Address;
+  selectedAddress?: Address;
   userProfile: UserProfile;
 }
 
@@ -124,14 +124,14 @@ export default class HeaderView extends ApplicationComponent<Props> {
 
   LocationButton = () => {
     const label = this.appContext.labels.header;
+    let areaLabel;
+    if (this.props.selectedAddress && this.props.selectedAddress.area) {
+      areaLabel = this.props.selectedAddress.area;
+    } else {
+      areaLabel = label.loading;
+    }
     return (
-      <ToolTips
-        title={`${label.currentLocation} ${
-          this.props.selectedAddress.area
-            ? this.props.selectedAddress.area
-            : label.loading
-        }`}
-      >
+      <ToolTips title={`${label.currentLocation} ${areaLabel}`}>
         <LocationIcon style={styles.locationIcon} />
       </ToolTips>
     );

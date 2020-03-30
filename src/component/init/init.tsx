@@ -1,17 +1,11 @@
 import ApplicationComponent from "../../common/applicationComponent";
-import { connect } from "react-redux";
-import { setUserProfile } from "../../common/redux/action";
 import { OAuthProvider } from "../../common/feature/oAuthProvider";
 import {
   LOGIN_OAUTH_GOOGLE,
   GET_USER_PROFILE
 } from "../../common/middleware/service";
 
-interface Props {
-  setUserProfile: any;
-}
-
-export class Init extends ApplicationComponent<Props> {
+export default class Init extends ApplicationComponent {
   render() {
     return null;
   }
@@ -41,8 +35,6 @@ export class Init extends ApplicationComponent<Props> {
   protected getUserProfile() {
     this.appContext.serviceExecutor
       .execute(GET_USER_PROFILE())
-      .then(result => this.props.setUserProfile(result));
+      .then(result => this.appState.user.setUserProfile(result));
   }
 }
-
-export default connect(null, { setUserProfile })(Init);

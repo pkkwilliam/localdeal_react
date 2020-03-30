@@ -2,18 +2,6 @@ import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import "../../App.css";
 import { HeaderView } from ".";
-import { ReduxState } from "../../common/redux/reducers";
-import CurrentArea from "../../modal/currentArea";
-import { Address } from "../../modal/deal";
-import { connect } from "react-redux";
-import { UserProfile } from "../../modal/userProfile";
-
-interface Props {
-  addressesPrediction: Address[];
-  position: CurrentArea;
-  selectedAddress: Address;
-  userProfile: UserProfile;
-}
 
 interface State {
   isCreateDealDrawerOpen: boolean;
@@ -21,8 +9,8 @@ interface State {
   useAutoLocation: boolean;
 }
 
-export class Header extends ApplicationComponent<Props, State> {
-  constructor(props: Props) {
+export default class Header extends ApplicationComponent<{}, State> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       isCreateDealDrawerOpen: false,
@@ -41,8 +29,8 @@ export class Header extends ApplicationComponent<Props, State> {
         onCloseCreateDeal={this.onCloseCreateDeal}
         onCloseHamburgerMenu={this.onCloseHamburgerMenu}
         onClickLocationButton={this.onClickLocationButton}
-        selectedAddress={this.props.selectedAddress}
-        userProfile={this.props.userProfile}
+        selectedAddress={this.appState.address.selectedAddress}
+        userProfile={this.appState.user.userProfile}
       />
     );
   }
@@ -83,12 +71,3 @@ export class Header extends ApplicationComponent<Props, State> {
     });
   };
 }
-
-const mapStateToProps = (state: ReduxState): Props => ({
-  addressesPrediction: state.addressesPrediction,
-  position: state.position,
-  selectedAddress: state.selectedAddress,
-  userProfile: state.userProfile
-});
-
-export default connect(mapStateToProps)(Header);

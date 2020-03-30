@@ -3,14 +3,9 @@ import ApplicationComponent from "../../common/applicationComponent";
 import { CreateDealLandingPageView } from ".";
 import Deal, { Address, GetDealResponse } from "../../modal/deal";
 import { CREATE_DEAL, GET_DEALS } from "../../common/middleware/service";
-import { ReduxState } from "../../common/redux/reducers";
-import { setDeals } from "../../common/redux/action";
-import { connect } from "react-redux";
 
-export interface Props {
-  currentAddress: Address;
+interface Props {
   onClickClose: () => void;
-  setDeals?: any;
 }
 
 export interface State {
@@ -21,7 +16,10 @@ export interface State {
   useAutoPosition: boolean;
 }
 
-export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
+export default class CreateDealLandingPage extends ApplicationComponent<
+  Props,
+  State
+> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -36,7 +34,7 @@ export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
   render() {
     return (
       <CreateDealLandingPageView
-        currentAddress={this.props.currentAddress}
+        currentAddress={this.appState.address.selectedAddress}
         hasDescription={this.state.hasDescription}
         hasTitle={this.state.hasTitle}
         onChangeRichTextValue={this.onChangeRichTextValue}
@@ -63,28 +61,28 @@ export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
   protected onClickSubmit = async () => {
     await this.validateDescription();
     await this.validateTitle();
-    if (this.state.hasDescription && this.state.hasTitle) {
+    if (
+      this.state.hasDescription &&
+      this.state.hasTitle &&
+      this.appState.address.selectedAddress
+    ) {
       await this.appContext.serviceExecutor.execute(
-        CREATE_DEAL(this.generateDeal())
+        CREATE_DEAL({
+          address: this.appState.address.selectedAddress,
+          description: this.state.richTextValue,
+          serverIdentifierName: "", // TODO - this might not be correct!!!
+          timestamp: 0,
+          title: this.state.title
+        })
       );
       this.props.onClickClose();
       await this.appContext.serviceExecutor
-        .execute(GET_DEALS(this.props.currentAddress))
+        .execute(GET_DEALS(this.appState.address.selectedAddress))
         .then((getDealResponse: GetDealResponse) =>
-          this.props.setDeals(getDealResponse)
+          this.appState.deal.setDeals(getDealResponse.deals)
         );
     }
   };
-
-  protected generateDeal(): Deal {
-    return {
-      address: this.props.currentAddress,
-      description: this.state.richTextValue,
-      serverIdentifierName: "", // TODO - this might not be correct!!!
-      timestamp: 0,
-      title: this.state.title
-    };
-  }
 
   protected validateDescription() {
     this.setState({
@@ -98,9 +96,3 @@ export class CreateDealLandingPage extends ApplicationComponent<Props, State> {
     });
   }
 }
-
-const mapStateToProps = (state: ReduxState) => ({
-  currentAddress: state.selectedAddress
-});
-
-export default connect(mapStateToProps, { setDeals })(CreateDealLandingPage);

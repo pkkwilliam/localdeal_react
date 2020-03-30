@@ -6,7 +6,7 @@ export default interface AppStateInterface {
   address: {
     addressesPrediction: Address[];
     selectedAddress?: Address;
-    setAddressesPrediction: (addresses: Address[]) => {};
+    setPredicteAddresses: (addresses: Address[]) => {};
     setSelectedAddress: (address: Address) => {};
   };
   deal: {

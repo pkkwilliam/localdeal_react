@@ -11,7 +11,7 @@ import {
 import { Address } from "../../modal/deal";
 
 export interface Props {
-  currentAddress: Address;
+  currentAddress?: Address;
   hasTitle: boolean;
   hasDescription: boolean;
   onChangeRichTextValue: (value: string) => void;
@@ -46,7 +46,10 @@ export default class CreateDealLandingPageView extends ApplicationComponent<
   };
 
   AddressAutoPositionDisplay = () => {
-    return <AddressDisplay address={this.props.currentAddress} />;
+    if (this.props.currentAddress) {
+      return <AddressDisplay address={this.props.currentAddress} />;
+    }
+    return null;
   };
 
   AddressTextField = () => {

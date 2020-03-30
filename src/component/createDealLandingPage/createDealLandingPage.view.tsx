@@ -6,7 +6,7 @@ import { Button } from "@material-ui/core";
 import { LegacyCreateDealView } from ".";
 
 export interface Props {
-  currentAddress: Address;
+  currentAddress?: Address;
   hasTitle: boolean;
   hasDescription: boolean;
   onChangeRichTextValue: (value: string) => void;
