@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
+import "./slide.css";
 
 interface Props {
   dealIndex: number;
-  contentArray: string[];
+  fileUrls: string[];
 }
 
 interface State {
@@ -11,17 +12,15 @@ interface State {
   imageLoaded: boolean;
 }
 
+const MAXIMUM_IMAGE_HEIGHT = 500;
+
 export default class Slide extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      contentHeight: 250,
+      contentHeight: 100,
       imageLoaded: false
     };
-  }
-
-  componentDidMount() {
-    console.log("current content height and index:", this.state.contentHeight);
   }
 
   render() {
@@ -31,6 +30,7 @@ export default class Slide extends Component<Props, State> {
           dots
           lazyLoad="progressive"
           infinite={false}
+          focusOnSelect={false}
           slidesPerRow={1}
           slidesToShow={1}
           speed={300}
@@ -42,12 +42,12 @@ export default class Slide extends Component<Props, State> {
   }
 
   protected generateImages() {
-    return this.props.contentArray.map((content, index) => {
+    return this.props.fileUrls.map((content, index) => {
       return (
         <div>
           <img
             alt="post"
-            onLoad={this.onLoadImage}
+            onLoad={() => this.onLoadImage(index)}
             id={`deal-${this.props.dealIndex} image-${index}`}
             src={content}
             style={this.getImageStlye()}
@@ -63,15 +63,21 @@ export default class Slide extends Component<Props, State> {
       : styles.imageDefaultStyle;
   }
 
-  protected onLoadImage = () => {
-    const height = document.getElementById(
-      `deal-${this.props.dealIndex} image-0`
-    )?.clientHeight;
-    if (height) {
-      this.setState({
-        contentHeight: height,
-        imageLoaded: true
-      });
+  protected onLoadImage = (index: number) => {
+    if (index === 0) {
+      let height = document.getElementById(
+        `deal-${this.props.dealIndex} image-0`
+      )?.clientHeight;
+      if (height && height > MAXIMUM_IMAGE_HEIGHT) {
+        console.debug("exceed maximum height:", height);
+        height = MAXIMUM_IMAGE_HEIGHT;
+      }
+      if (height) {
+        this.setState({
+          contentHeight: height,
+          imageLoaded: true
+        });
+      }
     }
   };
 }

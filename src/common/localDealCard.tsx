@@ -7,8 +7,9 @@ import ApplicationComponent from "./applicationComponent";
 
 export interface Props {
   children?: React.ReactNode;
+  collapseBaseOnContent?: boolean;
   collapsedHeight?: number;
-  contents: React.ReactNode;
+  bottomToolBarContent?: React.ReactNode;
   onClick: (any?: any) => void;
   title?: string;
 }
@@ -39,7 +40,6 @@ export default class LocalDealCard extends ApplicationComponent<Props, State> {
     return (
       <View borderBottom={1} style={styles.rootContainer}>
         <this.ContentBody
-          content={this.props.contents}
           contentNeedCollapse={this.state.contentNeedCollapse}
           isCollapsed={this.state.isCollapsed}
         />
@@ -51,7 +51,9 @@ export default class LocalDealCard extends ApplicationComponent<Props, State> {
   protected BottomToolBar = () => {
     return (
       <View isFlexDirectionRow style={styles.bottonToolBar}>
-        <View style={{ alignSelf: "flex-start" }}>{this.props.children}</View>
+        <View style={{ alignSelf: "flex-start" }}>
+          {this.props.bottomToolBarContent}
+        </View>
         <View style={{ alignSelf: "flex-end" }}>
           <this.ExpandSign />
         </View>
@@ -96,11 +98,9 @@ export default class LocalDealCard extends ApplicationComponent<Props, State> {
   };
 
   protected ContentBody = ({
-    content,
     contentNeedCollapse,
     isCollapsed
   }: {
-    content: ReactNode;
     contentNeedCollapse: boolean;
     isCollapsed: boolean;
   }) => {
@@ -120,7 +120,7 @@ export default class LocalDealCard extends ApplicationComponent<Props, State> {
             this.contentRef = contentRef;
           }}
         >
-          {content}
+          {this.props.children}
         </div>
       </View>
     );

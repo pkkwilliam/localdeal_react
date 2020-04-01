@@ -3,7 +3,7 @@ import Deal, { Address } from "../../modal/deal";
 import { H5, LocalDealTextField, styleSchema, View } from "../../common";
 import ApplicationComponent from "../../common/applicationComponent";
 import { Feature } from "../../common/feature/feature";
-import { DealSectionView, LegacyDealSectionView } from ".";
+import { DealSectionView, DealSectionV2View } from "./dealSection";
 
 export interface Props {
   deals: Deal[];
@@ -33,15 +33,9 @@ export default class LandingPageView extends ApplicationComponent<Props> {
     const displayBody = () => {
       if (this.props.deals.length) {
         return !this.appContext.features.includes(Feature.DEAL_LEGACY) ? (
-          <DealSectionView
-            deals={this.props.deals}
-            onClickCard={this.props.onClickCard}
-          />
+          <DealSectionV2View deals={this.props.deals} />
         ) : (
-          <LegacyDealSectionView
-            deals={this.props.deals}
-            onClickCard={this.props.onClickCard}
-          />
+          <DealSectionView {...this.props} />
         );
       } else if (this.props.isLoadingDeals) {
         return <this.LoadingDeals />;
@@ -101,6 +95,7 @@ const styles = {
     alignItems: "center",
     width: "100%"
   },
+
   locationButtonContainer: {
     alignItems: "center",
     justifyContent: "center"

@@ -104,7 +104,6 @@ const styles = {
   buttonContainer: {
     alignItems: "center",
     borderRadius: 5,
-    marginLeft: 5,
     marginRight: 5
   },
   componentStyle: {

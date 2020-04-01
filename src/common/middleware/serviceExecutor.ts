@@ -79,6 +79,7 @@ const getResponse = (serviceName: ServiceName): any => {
 const GET_DEALS_RESPONSE: GetDealResponse = {
   deals: [
     {
+      id: 0,
       address: {
         id: 0,
         street1: "街道1",
@@ -104,6 +105,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       timestamp: 1577872077582
     },
     {
+      id: 1,
       address: {
         id: 0,
         street1: "街道1",
@@ -119,7 +121,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
         }
       },
       description:
-        '<p>這個東西一點都不好吃啊!!!</p><p><br></p><p><img src="https://storage.cloud.google.com/deal_image/1577872169235"></p><p><br></p><ul><li>都是代碼，怎麽吃啊???</li></ul>',
+        "The content of ExpansionPanels is mounted by default even if the panel is not expanded. This default behavior has server-side rendering and SEO in mind. If you render expensive component trees inside your panels or simply render many panels it might be a good idea to change this default behavior by enabling the unmountOnExit in TransitionProps:",
       filesUrl: [
         "https://open-shelf.ca/wp-content/uploads/2015/03/twitter-logo-small-1024x576@2x.jpg",
         "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
