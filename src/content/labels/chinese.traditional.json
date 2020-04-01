@@ -32,9 +32,11 @@
     "closeButton": "關閉",
     "contactUs": "聯絡我們",
     "currentDevelopingFeatuers": [
-      "微信登入 進度: 0%",
       "Google登入 進度: 80%",
-      "深色模式 進度: 20%"
+      "深色模式 進度: 20%",
+      "微信登入 進度: 0%",
+      "短影片 進度: 0%",
+      "公告文字 進度: 0%"
     ],
     "developingFeature": "等待開發中的功能:",
     "emailAddress": "pkkwilliam919@gmail.com",

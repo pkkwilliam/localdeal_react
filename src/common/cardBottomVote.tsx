@@ -54,10 +54,8 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
     let voteFunction = voteUpIcon ? this.onPressUpVote : this.onPressDownVote;
     return (
       <View
-        style={{
-          ...styles.buttonContainer,
-          ...buttonContainerStyle
-        }}
+        isFlexDirectionRow
+        style={{ ...styles.buttonContainer, ...buttonContainerStyle }}
       >
         <Button
           disabled={this.state.voted}
@@ -106,7 +104,6 @@ const styles = {
   buttonContainer: {
     alignItems: "center",
     borderRadius: 5,
-    flexDirection: "row",
     marginLeft: 5,
     marginRight: 5
   },

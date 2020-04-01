@@ -15,6 +15,7 @@ export { default as MiniText } from "./miniText";
 export { default as PrimaryButton } from "./primaryButton";
 export { default as P } from "./paragraph";
 export { default as RichTextEditor } from "./richTextEditor";
+export { default as Slider } from "./slide";
 export { default as TextButton } from "./textButton";
 export { default as TextField } from "./textField";
 export { default as Toast } from "./toast";

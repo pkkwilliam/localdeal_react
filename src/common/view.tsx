@@ -1,7 +1,6 @@
 import React from "react";
 import ApplicationComponent from "./applicationComponent";
 import { Box, BoxProps } from "@material-ui/core";
-import { styleSchema } from "./stylesheet";
 
 interface Props extends BoxProps {
   alignItems?: string;
@@ -9,7 +8,6 @@ interface Props extends BoxProps {
   isFlexDirectionRow?: boolean;
   justifyContent?: string;
   onClick?: () => void;
-  style?: any;
 }
 
 export default class View extends ApplicationComponent<Props> {

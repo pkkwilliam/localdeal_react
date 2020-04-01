@@ -1,16 +1,9 @@
 import React from "react";
 import Deal, { Address } from "../../modal/deal";
-import {
-  LocalDealCard,
-  H1,
-  H5,
-  LocalDealTextField,
-  styleSchema,
-  View,
-  AddressDisplay,
-  CardBottomVote
-} from "../../common";
+import { H5, LocalDealTextField, styleSchema, View } from "../../common";
 import ApplicationComponent from "../../common/applicationComponent";
+import { Feature } from "../../common/feature/feature";
+import { DealSectionView, LegacyDealSectionView } from ".";
 
 export interface Props {
   deals: Deal[];
@@ -37,26 +30,19 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   }
 
   BodySection = () => {
-    return <this.DealsSection />;
-  };
-
-  DealsSection = () => {
-    const dealsContent = this.props.deals ? this.props.deals : [];
-    const dealsCard = dealsContent.map(deal => {
-      const content: React.ReactNode = this.generateCardContent(deal);
-      return (
-        <LocalDealCard
-          contents={content}
-          onClick={() => this.props.onClickCard()}
-          title={deal.title}
-        >
-          <CardBottomVote deal={deal} />
-        </LocalDealCard>
-      );
-    });
-    const dealSection = () => {
-      if (dealsCard.length) {
-        return dealsCard;
+    const displayBody = () => {
+      if (this.props.deals.length) {
+        return !this.appContext.features.includes(Feature.DEAL_LEGACY) ? (
+          <DealSectionView
+            deals={this.props.deals}
+            onClickCard={this.props.onClickCard}
+          />
+        ) : (
+          <LegacyDealSectionView
+            deals={this.props.deals}
+            onClickCard={this.props.onClickCard}
+          />
+        );
       } else if (this.props.isLoadingDeals) {
         return <this.LoadingDeals />;
       } else {
@@ -65,11 +51,10 @@ export default class LandingPageView extends ApplicationComponent<Props> {
     };
     return (
       <View
-        boxShadow={dealsCard.length ? 1 : 0}
+        boxShadow={this.props.deals.length ? 1 : 0}
         style={styles.dealSectionContainer}
       >
-        {/* {dealsCard.length ? dealsCard : <this.NoDealInArea />} */}
-        {dealSection}
+        {displayBody}
       </View>
     );
   };
@@ -101,36 +86,9 @@ export default class LandingPageView extends ApplicationComponent<Props> {
       />
     );
   };
-
-  protected generateCardContent = (deal: Deal): React.ReactNode => {
-    let { address, description, title, timestamp } = deal;
-    return (
-      <>
-        <View isFlexDirectionRow={true} style={styles.cardContainer}>
-          <H1>{title}</H1>
-          <H5>
-            {timestamp
-              ? this.appContext.transformer.timeDifferentCalcualtor(timestamp)
-              : this.appContext.labels.date.unknown}
-          </H5>
-        </View>
-        <View style={styles.detailSectionContainer}>
-          <AddressDisplay address={address} />
-          <div
-            style={{ width: "inherit" }}
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
-          {/* <ReactQuill value={description} readOnly={true} /> */}
-        </View>
-      </>
-    );
-  };
 }
 
 const styles = {
-  cardContainer: {
-    justifyContent: "space-between"
-  },
   circularProgress: {
     marginLeft: 5
   },
@@ -143,10 +101,6 @@ const styles = {
     alignItems: "center",
     width: "100%"
   },
-  detailSectionContainer: {
-    width: "inherit",
-    textAlign: "justify"
-  },
   locationButtonContainer: {
     alignItems: "center",
     justifyContent: "center"
@@ -155,7 +109,8 @@ const styles = {
   rootContainer: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 15
+    padding: 15,
+    width: styleSchema.dimension.FILL_ALL_WIDTH
   },
   searchButton: {
     borderColor: styleSchema.remind.secondaryColor,
@@ -180,6 +135,11 @@ const styles = {
       paddingBottom: 5,
       paddingTop: 5
     }
+  },
+  slideImageContainer: {
+    alightItems: "center",
+    backgroundColor: "blue",
+    justifyContent: "center"
   },
   topBarContainer: {
     justifyContent: "space-between",

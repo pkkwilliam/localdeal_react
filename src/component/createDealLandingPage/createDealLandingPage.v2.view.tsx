@@ -1,6 +1,6 @@
 import ApplicationComponent from "../../common/applicationComponent";
 import React, { ReactNode, ChangeEvent } from "react";
-import { View, styleSchema, PrimaryButton, MiniText } from "../../common";
+import { View, styleSchema, PrimaryButton, MiniText, H5 } from "../../common";
 import {
   Add as AddIcon,
   Close as CloseIcon,
@@ -76,13 +76,6 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
 
   protected Description = () => {
     return (
-      // <textarea
-      //   style={{ resize: "none", border: "none", width: "inherit" }}
-      //   rows={6}
-      //   placeholder={
-      //     this.appContext.labels.createDealPageV2.descriptionPlaceHolder
-      //   }
-      // />
       <TextField
         multiline
         onChange={this.props.onChangeDescription}
@@ -115,9 +108,12 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
       images.push(<this.AddImageButton />);
     }
     return (
-      <View isFlexDirectionRow style={styles.fileSectionContainer}>
-        {images}
-      </View>
+      <>
+        <H5>Need Label - 比例相同的圖片會獲得更好的觀賞體驗</H5>
+        <View isFlexDirectionRow style={styles.fileSectionContainer}>
+          {images}
+        </View>
+      </>
     );
   };
 

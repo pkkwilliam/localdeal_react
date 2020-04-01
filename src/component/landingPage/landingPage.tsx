@@ -169,17 +169,3 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
     );
   }
 }
-
-// const mapStateToProps = (state: ReduxState): Props => ({
-//   addressesPrediction: state.addressesPrediction,
-//   deals: state.deals,
-//   position: state.position,
-//   selectedAddress: state.selectedAddress
-// });
-
-// export default connect(mapStateToProps, {
-//   setAddressPrediction,
-//   setDeals,
-//   setGeolocation,
-//   setLoadingPosition
-// })(LandingPage);

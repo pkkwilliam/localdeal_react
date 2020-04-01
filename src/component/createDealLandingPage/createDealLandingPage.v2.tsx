@@ -76,11 +76,17 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
   }
 
   protected onChangeDescription = (description: string) => {
-    console.debug("onChangeDescription", description);
+    console.debug("onChangeDescription");
+    this.setState({
+      description
+    });
   };
 
   protected onChangeTitle = (title: string) => {
-    console.debug("onChangeTitle", title);
+    console.debug("onChangeTitle");
+    this.setState({
+      title
+    });
   };
 
   protected onClickSaveDraft = () => {
@@ -98,7 +104,9 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         return this.appContext.serviceExecutor.execute(UPLOAD_IMAGE(formData));
       })
     );
+    // check fields!!!!
     if (result) {
+      console.log();
       const deal: Deal = {
         address: {
           area: "澳門",

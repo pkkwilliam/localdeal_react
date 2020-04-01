@@ -51,7 +51,7 @@ export default class HeaderView extends ApplicationComponent<Props> {
 
   CreateDealDrawer = () => {
     const createDealSection = !this.appContext.features.includes(
-      Feature.CREATE_DEAL_LEGACY
+      Feature.DEAL_LEGACY
     ) ? (
       <CreateDealLandingPageV2 onClose={this.props.onCloseCreateDeal} />
     ) : (

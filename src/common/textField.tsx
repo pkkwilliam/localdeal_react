@@ -27,7 +27,7 @@ const overrideStyles = {
 
 interface Props {
   multiline?: boolean;
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
   placeholder?: string;
   rows?: number;
 }
@@ -36,13 +36,9 @@ export default class TextField extends Component<Props> {
   render() {
     const StyledTextField = withStyles(overrideStyles)(MaterialTextField);
     return (
-      <StyledTextField
+      <MaterialTextField
         multiline={this.props.multiline}
-        onChange={event =>
-          this.props.onChange
-            ? this.props.onChange(event.target.value)
-            : () => {}
-        }
+        onChange={event => this.props.onChange(event.target.value)}
         placeholder={this.props.placeholder}
         rows={this.props.rows}
         style={styles.textField}
