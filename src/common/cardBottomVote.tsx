@@ -10,7 +10,6 @@ import { CREATE_VOTE } from "./middleware/service";
 export interface Props {
   deal: Deal;
   selectedAddress?: Address;
-  setDeals?: any;
 }
 
 export interface State {
@@ -94,7 +93,7 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
         )
         .then((getDealResponse: GetDealResponse) => {
           this.setState({ voted: true });
-          this.props.setDeals(getDealResponse);
+          this.appState.deal.setDeals(getDealResponse.deals);
         });
     }
   };

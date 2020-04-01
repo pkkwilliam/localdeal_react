@@ -17,6 +17,7 @@ interface Props {
 }
 
 interface State {
+  coverImageHeight: number;
   expanded: boolean;
 }
 
@@ -24,7 +25,8 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      expanded: false
+      expanded: false,
+      coverImageHeight: 150
     };
   }
 
@@ -36,7 +38,11 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
     const deal = this.props.deal;
     const bottomToolBarContent = <CardBottomVote deal={this.props.deal} />;
     return (
-      <View borderBottom={1} style={styles.rootContainer}>
+      <View
+        borderBottom={1}
+        style={styles.rootContainer}
+        onClick={this.onExpand}
+      >
         <this.CardHeader
           address={deal.address}
           timestamp={deal.timestamp}
@@ -84,12 +90,21 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
     if (this.state.expanded) {
       return (
         <View style={styles.sliderContainer}>
-          <Slider dealIndex={deal.id ?? 0} fileUrls={deal.filesUrl ?? []} />
+          <Slider
+            dealIndex={deal.id ?? 0}
+            fileUrls={deal.filesUrl ?? []}
+            height={this.state.coverImageHeight}
+          />
         </View>
       );
     } else {
       return deal.filesUrl?.length ? (
-        <img alt={"cover"} src={deal.filesUrl[0]} />
+        <img
+          alt={"cover"}
+          id={"crazy"}
+          onLoad={this.onLoadImage}
+          src={deal.filesUrl[0]}
+        />
       ) : null;
     }
   };
@@ -98,6 +113,16 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
     this.setState({
       expanded: !this.state.expanded
     });
+  };
+
+  protected onLoadImage = () => {
+    const height = document.getElementById("crazy")?.clientHeight;
+    if (height) {
+      console.log(height);
+      this.setState({
+        coverImageHeight: height
+      });
+    }
   };
 }
 

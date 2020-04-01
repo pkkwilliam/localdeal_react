@@ -4,6 +4,7 @@ import "./slide.css";
 
 interface Props {
   dealIndex: number;
+  height: number;
   fileUrls: string[];
 }
 
@@ -33,7 +34,7 @@ export default class Slide extends Component<Props, State> {
           focusOnSelect={false}
           slidesPerRow={1}
           slidesToShow={1}
-          speed={300}
+          speed={100}
         >
           {this.generateImages()}
         </Slider>
@@ -58,9 +59,10 @@ export default class Slide extends Component<Props, State> {
   }
 
   protected getImageStlye(): any {
-    return this.state.imageLoaded
-      ? { ...styles.imageDefaultStyle, height: this.state.contentHeight }
-      : styles.imageDefaultStyle;
+    // return this.state.imageLoaded
+    //   ? { ...styles.imageDefaultStyle, height: this.state.contentHeight }
+    //   : styles.imageDefaultStyle;
+    return { ...styles.imageDefaultStyle, height: this.props.height };
   }
 
   protected onLoadImage = (index: number) => {
