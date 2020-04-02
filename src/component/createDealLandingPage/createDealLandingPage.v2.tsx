@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { CreateDealLandingPageV2View } from "./";
-import Deal, { Address } from "../../modal/deal";
+import Deal, { Address, GetDealResponse } from "../../modal/deal";
 import { UPLOAD_IMAGE, CREATE_DEAL } from "../../common/middleware/service";
-import { ToastSeverity } from "../../common/toast/toastSeverity";
+import { GET_DEALS } from "../../common/middleware/service";
 
 const ALLOWED_NUMBER_OF_FILE = 9;
 
@@ -128,28 +128,40 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         return this.appContext.serviceExecutor.execute(UPLOAD_IMAGE(formData));
       })
     );
-    const deal: Deal = {
-      address: this.state.selectedAddress,
-      description: this.state.description,
-      filesUrl: result.map(url => url.url),
-      serverIdentifierName: "",
-      timestamp: 0,
-      title: this.state.title
-    };
-    this.appContext.serviceExecutor
-      .execute(CREATE_DEAL(deal))
-      .then(() => {
-        this.setState({
-          showToastMessage: true,
-          dealCreateSuccess: true
+    if (result) {
+      const deal: Deal = {
+        address: this.state.selectedAddress,
+        description: this.state.description,
+        filesUrl: result.map(url => url.url),
+        serverIdentifierName: this.state.selectedAddress?.area,
+        timestamp: 0,
+        title: this.state.title
+      };
+      this.appContext.serviceExecutor
+        .execute(CREATE_DEAL(deal))
+        .then(() => {
+          setTimeout(() => {
+            this.props.onClose();
+          }, 2500);
+          this.setState({
+            showToastMessage: true,
+            dealCreateSuccess: true
+          });
+          if (this.state.selectedAddress) {
+            this.appContext.serviceExecutor
+              .execute(GET_DEALS(this.state?.selectedAddress))
+              .then((result: GetDealResponse) => {
+                this.appState.deal.setDeals(result.deals);
+              });
+          }
+        })
+        .catch(() => {
+          this.setState({
+            showToastMessage: true,
+            dealCreateSuccess: false
+          });
         });
-      })
-      .catch(() => {
-        this.setState({
-          showToastMessage: true,
-          dealCreateSuccess: false
-        });
-      });
+    }
   };
 
   protected onCloseToastMessage = () => {

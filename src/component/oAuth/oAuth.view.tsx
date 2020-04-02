@@ -19,7 +19,6 @@ export default class OAuthView extends ApplicationComponent<Props> {
 
   protected getGoogleOAuthRequestURL(): string {
     const requestUrl = `https://accounts.google.com/o/oauth2/v2/auth?scope=profile&access_type=offline&include_granted_scopes=true&response_type=code&state=GOOGLE&redirect_uri=${this.appContext.oAuthRedirectUrl}&client_id=965687889406-d0pqe0hr6i3c4uo18rr5j0spqq73phth.apps.googleusercontent.com`;
-    console.log(requestUrl);
     return requestUrl;
   }
 
