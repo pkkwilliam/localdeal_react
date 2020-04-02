@@ -70,6 +70,7 @@ export default class CreateDealLandingPage extends ApplicationComponent<
         CREATE_DEAL({
           address: this.appState.address.selectedAddress,
           description: this.state.richTextValue,
+          filesUrl: [],
           serverIdentifierName: "", // TODO - this might not be correct!!!
           timestamp: 0,
           title: this.state.title

@@ -50,7 +50,7 @@ export default class LegacyDealSectionView<
     timestamp,
     title
   }: {
-    address: Address;
+    address?: Address;
     timestamp: number;
     title: string;
   }) => {
@@ -64,8 +64,7 @@ export default class LegacyDealSectionView<
               : this.appContext.labels.date.unknown}
           </H5>
         </View>
-
-        <AddressDisplay address={address} />
+        {address ? <AddressDisplay address={address} /> : null}
       </>
     );
   };

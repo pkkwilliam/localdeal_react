@@ -4,26 +4,11 @@ import "./slide.css";
 
 interface Props {
   dealIndex: number;
-  height: number;
+  height?: number;
   fileUrls: string[];
 }
 
-interface State {
-  contentHeight: number;
-  imageLoaded: boolean;
-}
-
-const MAXIMUM_IMAGE_HEIGHT = 500;
-
-export default class Slide extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      contentHeight: 100,
-      imageLoaded: false
-    };
-  }
-
+export default class Slide extends Component<Props> {
   render() {
     return (
       <div style={styles.sliderWrapper}>
@@ -43,45 +28,18 @@ export default class Slide extends Component<Props, State> {
   }
 
   protected generateImages() {
-    return this.props.fileUrls.map((content, index) => {
+    return this.props.fileUrls.map(content => {
       return (
         <div>
-          <img
-            alt="post"
-            onLoad={() => this.onLoadImage(index)}
-            id={`deal-${this.props.dealIndex} image-${index}`}
-            src={content}
-            style={this.getImageStlye()}
-          />
+          <img alt="post" src={content} style={this.getImageStlye()} />
         </div>
       );
     });
   }
 
   protected getImageStlye(): any {
-    // return this.state.imageLoaded
-    //   ? { ...styles.imageDefaultStyle, height: this.state.contentHeight }
-    //   : styles.imageDefaultStyle;
     return { ...styles.imageDefaultStyle, height: this.props.height };
   }
-
-  protected onLoadImage = (index: number) => {
-    if (index === 0) {
-      let height = document.getElementById(
-        `deal-${this.props.dealIndex} image-0`
-      )?.clientHeight;
-      if (height && height > MAXIMUM_IMAGE_HEIGHT) {
-        console.debug("exceed maximum height:", height);
-        height = MAXIMUM_IMAGE_HEIGHT;
-      }
-      if (height) {
-        this.setState({
-          contentHeight: height,
-          imageLoaded: true
-        });
-      }
-    }
-  };
 }
 
 const styles = {

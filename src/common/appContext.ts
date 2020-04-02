@@ -57,7 +57,7 @@ export default class AppContext {
   }
 
   get isMock(): boolean {
-    return true;
+    return false;
   }
 
   get isProd(): boolean {

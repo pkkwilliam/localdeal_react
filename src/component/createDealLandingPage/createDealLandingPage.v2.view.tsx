@@ -1,23 +1,42 @@
 import ApplicationComponent from "../../common/applicationComponent";
 import React, { ReactNode, ChangeEvent } from "react";
-import { View, styleSchema, PrimaryButton, MiniText, H5 } from "../../common";
+import {
+  View,
+  styleSchema,
+  PrimaryButton,
+  MiniText,
+  H5,
+  P,
+  Toast
+} from "../../common";
 import {
   Add as AddIcon,
   Close as CloseIcon,
-  FolderOpen as FolderOpenIcon
+  Delete as DeleteIcon,
+  FolderOpen as FolderOpenIcon,
+  HelpOutline as HelpOutlineIcon,
+  Room as LocationIcon
 } from "@material-ui/icons";
 import { Button } from "@material-ui/core";
 import TextField from "../../common/textField";
+import { Address } from "../../modal/deal";
+import { ToastSeverity } from "../../common/toast/toastSeverity";
 
 interface Props {
   allowNumberOfFile: number;
+  dealCreateSuccess?: boolean;
   files: string[];
   onAddFile: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeDescription: (description: string) => void;
   onChangeTitle: (title: string) => void;
+  onClickAddress: (address: Address) => void;
+  onClickRemoveSelectedAddress: () => void;
   onClickSaveDraft: () => void;
   onClickSubmit: () => void;
   onClose: () => void;
+  onCloseToastMessage: () => void;
+  selectedAddress?: Address;
+  showToastMessage: boolean;
 }
 
 export default class CreateDealLandingPageV2View extends ApplicationComponent<
@@ -26,11 +45,13 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
   render() {
     return (
       <View style={styles.rootContainer}>
-        <this.CloseButton />
+        <this.Header />
         <this.FileSection />
         <this.Title />
         <this.Description />
+        <this.AddressSelection />
         <this.BottomButtonSecton />
+        <this.Toast />
       </View>
     );
   }
@@ -55,7 +76,40 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     );
   };
 
-  protected AddressSelectionSection = () => {};
+  protected AddressSelection = () => {
+    const addressDisplay = this.props.selectedAddress ? (
+      <this.SelectedAddress />
+    ) : (
+      <this.AddressBubble />
+    );
+    return (
+      <View isFlexDirectionRow style={styles.addressSectionContainer}>
+        <LocationIcon style={styles.locationIcon} />
+        {addressDisplay}
+      </View>
+    );
+  };
+
+  protected AddressBubble = () => {
+    const bubbles = this.appState.address.addressesPrediction.map(address => {
+      return (
+        <View
+          border={1}
+          onClick={() => this.props.onClickAddress(address)}
+          style={{ ...styles.addressBubbleContainer, whiteSpace: "nowrap" }}
+        >
+          <P style={{ color: styleSchema.color.secondaryColor }}>
+            {address.formattedAddress}
+          </P>
+        </View>
+      );
+    });
+    return (
+      <View isFlexDirectionRow style={styles.addressSelectionContainer}>
+        {bubbles}
+      </View>
+    );
+  };
 
   protected BottomButtonSecton = () => {
     return (
@@ -67,11 +121,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
   };
 
   protected CloseButton = () => {
-    return (
-      <View style={styles.closeIconContainer}>
-        <CloseIcon onClick={this.props.onClose} style={styles.closeIcon} />
-      </View>
-    );
+    return <CloseIcon onClick={this.props.onClose} style={styles.closeIcon} />;
   };
 
   protected Description = () => {
@@ -109,11 +159,19 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     }
     return (
       <>
-        <H5>Need Label - 比例相同的圖片會獲得更好的觀賞體驗</H5>
         <View isFlexDirectionRow style={styles.fileSectionContainer}>
           {images}
         </View>
       </>
+    );
+  };
+
+  protected Header = () => {
+    return (
+      <View isFlexDirectionRow style={styles.headerContainer}>
+        <this.ImageDimensionTips />
+        <this.CloseButton />
+      </View>
     );
   };
 
@@ -129,10 +187,33 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     );
   };
 
+  protected ImageDimensionTips = () => {
+    return (
+      <View isFlexDirectionRow style={styles.imageDimensionTipsContainer}>
+        <HelpOutlineIcon style={styles.imageDimensionTipsIcon} />
+        <H5>{this.appContext.labels.createDealPageV2.imageDimensionTips}</H5>
+      </View>
+    );
+  };
+
   protected Frame = ({ children }: { children: ReactNode }) => {
     return (
       <View border={1} style={styles.frameContainer}>
         {children}
+      </View>
+    );
+  };
+
+  protected SelectedAddress = () => {
+    return (
+      <View isFlexDirectionRow style={styles.selectedAddressContainer}>
+        <P style={styles.selectedAddressText}>
+          {this.props.selectedAddress?.formattedAddress ?? ""}
+        </P>
+        <DeleteIcon
+          onClick={this.props.onClickRemoveSelectedAddress}
+          style={styles.deleteIcon}
+        />
       </View>
     );
   };
@@ -153,6 +234,27 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
       />
     );
   };
+
+  protected Toast = () => {
+    const props = this.props;
+    const label = this.appContext.labels.createDealPageV2;
+    if (props.showToastMessage) {
+      return (
+        <Toast
+          message={props.dealCreateSuccess ? label.success : label.error}
+          onClose={props.onCloseToastMessage}
+          open
+          severity={
+            props.dealCreateSuccess
+              ? ToastSeverity.SUCCESS
+              : ToastSeverity.ERROR
+          }
+        />
+      );
+    } else {
+      return null;
+    }
+  };
 }
 
 const styles = {
@@ -162,6 +264,24 @@ const styles = {
   },
   addIconButton: {
     borderRadius: 10
+  },
+  addressBubbleContainer: {
+    borderColor: styleSchema.color.secondaryColor,
+    borderRadius: 30,
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginRight: 5
+  },
+  addressSelectionContainer: {
+    overflow: "scroll",
+    paddingBottom: 10
+  },
+  addressSectionContainer: {
+    alignItems: "center",
+    marginTop: 5,
+    width: "inherit"
   },
   bottomButtonSectionContainer: {
     alignItems: "center",
@@ -173,11 +293,8 @@ const styles = {
   closeIcon: {
     color: styleSchema.color.greyDark
   },
-  closeIconContainer: {
-    alignItems: "flex-end",
-    justifyContent: "center",
-    marginTop: 15,
-    width: "inherit"
+  deleteIcon: {
+    color: styleSchema.color.greyDark
   },
   descriptionTextField: {
     marginTop: 10,
@@ -216,13 +333,42 @@ const styles = {
     minHeight: 80,
     minWidth: 80
   },
+  headerContainer: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 15,
+    width: "inherit"
+  },
+  imageDimensionTipsContainer: {
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  imageDimensionTipsIcon: {
+    color: styleSchema.color.secondaryColor,
+    fontSize: 18
+  },
   imageStyle: {
     borderRadius: 10,
     minHeight: "inherit",
     minWidth: "inherit"
   },
+  locationIcon: {
+    color: styleSchema.color.red,
+    marginLeft: -5,
+    marginRight: 3,
+    paddingBottom: 10
+  },
   rootContainer: {
     width: "inherit"
+  },
+  selectedAddressContainer: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingBottom: 10,
+    width: "inherit"
+  },
+  selectedAddressText: {
+    color: styleSchema.color.black
   },
   titleTextField: {
     marginTop: 10,

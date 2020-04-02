@@ -14,7 +14,10 @@
   },
   "createDealPageV2": {
     "descriptionPlaceHolder": "講一下特別的地方",
+    "error": "伺服器出錯啦!!!程序猿已經在路上了!!!",
+    "imageDimensionTips": "比例相約的圖片會獲得更好的觀賞體驗",
     "saveDraft": "存草稿",
+    "success": "發布成功",
     "submitPost": "發布好玩",
     "titlePlaceHolder": "標題有趣會有更多Like哦"
   },
@@ -33,9 +36,10 @@
     "contactUs": "聯絡我們",
     "currentDevelopingFeatuers": [
       "Google登入 進度: 80%",
-      "深色模式 進度: 20%",
-      "微信登入 進度: 0%",
+      "存草稿 進度: 0%",
       "短影片 進度: 0%",
+      "微信登入 進度: 35%",
+      "深色模式 進度: 20%",
       "公告文字 進度: 0%"
     ],
     "developingFeature": "等待開發中的功能:",

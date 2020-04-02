@@ -7,7 +7,7 @@ interface Props extends BoxProps {
   chindren?: React.ReactNode;
   isFlexDirectionRow?: boolean;
   justifyContent?: string;
-  onClick?: () => void;
+  onClick?: (any?: any) => void;
 }
 
 export default class View extends ApplicationComponent<Props> {

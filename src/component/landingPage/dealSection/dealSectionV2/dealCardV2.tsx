@@ -12,12 +12,16 @@ import {
 } from "../../../../common";
 import ApplicationComponent from "../../../../common/applicationComponent";
 
+const MAXIMUM_IMAGE_HEIGHT = 500;
+
 interface Props {
   deal: Deal;
+  index: number; // This need to be remove and replace with deal.id!!!
 }
 
 interface State {
   coverImageHeight: number;
+  coverImageLoaded: boolean;
   expanded: boolean;
 }
 
@@ -25,8 +29,9 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      expanded: false,
-      coverImageHeight: 150
+      coverImageHeight: 150,
+      coverImageLoaded: false,
+      expanded: false
     };
   }
 
@@ -37,6 +42,9 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
   protected DealCard() {
     const deal = this.props.deal;
     const bottomToolBarContent = <CardBottomVote deal={this.props.deal} />;
+    let showExpandSign: boolean =
+      (deal.description !== null && deal.description !== "") ||
+      deal.filesUrl.length > 1;
     return (
       <View
         borderBottom={1}
@@ -48,8 +56,11 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
           timestamp={deal.timestamp}
           title={deal.title}
         />
-        <this.ImageSection />
+        <View style={styles.imageContainer}>
+          <this.ImageSection />
+        </View>
         <CollapseCard
+          allowExpand={showExpandSign}
           bottomToolBarContent={bottomToolBarContent}
           expanded={this.state.expanded}
           onClickExpandSign={this.onExpand}
@@ -65,7 +76,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
     timestamp,
     title
   }: {
-    address: Address;
+    address?: Address;
     timestamp: number;
     title: string;
   }) => {
@@ -79,31 +90,32 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
               : this.appContext.labels.date.unknown}
           </H5>
         </View>
-
-        <AddressDisplay address={address} />
+        {address ? <AddressDisplay address={address} /> : null}
       </>
     );
   };
 
   protected ImageSection = () => {
     const deal = this.props.deal;
+    const coverImageStyle = this.state.coverImageLoaded
+      ? { height: this.state.coverImageHeight }
+      : styles.empty;
     if (this.state.expanded) {
       return (
-        <View style={styles.sliderContainer}>
-          <Slider
-            dealIndex={deal.id ?? 0}
-            fileUrls={deal.filesUrl ?? []}
-            height={this.state.coverImageHeight}
-          />
-        </View>
+        <Slider
+          dealIndex={deal.id ?? 0}
+          fileUrls={deal.filesUrl ?? []}
+          height={this.state.coverImageHeight}
+        />
       );
     } else {
       return deal.filesUrl?.length ? (
         <img
           alt={"cover"}
-          id={"crazy"}
+          id={`deal-${this.props.index} cover-image`}
           onLoad={this.onLoadImage}
           src={deal.filesUrl[0]}
+          style={coverImageStyle}
         />
       ) : null;
     }
@@ -116,11 +128,15 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
   };
 
   protected onLoadImage = () => {
-    const height = document.getElementById("crazy")?.clientHeight;
+    const height = document.getElementById(
+      `deal-${this.props.index} cover-image`
+    )?.clientHeight;
     if (height) {
       console.log(height);
       this.setState({
-        coverImageHeight: height
+        coverImageHeight:
+          height < MAXIMUM_IMAGE_HEIGHT ? height : MAXIMUM_IMAGE_HEIGHT,
+        coverImageLoaded: true
       });
     }
   };
@@ -131,14 +147,17 @@ const styles = {
     justifyContent: "space-between",
     width: "inherit"
   },
+  empty: {},
+  imageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 5,
+    width: "inherit"
+  },
   rootContainer: {
     backgroundColor: styleSchema.color.white,
     borderColor: styleSchema.color.greyTransparent,
     padding: 15,
-    width: "inherit"
-  },
-  sliderContainer: {
-    marginTop: 10,
     width: "inherit"
   }
 };

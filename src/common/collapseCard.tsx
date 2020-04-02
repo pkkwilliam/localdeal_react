@@ -6,18 +6,25 @@ import { Button, Collapse } from "@material-ui/core";
 import ApplicationComponent from "./applicationComponent";
 
 export interface Props {
+  allowExpand: boolean;
   children?: React.ReactNode;
   bottomToolBarContent?: React.ReactNode;
   expanded: boolean;
   onClickExpandSign: () => void;
 }
 
-export default class LocalDealCard extends ApplicationComponent<Props> {
+export default class CollapseCard extends ApplicationComponent<Props> {
   render() {
     return (
       <View style={{ ...styles.rootContainer, textAlign: "start" }}>
         <Collapse in={this.props.expanded}>
-          <View style={styles.collapsedContentContainer}>
+          <View
+            style={
+              this.props.allowExpand
+                ? styles.collapsedContentContainer
+                : styles.empty
+            }
+          >
             {this.props.children}
           </View>
         </Collapse>
@@ -60,18 +67,22 @@ export default class LocalDealCard extends ApplicationComponent<Props> {
   };
 
   protected ExpandSign = () => {
-    return (
-      <Button
-        onClick={this.props.onClickExpandSign}
-        style={styles.expandSignButton}
-      >
-        {this.props.expanded ? (
-          <this.ExpandLessSign />
-        ) : (
-          <this.ExpandMoreSign />
-        )}
-      </Button>
-    );
+    if (this.props.allowExpand) {
+      return (
+        <Button
+          onClick={this.props.onClickExpandSign}
+          style={styles.expandSignButton}
+        >
+          {this.props.expanded ? (
+            <this.ExpandLessSign />
+          ) : (
+            <this.ExpandMoreSign />
+          )}
+        </Button>
+      );
+    } else {
+      return null;
+    }
   };
 }
 
@@ -84,6 +95,7 @@ const styles = {
     paddingBottom: 15,
     paddingTop: 15
   },
+  empty: {},
   expandSignButton: {
     backgroundColor: styleSchema.color.primaryColorTransparent,
     padding: 0,

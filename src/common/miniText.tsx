@@ -21,6 +21,7 @@ export default class MiniText extends Component<Props> {
 
 const styles = {
   default: {
+    fontFamily: styleSchema.font.primaryFont,
     fontSize: 9,
     margin: 0
   },

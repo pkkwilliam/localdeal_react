@@ -12,6 +12,7 @@ export default class Paragraph extends H1 {
 
 const styles = {
   text: {
+    fontFamily: styleSchema.font.primaryFont,
     fontSize: "0.875rem"
   }
 };

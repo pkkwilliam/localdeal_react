@@ -1,10 +1,10 @@
 export default interface Deal {
   id?: number;
-  address: Address;
+  address?: Address;
   category?: Category;
   discussions?: Discussion[];
   description: string;
-  filesUrl?: string[];
+  filesUrl: string[];
   serverIdentifierName?: string;
   title: string;
   timeAvailable?: WeekTime;

@@ -8,8 +8,8 @@ interface Props {
 
 export default class DealSectionView extends Component<Props> {
   render() {
-    const generatedDeals = this.props.deals.map((deal: Deal) => (
-      <DealCardV2 deal={deal}></DealCardV2>
+    const generatedDeals = this.props.deals.map((deal: Deal, index: number) => (
+      <DealCardV2 deal={deal} index={index} />
     ));
     return <>{generatedDeals}</>;
   }

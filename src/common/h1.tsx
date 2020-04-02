@@ -41,10 +41,10 @@ export default class H1 extends Component<Props> {
 
 const styles = {
   defaultStyle: {
-    margin: 0,
-    marginTop: 2
+    margin: 0
   },
   text: {
+    fontFamily: styleSchema.font.primaryFont,
     fontSize: 18,
     fontWeight: 600
   }

@@ -19,6 +19,6 @@ export { default as RichTextEditor } from "./richTextEditor";
 export { default as Slider } from "./slide/slide";
 export { default as TextButton } from "./textButton";
 export { default as TextField } from "./textField";
-export { default as Toast } from "./toast";
+export { default as Toast } from "./toast/toast";
 export { default as TwinButton } from "./twinButton";
 export { default as View } from "./view";

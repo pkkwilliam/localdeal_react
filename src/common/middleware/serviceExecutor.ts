@@ -184,8 +184,8 @@ const GET_POSITION_RESPONSE: Address[] = [
 
 const GET_USER_PROFILE = {
   id: 0,
-  name: "Ka Kei Pun",
+  name: "Mock User",
   imageUrl:
-    "https://lh3.googleusercontent.com/a-/AOh14GgslmYMBYeO6hidzEhx83gMUrNHuN6M1nbOOFHhmg",
+    "https://www.picclickimg.com/d/l400/pict/163647152800_/Cubd-Collectibles-Disney-Frozen-Elsa-Small-Soft-Stuffed.jpg",
   oAuthProvider: "GOOGLE"
 };

@@ -12,15 +12,20 @@ const GREEN = "#5CC928";
 const GREEN_MDEIUM = "#1EA362";
 const ORANGE = "#FF4F00";
 const ORANGE_TRANSPARENT = "rgb(255, 168, 128, .1)";
-const RED = "red";
+const RED = "EA4335";
 const RED_DARK = "#DA4B3C";
 const WHITE = "#FFFFFF";
+const SYSTEM_ERROR = "#F44436";
+const SYSTEM_INFORM = "#2196F3";
+const SYSTEM_SUCCESS = "#4CAF51";
+const SYSTEM_WARN = "#FF9800";
 
 // dimension
 const FILL_ALL_HEIGHT = "-webkit-fill-available";
 const FILL_ALL_WIDTH = "-webkit-fill-available";
 
 // font
+const PRIMARY_FONT = "sans-serif";
 const FONT_SIZE = 16;
 
 export interface StyleSheet {
@@ -43,6 +48,10 @@ export interface StyleSheet {
     redDark: string;
     secondaryColor: string;
     secondaryColorTransparent: string;
+    systemError: string;
+    systemInform: string;
+    systemSuccess: string;
+    systemWarn: string;
     white: string;
   };
   common: {
@@ -54,7 +63,7 @@ export interface StyleSheet {
   };
   font: {
     fontSize: number;
-    white: string;
+    primaryFont: string;
   };
   icon: any;
   remind: {
@@ -88,6 +97,10 @@ export const styleSchema: StyleSheet = {
     redDark: RED_DARK,
     secondaryColor: GREY_DARK,
     secondaryColorTransparent: GREY_TRANSPARENT,
+    systemError: SYSTEM_ERROR,
+    systemInform: SYSTEM_INFORM,
+    systemSuccess: SYSTEM_SUCCESS,
+    systemWarn: SYSTEM_WARN,
     white: WHITE
   },
   common: {
@@ -99,7 +112,7 @@ export const styleSchema: StyleSheet = {
   },
   font: {
     fontSize: FONT_SIZE,
-    white: WHITE
+    primaryFont: PRIMARY_FONT
   },
   icon: {
     fontSize: 38,
