@@ -75,14 +75,15 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
           files: this.state.files.concat(changeEvent.target.result.toString())
         });
       }
-      this.imageProcessor.compressImage(image).then(result => {
-        console.debug("finish pushing into state");
-        this.setState({
-          blobFiles: this.state.blobFiles.concat(result)
+      this.imageProcessor
+        .compressImage(image, changeEvent.target?.result?.toString() ?? "")
+        .then(result => {
+          console.debug("finish pushing into state");
+          this.setState({
+            blobFiles: this.state.blobFiles.concat(result)
+          });
         });
-      });
     };
-
     fileReader.readAsDataURL(image);
   }
 

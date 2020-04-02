@@ -1,4 +1,5 @@
 import Resizer from "react-image-file-resizer";
+import loadImage from "blueimp-load-image";
 
 export default class ImageProcessor {
   public imageResize(
@@ -45,15 +46,49 @@ export default class ImageProcessor {
     });
   }
 
-  public async compressImage(file: File) {
+  public async compressImage(file: any, raw: string) {
+    let fixed = await this.fixRotation(file, this.guessImageMime(raw));
     const { height, size, type, width } = await this.getImageInfo(file);
+    let iamgeBlob = await this.transferToBlob(fixed);
     const processedImage = await this.imageResize(
-      file,
+      iamgeBlob,
       type,
       height,
       width,
-      10
+      5
     );
     return processedImage;
+  }
+
+  protected transferToBlob(file: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      return fetch(file)
+        .then(originalImage => originalImage.blob())
+        .then(result => resolve(result));
+    });
+  }
+
+  protected fixRotation(file: any, imageType: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      loadImage(
+        file,
+        (img: any) => {
+          return resolve(img.toDataURL(imageType));
+        },
+        { orientation: true }
+      );
+    });
+  }
+
+  guessImageMime(data: string): string {
+    if (data.charAt(0) === "/") {
+      return "image/jpeg";
+    } else if (data.charAt(0) === "R") {
+      return "image/gif";
+    } else if (data.charAt(0) === "i") {
+      return "image/png";
+    } else {
+      return "";
+    }
   }
 }
