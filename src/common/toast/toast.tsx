@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Snackbar, Slide } from "@material-ui/core";
-import { View, P } from "..";
+import Snackbar from "@material-ui/core/Snackbar";
+import Slide from "@material-ui/core/Slide";
+import View from "../view";
+import P from "../paragraph";
 import { styleSchema } from "../stylesheet";
 import { ToastSeverity } from "./toastSeverity";
 
@@ -20,7 +22,7 @@ export default class Toast extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      open: true
+      open: true,
     };
   }
 
@@ -43,7 +45,7 @@ export default class Toast extends Component<Props, State> {
           boxShadow={1}
           style={{
             ...styles.rootContainer,
-            backgroundColor: this.getBackgroundColor()
+            backgroundColor: this.getBackgroundColor(),
           }}
         >
           <P style={{ color: "white" }}>{this.props.message}</P>
@@ -74,6 +76,6 @@ const styles = {
     paddingLeft: 30,
     paddingRight: 30,
     borderRadius: 10,
-    marginBottom: 35
-  }
+    marginBottom: 35,
+  },
 };

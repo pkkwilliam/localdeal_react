@@ -1,20 +1,18 @@
 import React from "react";
 import Deal, { Address } from "../../modal/deal";
-import {
-  Slider,
-  CardBottomVote,
-  View,
-  styleSchema,
-  H1,
-  H5,
-  AddressDisplay,
-} from "../../common";
+import CardBottomVote from "../../common/cardBottomVote";
+import View from "../../common/view";
+import { styleSchema } from "../../common/stylesheet";
+import H1 from "../../common/h1";
+import H5 from "../../common/h5";
+import AddressDisplay from "../../common/addressDisplay";
 import ApplicationComponent from "../../common/applicationComponent";
 import { getLazyComponent } from "../../lazyLoad/lazyLoad";
 import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
 
 const MAXIMUM_IMAGE_HEIGHT = 500;
 const CollapseCard = getLazyComponent(LazyLoadComponent.CollapseCard);
+const Slider = getLazyComponent(LazyLoadComponent.Slide);
 
 interface Props {
   deal: Deal;

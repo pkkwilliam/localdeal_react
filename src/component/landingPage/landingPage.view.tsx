@@ -1,6 +1,8 @@
 import React from "react";
 import Deal from "../../modal/deal";
-import { H5, styleSchema, View } from "../../common";
+import H5 from "../../common/h5";
+import View from "../../common/view";
+import { styleSchema } from "../../common/stylesheet";
 import ApplicationComponent from "../../common/applicationComponent";
 import DealSectionV2View from "./dealSection.v2.view";
 

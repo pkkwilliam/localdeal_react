@@ -1,4 +1,5 @@
-import { H1, styleSchema } from ".";
+import H1 from "./h1";
+import { styleSchema } from "./stylesheet";
 import { Props as ParentProps } from "./h1";
 
 interface Props extends ParentProps {
@@ -26,16 +27,16 @@ export default class Paragraph extends H1<Props> {
 
 const styles = {
   primaryColor: {
-    color: styleSchema.color.primaryColor
+    color: styleSchema.color.primaryColor,
   },
   secondaryColor: {
-    color: styleSchema.color.secondaryColor
+    color: styleSchema.color.secondaryColor,
   },
   black: {
-    color: styleSchema.color.black
+    color: styleSchema.color.black,
   },
   text: {
     fontFamily: styleSchema.font.primaryFont,
-    fontSize: "0.875rem"
-  }
+    fontSize: "0.875rem",
+  },
 };

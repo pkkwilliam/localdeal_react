@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from ".";
+import View from "./view";
 import { styleSchema } from "./stylesheet";
 
 interface Props {
@@ -28,12 +28,12 @@ const styles = {
     alignItems: "center",
     backgroundColor: styleSchema.color.primaryColorTransparent,
     borderRadius: 8,
-    width: styleSchema.dimension.FILL_ALL_WIDTH
+    width: styleSchema.dimension.FILL_ALL_WIDTH,
   },
   primaryTheme: {
-    backgroundColor: styleSchema.color.primaryColorTransparent
+    backgroundColor: styleSchema.color.primaryColorTransparent,
   },
   secondaryTheme: {
-    backgroundColor: styleSchema.color.secondaryColorTransparent
-  }
+    backgroundColor: styleSchema.color.secondaryColorTransparent,
+  },
 };

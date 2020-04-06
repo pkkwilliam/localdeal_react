@@ -3,7 +3,11 @@ import ApplicationComponent from "../../common/applicationComponent";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import { OAuthProvider } from "../../common/feature/oAuthProvider";
-import { BackgroundTheme, View, H4, Image, TextButton } from "../../common";
+import BackgroundTheme from "../../common/backgroundTheme";
+import View from "../../common/view";
+import H4 from "../../common/h4";
+import Image from "../../common/image";
+import TextButton from "../../common/textButton";
 import { UserProfile } from "../../modal/userProfile";
 import { Feature } from "../../common/feature/feature";
 

@@ -45,8 +45,6 @@ export default class Init extends ApplicationComponent {
     return new Promise((resolve, reject) => {
       this.appContext.transformer.getCurrentLocation(
         (coordinate: Coordinate) => {
-          console.debug("Current Coordinate: ", coordinate);
-          // this.props.setGeolocation(coordinate);
           this.appState.position.setGeolocation(coordinate);
           return resolve();
         }

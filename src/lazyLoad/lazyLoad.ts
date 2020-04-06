@@ -23,5 +23,7 @@ function getPath(component: LazyLoadComponent): any {
       return import("../component/menu/headerMenu");
     case LazyLoadComponent.LandingPage:
       return import("../component/landingPage/landingPage");
+    case LazyLoadComponent.Slide:
+      return import("../common/slide/slide");
   }
 }

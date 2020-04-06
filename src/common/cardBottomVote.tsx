@@ -1,6 +1,7 @@
 import ApplicationComponent from "./applicationComponent";
 import React from "react";
-import { View, H5 } from ".";
+import View from "./view";
+import H5 from "./h5";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import { styleSchema } from "./stylesheet";

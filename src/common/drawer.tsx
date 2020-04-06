@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { default as MuiDrawer, DrawerProps } from "@material-ui/core/Drawer";
-import { View } from ".";
+import View from "./view";
 import { styleSchema } from "./stylesheet";
 
 export default class Draewer extends Component<DrawerProps> {

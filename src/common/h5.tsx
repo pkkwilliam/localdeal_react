@@ -1,4 +1,5 @@
-import { styleSchema, H1 } from "./";
+import H1 from "./h1";
+import { styleSchema } from "./stylesheet";
 
 export default class H5 extends H1 {
   protected getColor(): string {
@@ -13,6 +14,6 @@ export default class H5 extends H1 {
 const styles = {
   text: {
     fontSize: 15,
-    fontWeight: 500
-  }
+    fontWeight: 500,
+  },
 };

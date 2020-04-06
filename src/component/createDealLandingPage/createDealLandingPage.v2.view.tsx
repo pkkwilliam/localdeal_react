@@ -1,13 +1,11 @@
 import ApplicationComponent from "../../common/applicationComponent";
 import React, { ReactNode, ChangeEvent } from "react";
-import {
-  View,
-  styleSchema,
-  PrimaryButton,
-  MiniText,
-  H5,
-  P,
-} from "../../common";
+import View from "../../common/view";
+import PrimaryButton from "../../common/primaryButton";
+import MiniText from "../../common/miniText";
+import H5 from "../../common/h5";
+import P from "../../common/paragraph";
+import { styleSchema } from "../../common/stylesheet";
 import { default as AddIcon } from "@material-ui/icons/Add";
 import { default as CloseIcon } from "@material-ui/icons/Close";
 import { default as DeleteIcon } from "@material-ui/icons/Delete";

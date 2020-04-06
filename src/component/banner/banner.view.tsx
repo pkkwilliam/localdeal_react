@@ -1,6 +1,8 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
-import { View, styleSchema, P } from "../../common";
+import View from "../../common/view";
+import P from "../../common/paragraph";
+import { styleSchema } from "../../common/stylesheet";
 import { AppBar, LinearProgress, makeStyles } from "@material-ui/core";
 
 export default class BannerView extends ApplicationComponent {

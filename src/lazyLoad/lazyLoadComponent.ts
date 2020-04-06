@@ -6,4 +6,5 @@ export enum LazyLoadComponent {
   Header = "Header",
   HeaderMenu = "HeaderMenu",
   LandingPage = "LandingPage",
+  Slide = "Slide",
 }

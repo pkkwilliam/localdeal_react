@@ -1,7 +1,8 @@
 import React from "react";
 import ApplicationComponent from "./applicationComponent";
 import { Address } from "../modal/deal";
-import { H5, View } from ".";
+import View from "./view";
+import H5 from "./h5";
 
 export interface Props {
   address: Address;

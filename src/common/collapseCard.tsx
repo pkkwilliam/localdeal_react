@@ -1,7 +1,9 @@
 import React from "react";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
-import { View, H4, H5 } from ".";
+import View from "./view";
+import H4 from "./h4";
+import H5 from "./h5";
 import { styleSchema } from "./stylesheet";
 import Button from "@material-ui/core/Button";
 import Collapse from "@material-ui/core/Collapse";

@@ -1,6 +1,12 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
-import { Image, View, styleSchema, TextButton, H4, H5, P } from "../../common";
+import { styleSchema } from "../../common/stylesheet";
+import Image from "../../common/image";
+import View from "../../common/view";
+import TextButton from "../../common/textButton";
+import H4 from "../../common/h4";
+import H5 from "../../common/h5";
+import P from "../../common/paragraph";
 import { default as MenuIcon } from "@material-ui/icons/Menu";
 import Link from "@material-ui/core/Link";
 import { Feature } from "../../common/feature/feature";
