@@ -3,5 +3,7 @@ export enum LazyLoadComponent {
   CollapseCard = "CollapseCard",
   CreateDeal = "CreateDeal",
   Drawer = "Drawer",
+  Header = "Header",
   HeaderMenu = "HeaderMenu",
+  LandingPage = "LandingPage",
 }

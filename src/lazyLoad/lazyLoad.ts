@@ -17,7 +17,11 @@ function getPath(component: LazyLoadComponent): any {
       );
     case LazyLoadComponent.Drawer:
       return import("../common/drawer");
+    case LazyLoadComponent.Header:
+      return import("../component/header/header");
     case LazyLoadComponent.HeaderMenu:
       return import("../component/menu/headerMenu");
+    case LazyLoadComponent.LandingPage:
+      return import("../component/landingPage/landingPage");
   }
 }
