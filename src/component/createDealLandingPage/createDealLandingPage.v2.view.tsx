@@ -6,8 +6,7 @@ import {
   PrimaryButton,
   MiniText,
   H5,
-  P,
-  Toast
+  P
 } from "../../common";
 import {
   Add as AddIcon,
@@ -20,12 +19,13 @@ import {
 import { Button } from "@material-ui/core";
 import TextField from "../../common/textField";
 import { Address } from "../../modal/deal";
-import { ToastSeverity } from "../../common/toast/toastSeverity";
+import { FileDetail } from "../../modal/fileDetal";
 
 interface Props {
   allowNumberOfFile: number;
-  dealCreateSuccess?: boolean;
-  files: string[];
+  files: FileDetail[];
+  hasAddress: boolean;
+  hasField: boolean;
   onAddFile: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeDescription: (description: string) => void;
   onChangeTitle: (title: string) => void;
@@ -34,9 +34,7 @@ interface Props {
   onClickSaveDraft: () => void;
   onClickSubmit: () => void;
   onClose: () => void;
-  onCloseToastMessage: () => void;
   selectedAddress?: Address;
-  showToastMessage: boolean;
 }
 
 export default class CreateDealLandingPageV2View extends ApplicationComponent<
@@ -51,7 +49,6 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
         <this.Description />
         <this.AddressSelection />
         <this.BottomButtonSecton />
-        <this.Toast />
       </View>
     );
   }
@@ -83,10 +80,16 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
       <this.AddressBubble />
     );
     return (
-      <View isFlexDirectionRow style={styles.addressSectionContainer}>
-        <LocationIcon style={styles.locationIcon} />
-        {addressDisplay}
-      </View>
+      <>
+        <this.MissingSectionLabel
+          hide={this.props.hasAddress}
+          label={this.appContext.labels.createDealPageV2.missingAddress}
+        />
+        <View isFlexDirectionRow style={styles.addressSectionContainer}>
+          <LocationIcon style={styles.locationIcon} />
+          {addressDisplay}
+        </View>
+      </>
     );
   };
 
@@ -159,6 +162,10 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     }
     return (
       <>
+        <this.MissingSectionLabel
+          hide={this.props.hasField}
+          label={this.appContext.labels.createDealPageV2.missingField}
+        />
         <View isFlexDirectionRow style={styles.fileSectionContainer}>
           {images}
         </View>
@@ -175,12 +182,12 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     );
   };
 
-  protected ImageContainer = ({ image }: { image: string }) => {
+  protected ImageContainer = ({ image }: { image: FileDetail }) => {
     return (
       <this.Frame>
         <img
           alt={"user-input"}
-          src={image}
+          src={image.base64Value}
           style={{ ...styles.imageStyle, objectFit: "cover" }}
         />
       </this.Frame>
@@ -201,6 +208,18 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
       <View border={1} style={styles.frameContainer}>
         {children}
       </View>
+    );
+  };
+
+  protected MissingSectionLabel = ({
+    label,
+    hide
+  }: {
+    label: string;
+    hide: boolean;
+  }) => {
+    return hide ? null : (
+      <P style={{ color: "red", fontWeight: "bold" }}>{label}</P>
     );
   };
 
@@ -233,27 +252,6 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
         placeholder={this.appContext.labels.createDealPageV2.titlePlaceHolder}
       />
     );
-  };
-
-  protected Toast = () => {
-    const props = this.props;
-    const label = this.appContext.labels.createDealPageV2;
-    if (props.showToastMessage) {
-      return (
-        <Toast
-          message={props.dealCreateSuccess ? label.success : label.error}
-          onClose={props.onCloseToastMessage}
-          open
-          severity={
-            props.dealCreateSuccess
-              ? ToastSeverity.SUCCESS
-              : ToastSeverity.ERROR
-          }
-        />
-      );
-    } else {
-      return null;
-    }
   };
 }
 

@@ -2,6 +2,7 @@
   "addressDisplay": {
     "nearBy": "附近"
   },
+  "banner": {},
   "createDealPage": {
     "cancel": "取消",
     "close": "關閉",
@@ -16,9 +17,14 @@
     "descriptionPlaceHolder": "講一下特別的地方",
     "error": "伺服器出錯啦!!!程序猿已經在路上了!!!",
     "imageDimensionTips": "比例相約的圖片會獲得更好的觀賞體驗",
+    "missingAddress": "* 給點臉子選個地址啦",
+    "missingField": "* 至少加一點內容吧",
     "saveDraft": "存草稿",
     "success": "發布成功",
     "submitPost": "發布好玩",
+    "uploadingImage": "瘋狂上傳圖片",
+    "uploadingDeal": "伺服器愛理不理中",
+    "uploadCompleted": "搞掂!!!",
     "titlePlaceHolder": "標題有趣會有更多Like哦"
   },
   "date": {

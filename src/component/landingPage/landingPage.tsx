@@ -68,17 +68,17 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
 
   protected onBlurTextField = () => {
     // need to complete
-    console.log("onBlurTextField");
+    console.debug("onBlurTextField");
   };
 
   protected onClickedCard = () => {
     // need to complete
-    console.log("Card Clicked");
+    console.debug("Card Clicked");
   };
 
   protected onClickedDealSection = () => {
     // need to complete
-    console.log("onClickedDealSection");
+    console.debug("onClickedDealSection");
     this.setState({
       showSearchButton: false
     });
@@ -86,7 +86,7 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
 
   protected onClickSearch = () => {
     // need to complete
-    console.log("onClickSearch");
+    console.debug("onClickSearch");
     // this.setState({
     //   showSearchButton: false
     //   Disable this for now, user need internet to access the service anyway
@@ -96,18 +96,18 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
   };
 
   protected onClickDownVote = () => {
-    console.log("onClickDownVote");
+    console.debug("onClickDownVote");
   };
 
   protected onClickUpVote = () => {
-    console.log("onClickUpVote");
+    console.debug("onClickUpVote");
   };
 
   protected onChangeSearchTextField = (textFieldValue: string) => {
     // TODO need to think about if we need to allow user to search by area. because user will have coordinate by their location.
     // search can be only for item!!!!!!!
     // need to complete
-    console.log("onChangeSearchTextField");
+    console.debug("onChangeSearchTextField");
     this.setState({
       // currentSearchArea: { areaName: textFieldValue }
     });
@@ -115,7 +115,7 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
 
   protected onFocusTextField = () => {
     // need to complete
-    console.log("onFocusTextField");
+    console.debug("onFocusTextField");
     this.setState({
       showSearchButton: true
     });

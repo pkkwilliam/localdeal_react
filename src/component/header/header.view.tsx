@@ -34,18 +34,18 @@ export interface Props {
 export default class HeaderView extends ApplicationComponent<Props> {
   render() {
     return (
-      <View
-        boxShadow={1}
-        isFlexDirectionRow={true}
-        style={styles.rootContainer}
-      >
-        <AddressPrediction />
-        <this.CreateDealDrawer />
-        <this.HeaderTextAndLogo />
-        <this.TopBarSection />
-      </View>
-      // <div className="App-header">
-      // </div>
+      <>
+        <View
+          boxShadow={1}
+          isFlexDirectionRow={true}
+          style={styles.rootContainer}
+        >
+          <AddressPrediction />
+          <this.CreateDealDrawer />
+          <this.HeaderTextAndLogo />
+          <this.TopBarSection />
+        </View>
+      </>
     );
   }
 

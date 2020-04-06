@@ -181,7 +181,8 @@ export default class RichTextEditor extends ApplicationComponent<Props> {
 
     this.removePreviousInput();
 
-    let fixed = await this.fixRotation(file, this.guessImageMime(file));
+    const mimeType = this.guessImageMime(file);
+    let fixed = await this.fixRotation(file, mimeType);
 
     let iamgeBlob = await this.transferToBlob(fixed);
 

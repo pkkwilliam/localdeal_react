@@ -1,5 +1,4 @@
 import Deal, { Address, Coordinate } from "../../modal/deal";
-import CurrentArea from "../../modal/currentArea";
 import { UserProfile } from "../../modal/userProfile";
 
 export default interface AppStateInterface {
@@ -8,6 +7,12 @@ export default interface AppStateInterface {
     selectedAddress?: Address;
     setPredicteAddresses: (addresses: Address[]) => {};
     setSelectedAddress: (address: Address) => {};
+  };
+  createDeal: {
+    uploading: boolean;
+    progressMessage: string;
+    setCreateDealUploading: (uploading: boolean) => {};
+    setCreateDealProgressMessage: (progressMessage: string) => {};
   };
   deal: {
     deals: Deal[];

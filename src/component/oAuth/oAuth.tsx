@@ -14,7 +14,7 @@ export default class OAuth extends ApplicationComponent<{}> {
   }
 
   protected onClickLogout = () => {
-    console.log("onClickLogout");
+    console.debug("onClickLogout");
     this.appContext.serviceExecutor.execute(LOGOUT_OAUTH()).then(() => {
       this.appState.user.removeUserProfile();
     });

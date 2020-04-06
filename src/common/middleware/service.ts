@@ -13,16 +13,19 @@ export enum ServiceName {
   CREATE_VOTE = "CREATE_VOTE",
   GET_CURRENT_ADDRESS = "GET_CURRENT_ADDRESS",
   GET_DEALS = "GET_DEALS",
+  GET_PRESIGNED_URL = "GET_PRESIGNED_URL",
   GET_USER_PROFILE = "GET_USER_PROFILE",
   LOGIN_OAUTH_GOOGLE = "LOGIN_OAUTH_GOOGLE",
   LOGOUT_OAUTH = "LOGOUT_OAUTH",
   TEST = "TEST",
-  UPLOAD_IMAGE = "UPLOAD_IMAGE"
+  UPLOAD_IMAGE = "UPLOAD_IMAGE",
+  UPLOAD_IMAGE_SIGNED_URL = "UPLOAD_IMAGE_SIGNED_URL"
 }
 
 export const CREATE_DEAL = (deal: Deal): Endpoint => {
   return {
     body: JSON.stringify(deal),
+    externalService: false,
     hasMock: false,
     isMultipartFileRequest: false,
     method: "POST",
@@ -34,6 +37,7 @@ export const CREATE_DEAL = (deal: Deal): Endpoint => {
 export const CREATE_VOTE = (voteRequest: VoteRequest) => {
   return {
     body: JSON.stringify(voteRequest),
+    externalService: false,
     hasMock: false,
     isMultipartFileRequest: false,
     method: "POST",
@@ -44,6 +48,7 @@ export const CREATE_VOTE = (voteRequest: VoteRequest) => {
 
 export const GET_CURRENT_ADDRESS = (currentArea: CurrentArea) => {
   return {
+    externalService: false,
     method: "GET",
     hasMock: true,
     isMultipartFileRequest: false,
@@ -56,6 +61,7 @@ export const GET_CURRENT_ADDRESS = (currentArea: CurrentArea) => {
 
 export const GET_DEALS = (address: Address): Endpoint => {
   return {
+    externalService: false,
     hasMock: true,
     isMultipartFileRequest: false,
     method: "GET",
@@ -66,7 +72,23 @@ export const GET_DEALS = (address: Address): Endpoint => {
   };
 };
 
+export const GET_PRESIGNED_URL = (
+  fileType: string,
+  fileName: string
+): Endpoint => {
+  return {
+    externalService: false,
+    hasMock: false,
+    isMultipartFileRequest: false,
+    method: "GET",
+    url: "/file",
+    optionalRequestParam: () => `?contentType=${fileType}&fileName=${fileName}`,
+    serviceName: ServiceName.GET_PRESIGNED_URL
+  };
+};
+
 export const GET_USER_PROFILE = (): Endpoint => ({
+  externalService: false,
   hasMock: true,
   isMultipartFileRequest: false,
   method: "GET",
@@ -79,6 +101,7 @@ export const LOGIN_OAUTH_GOOGLE = (
   redirectUrl: string
 ): Endpoint => {
   return {
+    externalService: false,
     hasMock: false,
     isMultipartFileRequest: false,
     method: "POST",
@@ -95,6 +118,7 @@ export const LOGIN_OAUTH_GOOGLE = (
 };
 
 export const LOGOUT_OAUTH = (): Endpoint => ({
+  externalService: false,
   hasMock: false,
   isMultipartFileRequest: false,
   method: "DELETE",
@@ -105,11 +129,28 @@ export const LOGOUT_OAUTH = (): Endpoint => ({
 export const UPLOAD_IMAGE = (image: any): Endpoint => {
   return {
     body: image,
+    externalService: false,
     hasMock: false,
     isMultipartFileRequest: true,
     method: "POST",
     url: "/file/multipart",
     serviceName: ServiceName.UPLOAD_IMAGE
+  };
+};
+
+export const UPLOAD_IMAGE_SIGNED_URL = (
+  image: File,
+  signedUrl: string
+): Endpoint => {
+  return {
+    body: image,
+    customHeader: { "Content-Type": image.type },
+    externalService: true,
+    hasMock: false,
+    isMultipartFileRequest: true,
+    method: "PUT",
+    url: signedUrl,
+    serviceName: ServiceName.UPLOAD_IMAGE_SIGNED_URL
   };
 };
 
@@ -153,7 +194,9 @@ const generateParameter = (key: string, value: string) => {
 
 export interface Endpoint {
   body?: any;
+  customHeader?: {};
   errorReturn?: any;
+  externalService: boolean;
   hasMock: boolean;
   isMultipartFileRequest: boolean;
   method: string;

@@ -11,6 +11,7 @@ const GREY_TRANSPARENT = "rgba(12, 12, 12, .1)";
 const GREEN = "#5CC928";
 const GREEN_MDEIUM = "#1EA362";
 const ORANGE = "#FF4F00";
+const ORANGE_GRADIENT = "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)";
 const ORANGE_TRANSPARENT = "rgb(255, 168, 128, .1)";
 const RED = "EA4335";
 const RED_DARK = "#DA4B3C";
@@ -41,8 +42,10 @@ export interface StyleSheet {
     greyLight: string;
     greyTransparent: string;
     orange: string;
+    orangeGradient: string;
     orangeTransparent: string;
     primaryColor: string;
+    primaryGradient: string;
     primaryColorTransparent: string;
     red: string;
     redDark: string;
@@ -90,8 +93,10 @@ export const styleSchema: StyleSheet = {
     greyLight: GREY_LIGHT,
     greyTransparent: GREY_TRANSPARENT,
     orange: ORANGE,
+    orangeGradient: ORANGE_GRADIENT,
     orangeTransparent: ORANGE_TRANSPARENT,
     primaryColor: ORANGE,
+    primaryGradient: ORANGE_GRADIENT,
     primaryColorTransparent: ORANGE_TRANSPARENT,
     red: RED,
     redDark: RED_DARK,

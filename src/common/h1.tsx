@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { styleSchema } from "./stylesheet";
 
-interface Props {
+export interface Props {
   style?: any;
 }
 
-export default class H1 extends Component<Props> {
+export default class H1<ChildProps extends Props = Props> extends Component<
+  ChildProps
+> {
   render() {
     return (
       <p

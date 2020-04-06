@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import AppState from "./appState";
 import Deal, { Address, Coordinate } from "../../modal/deal";
-import CurrentArea from "../../modal/currentArea";
 import { UserProfile } from "../../modal/userProfile";
 import { OAuthProvider } from "../feature/oAuthProvider";
 
@@ -9,6 +8,10 @@ export interface State {
   address: {
     addressesPrediction: Address[];
     selectedAddress: Address;
+  };
+  createDeal: {
+    uploading: boolean;
+    progressMessage: string;
   };
   deal: {
     dealDraft?: Deal;
@@ -39,6 +42,10 @@ export default class GlobalStateComponent extends Component<{}, State> {
           zipCode: ""
         }
       },
+      createDeal: {
+        uploading: false,
+        progressMessage: ""
+      },
       deal: {
         deals: []
       },
@@ -61,7 +68,7 @@ export default class GlobalStateComponent extends Component<{}, State> {
   }
 
   render() {
-    const { address, deal, position, user } = this.state;
+    const { address, createDeal, deal, position, user } = this.state;
     return (
       <AppState.Provider
         value={{
@@ -69,6 +76,11 @@ export default class GlobalStateComponent extends Component<{}, State> {
             ...address,
             setSelectedAddress: this.setSelectedAddress,
             setPredicteAddresses: this.setPredicteAddresses
+          },
+          createDeal: {
+            ...createDeal,
+            setCreateDealUploading: this.setCreateDealUploading,
+            setCreateDealProgressMessage: this.setCreateDealProgressMessage
           },
           deal: { ...deal, setDeals: this.setDeals },
           position: {
@@ -106,6 +118,18 @@ export default class GlobalStateComponent extends Component<{}, State> {
   protected setDeals = (deals: Deal[]) => {
     this.setState({
       deal: { ...this.state.deal, deals }
+    });
+  };
+
+  protected setCreateDealUploading = (uploading: boolean) => {
+    this.setState({
+      createDeal: { ...this.state.createDeal, uploading }
+    });
+  };
+
+  protected setCreateDealProgressMessage = (progressMessage: string) => {
+    this.setState({
+      createDeal: { ...this.state.createDeal, progressMessage }
     });
   };
 

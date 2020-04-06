@@ -2,7 +2,7 @@ import Resizer from "react-image-file-resizer";
 import loadImage from "blueimp-load-image";
 
 export default class ImageProcessor {
-  public imageResize(
+  public imageCompress(
     file: File,
     imageType: string,
     height: number,
@@ -15,7 +15,7 @@ export default class ImageProcessor {
       };
       Resizer.imageFileResizer(
         file,
-        width,
+        width / 5,
         height,
         imageType,
         quality,
@@ -33,9 +33,6 @@ export default class ImageProcessor {
       const image = new Image();
       image.src = URL.createObjectURL(file);
       image.onload = () => {
-        console.debug(
-          `type:${file.type} size:${file.size} height:${image.height} width:${image.width}`
-        );
         return resolve({
           height: image.height,
           size: file.size,
@@ -46,18 +43,20 @@ export default class ImageProcessor {
     });
   }
 
-  public async compressImage(file: any, raw: string) {
-    let fixed = await this.fixRotation(file, this.guessImageMime(raw));
-    const { height, size, type, width } = await this.getImageInfo(file);
-    let iamgeBlob = await this.transferToBlob(fixed);
-    const processedImage = await this.imageResize(
-      iamgeBlob,
+  public async imagePrecprocess(file: any): Promise<File> {
+    let blob = await this.transferToBlob(file);
+    const { height, size, type, width } = await this.getImageInfo(blob);
+    console.debug("original image size:", size);
+    const imageCompressQuality = size > 100000 ? 10 : 100;
+    const processedImage = await this.imageCompress(
+      blob,
       type,
       height,
       width,
-      5
+      imageCompressQuality
     );
-    return processedImage;
+    await this.getImageInfo(processedImage);
+    return Promise.resolve(processedImage);
   }
 
   protected transferToBlob(file: any): Promise<any> {
@@ -68,12 +67,12 @@ export default class ImageProcessor {
     });
   }
 
-  protected fixRotation(file: any, imageType: string): Promise<any> {
+  public fixRotation(file: any): Promise<any> {
     return new Promise((resolve, reject) => {
       loadImage(
         file,
         (img: any) => {
-          return resolve(img.toDataURL(imageType));
+          return resolve(img.toDataURL(this.guessImageMime(file)));
         },
         { orientation: true }
       );

@@ -6,6 +6,7 @@ import { Init } from "./component/init";
 import GlobalStateComponent from "./common/context/globalStateComponent";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Banner } from "./component/banner";
 
 export default class App extends Component {
   render() {
@@ -15,6 +16,7 @@ export default class App extends Component {
         <div className="App-header">
           <Header />
         </div>
+        <Banner />
         <div className="Content">
           <LandingPage />
         </div>

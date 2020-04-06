@@ -2,8 +2,14 @@ import React, { ChangeEvent } from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { CreateDealLandingPageV2View } from "./";
 import Deal, { Address, GetDealResponse } from "../../modal/deal";
-import { UPLOAD_IMAGE, CREATE_DEAL } from "../../common/middleware/service";
+import {
+  CREATE_DEAL,
+  UPLOAD_IMAGE_SIGNED_URL,
+  GET_PRESIGNED_URL
+} from "../../common/middleware/service";
 import { GET_DEALS } from "../../common/middleware/service";
+import { FileUploadResponse } from "../../modal/fileUploadResponse";
+import { FileDetail } from "../../modal/fileDetal";
 
 const ALLOWED_NUMBER_OF_FILE = 9;
 
@@ -13,11 +19,11 @@ interface Props {
 
 interface State {
   blobFiles: any[];
-  dealCreateSuccess?: boolean;
   description: string;
-  files: string[];
+  files: FileDetail[];
+  hasAddress: boolean;
+  hasField: boolean;
   selectedAddress?: Address;
-  showToastMessage: boolean;
   title: string;
 }
 
@@ -31,7 +37,8 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       files: [],
       blobFiles: [],
       description: "",
-      showToastMessage: false,
+      hasAddress: true,
+      hasField: true,
       title: ""
     };
   }
@@ -40,7 +47,6 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     return (
       <CreateDealLandingPageV2View
         allowNumberOfFile={ALLOWED_NUMBER_OF_FILE}
-        dealCreateSuccess={this.state.dealCreateSuccess}
         files={this.state.files}
         onAddFile={this.onAddFile}
         onChangeDescription={this.onChangeDescription}
@@ -50,15 +56,15 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         onClickSaveDraft={this.onClickSaveDraft}
         onClickSubmit={this.onClickSubmit}
         onClose={this.props.onClose}
-        onCloseToastMessage={this.onCloseToastMessage}
+        hasAddress={this.state.hasAddress}
+        hasField={this.state.hasField}
         selectedAddress={this.state.selectedAddress}
-        showToastMessage={this.state.showToastMessage}
       />
     );
   }
 
   protected onAddFile = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("onAddImage");
+    console.debug("onAddImage");
     const fileList = event.target.files;
     if (fileList !== null) {
       for (let i = 0; i < fileList.length; i++) {
@@ -67,22 +73,22 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     }
   };
 
-  protected convertImageToBase64(image: File) {
+  protected async convertImageToBase64(image: File) {
     const fileReader: FileReader = new FileReader();
     fileReader.onload = changeEvent => {
       if (changeEvent.target && changeEvent.target.result) {
-        this.setState({
-          files: this.state.files.concat(changeEvent.target.result.toString())
-        });
-      }
-      this.imageProcessor
-        .compressImage(image, changeEvent.target?.result?.toString() ?? "")
-        .then(result => {
-          console.debug("finish pushing into state");
-          this.setState({
-            blobFiles: this.state.blobFiles.concat(result)
+        this.imageProcessor
+          .fixRotation(changeEvent.target.result.toString())
+          .then(fixedRotation => {
+            this.setState({
+              files: this.state.files.concat({
+                base64Value: fixedRotation,
+                name: image.name,
+                type: image.type
+              })
+            });
           });
-        });
+      }
     };
     fileReader.readAsDataURL(image);
   }
@@ -121,53 +127,78 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
 
   protected onClickSubmit = async () => {
     console.debug("onClickSubmit");
-    // upload all images in the state
-    const result = await Promise.all(
-      this.state.blobFiles.map(file => {
-        const formData: FormData = new FormData();
-        formData.append("image", file, "image");
-        return this.appContext.serviceExecutor.execute(UPLOAD_IMAGE(formData));
-      })
-    );
-    if (result) {
-      const deal: Deal = {
-        address: this.state.selectedAddress,
-        description: this.state.description,
-        filesUrl: result.map(url => url.url),
-        serverIdentifierName: this.state.selectedAddress?.area,
-        timestamp: 0,
-        title: this.state.title
-      };
-      this.appContext.serviceExecutor
-        .execute(CREATE_DEAL(deal))
-        .then(() => {
-          setTimeout(() => {
-            this.props.onClose();
-          }, 2500);
-          this.setState({
-            showToastMessage: true,
-            dealCreateSuccess: true
-          });
-          if (this.state.selectedAddress) {
-            this.appContext.serviceExecutor
-              .execute(GET_DEALS(this.state?.selectedAddress))
-              .then((result: GetDealResponse) => {
-                this.appState.deal.setDeals(result.deals);
-              });
-          }
-        })
-        .catch(() => {
-          this.setState({
-            showToastMessage: true,
-            dealCreateSuccess: false
-          });
-        });
+    if (this.verifyInput()) {
+      this.onSubmit();
     }
   };
 
-  protected onCloseToastMessage = () => {
-    this.setState({
-      showToastMessage: false
-    });
+  protected onSubmit = async () => {
+    console.debug("start to submit a new deal");
+    await this.appState.createDeal.setCreateDealUploading(true);
+    this.props.onClose();
+    const labels = this.appContext.labels.createDealPageV2;
+    await this.appState.createDeal.setCreateDealProgressMessage(
+      labels.uploadingImage
+    );
+    const imageUploadResult = await Promise.all(
+      this.state.files.map(async file => {
+        const imageBlob: File = await this.imageProcessor.imagePrecprocess(
+          file.base64Value
+        );
+        const fileUploadResponse: FileUploadResponse = await this.appContext.serviceExecutor.execute(
+          GET_PRESIGNED_URL(file.type, file.name)
+        );
+        await this.appContext.serviceExecutor.execute(
+          UPLOAD_IMAGE_SIGNED_URL(
+            imageBlob,
+            fileUploadResponse.preSignedUrl ?? ""
+          )
+        );
+        return fileUploadResponse.url;
+      })
+    ).then(url => url);
+
+    await this.appState.createDeal.setCreateDealProgressMessage(
+      labels.uploadingDeal
+    );
+    const createDeal: Deal = {
+      address: this.state.selectedAddress,
+      description: this.state.description,
+      filesUrl: imageUploadResult.map(url => url ?? ""),
+      serverIdentifierName: this.state.selectedAddress?.area,
+      timestamp: 0,
+      title: this.state.title
+    };
+    await this.appContext.serviceExecutor.execute(CREATE_DEAL(createDeal));
+    if (this.state.selectedAddress) {
+      await this.appContext.serviceExecutor
+        .execute(GET_DEALS(this.state.selectedAddress))
+        .then((result: GetDealResponse) => {
+          this.appState.deal.setDeals(result.deals);
+        })
+        .then(() => {
+          setTimeout(() => {
+            this.appState.createDeal.setCreateDealUploading(false);
+          }, 5000);
+        })
+        .catch(() => {
+          console.debug("something weng wrong while creating deal");
+        });
+    }
+    await this.appState.createDeal.setCreateDealProgressMessage(
+      labels.uploadCompleted
+    );
   };
+
+  protected verifyInput(): boolean {
+    const state = this.state;
+    let hasAddress = state.selectedAddress !== undefined;
+    let hasField: boolean =
+      state.title !== "" || state.description !== "" || state.files.length > 0;
+    this.setState({
+      hasAddress,
+      hasField
+    });
+    return hasAddress && hasField;
+  }
 }

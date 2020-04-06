@@ -132,7 +132,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
       `deal-${this.props.index} cover-image`
     )?.clientHeight;
     if (height) {
-      console.log(height);
+      console.debug(height);
       this.setState({
         coverImageHeight:
           height < MAXIMUM_IMAGE_HEIGHT ? height : MAXIMUM_IMAGE_HEIGHT,
