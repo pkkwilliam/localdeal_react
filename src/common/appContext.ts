@@ -57,11 +57,11 @@ export default class AppContext {
   }
 
   get isMock(): boolean {
-    return true;
+    return false;
   }
 
   get isProd(): boolean {
-    return false;
+    return true;
   }
 
   get oAuthRedirectUrl(): string {
