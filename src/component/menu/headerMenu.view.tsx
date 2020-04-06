@@ -1,23 +1,14 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
-import {
-  Image,
-  View,
-  styleSchema,
-  TextButton,
-  H4,
-  H5,
-  DrawerMenu,
-  P,
-  Toast
-} from "../../common";
+import { Image, View, styleSchema, TextButton, H4, H5, P } from "../../common";
 import { Menu as MenuIcon } from "@material-ui/icons";
 import Link from "@material-ui/core/Link";
-import { Login } from "../login";
 import { Feature } from "../../common/feature/feature";
 import { OAuth } from "../oAuth";
 import { UserProfile } from "../../modal/userProfile";
 import { OAuthProvider } from "../../common/feature/oAuthProvider";
+import { getLazyComponent } from "../../lazyLoad/lazyLoad";
+import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
 
 export interface Props {
   isMenuOpen: boolean;
@@ -27,19 +18,21 @@ export interface Props {
   userProfile: UserProfile;
 }
 
+const Drawer = getLazyComponent(LazyLoadComponent.Drawer);
+
 export default class HeaderMenuView extends ApplicationComponent<Props> {
   render() {
     if (this.appContext.features.includes(Feature.HEADER_MENU)) {
       return (
         <View borderLeft={1} style={styles.menuIconContainer}>
           <MenuIcon style={styles.menuIcon} onClick={this.props.onClickMenu} />
-          <DrawerMenu
+          <Drawer
             anchor={"right"}
             onClose={this.props.onCloseMenu}
             open={this.props.isMenuOpen}
           >
             <this.MenuContainer />
-          </DrawerMenu>
+          </Drawer>
         </View>
       );
     } else {
@@ -109,7 +102,6 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
         <this.UserProfileHeaderSection />
         <this.DevelopingFeatures />
         <H5>{label.bugReportDescription}</H5>
-        <Login />
         <View style={styles.oAuthContainer}>
           <OAuth />
         </View>
@@ -139,42 +131,41 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
 }
 const styles = {
   developingFeatureContainer: {
-    padding: 15
+    padding: 15,
   },
   lowerPortionContainer: {
     alignItems: "center",
     paddingTop: 20,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   menuIconContainer: {
     borderColor: styleSchema.color.greyTransparent,
-    marginLeft: 18
+    marginLeft: 18,
   },
   menuIcon: {
     color: styleSchema.color.greyDark,
-    ...styleSchema.icon
+    ...styleSchema.icon,
   },
   menuContainer: {
     alignItems: "center",
     height: "inherit",
     justifyContent: "space-between",
-    width: "inherit"
+    width: "inherit",
   },
   oAuthContainer: {
     marginTop: 20,
-    width: "inherit"
+    width: "inherit",
   },
   upperPortionContainer: {
     alignItems: "center",
     paddingTop: 20,
-    width: "inherit"
+    width: "inherit",
   },
   userProfileHeaderSectionContainer: {
     alignItems: "center",
-    // backgroundColor: styleSchema.color.greyTransparent,
     borderRadius: 5,
     justifyContent: "space-between",
     padding: 5,
-    width: "inherit"
-  }
+    width: "inherit",
+  },
 };

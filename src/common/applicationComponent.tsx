@@ -41,7 +41,7 @@ export default class ApplicationComponent<
     }
     return {
       authorizationCode,
-      oAuthProvider
+      oAuthProvider,
     };
   }
 

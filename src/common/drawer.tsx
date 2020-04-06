@@ -1,14 +1,14 @@
-import React, { Component, ReactNode } from "react";
-import { Drawer, DrawerProps } from "@material-ui/core";
+import React, { Component } from "react";
+import { default as MuiDrawer, DrawerProps } from "@material-ui/core/Drawer";
 import { View } from ".";
 import { styleSchema } from "./stylesheet";
 
-export default class DrawerMenu extends Component<DrawerProps> {
+export default class Draewer extends Component<DrawerProps> {
   render() {
     return (
-      <Drawer {...this.props}>
+      <MuiDrawer {...this.props}>
         <View style={styles.rootContainer}>{this.props.children}</View>
-      </Drawer>
+      </MuiDrawer>
     );
   }
 }
@@ -20,6 +20,6 @@ const styles = {
     height: "inherit",
     paddingLeft: 15,
     paddingRight: 15,
-    width: styleSchema.dimension.FILL_ALL_WIDTH
-  }
+    width: styleSchema.dimension.FILL_ALL_WIDTH,
+  },
 };

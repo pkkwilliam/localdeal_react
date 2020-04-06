@@ -1,6 +1,6 @@
 import React from "react";
 import ApplicationComponent from "./applicationComponent";
-import { Box, BoxProps } from "@material-ui/core";
+import Box, { BoxProps } from "@material-ui/core/Box";
 
 interface Props extends BoxProps {
   alignItems?: string;

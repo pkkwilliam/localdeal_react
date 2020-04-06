@@ -1,9 +1,8 @@
 import React from "react";
 import Deal, { Address } from "../../modal/deal";
-import { H5, LocalDealTextField, styleSchema, View } from "../../common";
+import { H5, styleSchema, View } from "../../common";
 import ApplicationComponent from "../../common/applicationComponent";
-import { Feature } from "../../common/feature/feature";
-import { DealSectionView, DealSectionV2View } from "./dealSection";
+import { DealSectionV2View } from "./dealSection";
 
 export interface Props {
   deals: Deal[];
@@ -32,11 +31,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   BodySection = () => {
     const displayBody = () => {
       if (this.props.deals.length) {
-        return !this.appContext.features.includes(Feature.DEAL_LEGACY) ? (
-          <DealSectionV2View deals={this.props.deals} />
-        ) : (
-          <DealSectionView {...this.props} />
-        );
+        return <DealSectionV2View deals={this.props.deals} />;
       } else if (this.props.isLoadingDeals) {
         return <this.LoadingDeals />;
       } else {
@@ -66,18 +61,6 @@ export default class LandingPageView extends ApplicationComponent<Props> {
       <View style={styles.noDealInAreaContainer}>
         <H5>{this.appContext.labels.landingPage.noDeal}</H5>
       </View>
-    );
-  };
-
-  TextFieldArea = () => {
-    return (
-      <LocalDealTextField
-        defaultValue={this.props.textFieldValue}
-        onBlur={() => this.props.onBlurTextField()}
-        onChange={text => this.props.onChangeSearchTextField(text)}
-        onFocus={() => this.props.onFocusTextField()}
-        text={this.appContext.labels.landingPage.area}
-      />
     );
   };
 }

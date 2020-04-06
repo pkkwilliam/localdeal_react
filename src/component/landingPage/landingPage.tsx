@@ -141,12 +141,7 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
   }
 
   render() {
-    let {
-      isCreateDealDrawerOpen,
-      showSearchButton,
-      textFieldValue,
-      useAutoLocation
-    } = this.state;
+    let { showSearchButton, textFieldValue } = this.state;
     // sort deal
     const sortedDeal: Deal[] = this.sortDeals(
       this.appState.deal.deals ? this.appState.deal.deals : []

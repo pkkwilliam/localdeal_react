@@ -1,23 +1,15 @@
-import React, { ReactNode, ReactElement } from "react";
+import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import "../../App.css";
-
 import { Address } from "../../modal/deal";
-import { styleSchema, View, DrawerMenu, Image } from "../../common";
-import {
-  CreateDealLandingPage,
-  CreateDealLandingPageV2
-} from "../createDealLandingPage";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { styleSchema, View } from "../../common";
 import { AddressPrediction } from "../addressPrediction";
 import logo from "../../resouces/logo_icon_character-min.png";
 import { Add as AddIcon, Room as LocationIcon } from "@material-ui/icons";
 import ToolTips from "../../common/ToolTips";
-import { HeaderMenu } from "../menu";
 import { UserProfile } from "../../modal/userProfile";
-import { OAuthProvider } from "../../common/feature/oAuthProvider";
-import { Feature } from "../../common/feature/feature";
-import { Avatar } from "@material-ui/core";
+import { getLazyComponent } from "../../lazyLoad/lazyLoad";
+import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
 
 export interface Props {
   isCreateDealDrawerOpen: boolean;
@@ -30,6 +22,9 @@ export interface Props {
   selectedAddress?: Address;
   userProfile: UserProfile;
 }
+
+const CreateDealComponent = getLazyComponent(LazyLoadComponent.CreateDeal);
+const Drawer = getLazyComponent(LazyLoadComponent.Drawer);
 
 export default class HeaderView extends ApplicationComponent<Props> {
   render() {
@@ -50,22 +45,14 @@ export default class HeaderView extends ApplicationComponent<Props> {
   }
 
   CreateDealDrawer = () => {
-    const createDealSection = !this.appContext.features.includes(
-      Feature.DEAL_LEGACY
-    ) ? (
-      <CreateDealLandingPageV2 onClose={this.props.onCloseCreateDeal} />
-    ) : (
-      <CreateDealLandingPage onClickClose={this.props.onCloseCreateDeal} />
-    );
-
     return (
-      <DrawerMenu
+      <Drawer
         anchor={"top"}
         onClose={this.props.onCloseCreateDeal}
         open={this.props.isCreateDealDrawerOpen}
       >
-        {createDealSection}
-      </DrawerMenu>
+        <CreateDealComponent onClose={this.props.onCloseCreateDeal} />
+      </Drawer>
     );
   };
 
@@ -76,43 +63,7 @@ export default class HeaderView extends ApplicationComponent<Props> {
         style={styles.createNewDealIcon}
       />
     );
-    // return (
-    //   <Button
-    //     style={styles.createNewButton}
-    //     onClick={this.props.onClickCreateDeal}
-    //     variant="text"
-    //   >
-    //     <H4>{this.appContext.labels.landingPage.createDealButton}</H4>
-    //   </Button>
-    // );
   };
-
-  // HamburgerMenu = () => {
-  //   if (this.appContext.showHamburgerMenu) {
-  //     return (
-  //       <View borderLeft={1} style={styles.hamburgerMenuIconContainer}>
-  //         <HamburgerMenuIcon
-  //           style={styles.hamburgerMenuIcon}
-  //           onClick={this.props.onClickHamburgerMenu}
-  //         />
-  //       </View>
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // };
-
-  // HamburgerMenuDrawer = () => {
-  //   return (
-  //     <Drawer
-  //       anchor={"right"}
-  //       onClose={this.props.onCloseHamburgerMenu}
-  //       open={this.props.isHamburgerMenuDrawerOpen}
-  //     >
-  //       <View></View>
-  //     </Drawer>
-  //   );
-  // };
 
   HeaderTextAndLogo = () => {
     return (
@@ -138,66 +89,48 @@ export default class HeaderView extends ApplicationComponent<Props> {
   };
 
   TopBarSection = () => {
+    const HeaderMenu = getLazyComponent(LazyLoadComponent.HeaderMenu);
     return (
       <View isFlexDirectionRow={true} style={styles.buttonContainer}>
         <this.CreateNewDealButton />
         <this.LocationButton />
         <HeaderMenu />
-        <this.UserProfileImage />
       </View>
     );
-  };
-
-  UserProfileImage = () => {
-    if (
-      this.appContext.features.includes(Feature.USER_PROFILE_IN_HEADER) &&
-      this.props.userProfile.oAuthProvider !== OAuthProvider.NONE
-    ) {
-      return (
-        <View style={styles.userProfileImageContainer}>
-          {/* <Image
-            size="miniCircularImage"
-            src={this.props.userProfile.imageUrl}
-          /> */}
-          <Avatar src={this.props.userProfile.imageUrl} />
-        </View>
-      );
-    }
-    return null;
   };
 }
 
 const styles = {
   buttonContainer: {
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   circularProgress: {
-    marginLeft: 5
+    marginLeft: 5,
   },
   createNewDealIcon: {
     color: styleSchema.color.primaryColor,
-    ...styleSchema.icon
+    ...styleSchema.icon,
   },
   createNewButton: {
     borderColor: styleSchema.color.secondaryColor,
     borderRadius: styleSchema.button.borderRadius,
-    borderWidth: 3
+    borderWidth: 3,
   },
   locationButtonContainer: {
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   locationIcon: {
     color: styleSchema.color.greenMedium,
-    ...styleSchema.icon
+    ...styleSchema.icon,
   },
   rootContainer: {
     alignItems: "center",
     backgroundColor: styleSchema.color.white,
     borderColor: styleSchema.color.greyDark,
     justifyContent: "space-between",
-    padding: 15
+    padding: 15,
   },
   searchMethodLabel: {
     backgroundColor: styleSchema.remind.primaryColor,
@@ -206,9 +139,9 @@ const styles = {
     marginRight: 10,
     borderWidth: 3,
     paddingBottom: 5,
-    paddingTop: 5
+    paddingTop: 5,
   },
   userProfileImageContainer: {
-    marginLeft: 15
-  }
+    marginLeft: 15,
+  },
 };

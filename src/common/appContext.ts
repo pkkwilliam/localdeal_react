@@ -39,7 +39,7 @@ export default class AppContext {
       Feature.CONTACT_SHOW_EMAIL,
       Feature.HEADER_MENU,
       Feature.LOGIN_GOOGLE_OAUTH,
-      Feature.LOGIN_WECHAT_OAUTH
+      Feature.LOGIN_WECHAT_OAUTH,
     ];
   }
 
@@ -48,7 +48,7 @@ export default class AppContext {
     return {
       APIKEY: APIKEY,
       XMADTAPPID: X_MADT_APPID,
-      XMADTAPPVERSION: X_MADT_APP_VERSION
+      XMADTAPPVERSION: X_MADT_APP_VERSION,
     };
   }
 
@@ -57,7 +57,7 @@ export default class AppContext {
   }
 
   get isMock(): boolean {
-    return false;
+    return true;
   }
 
   get isProd(): boolean {
