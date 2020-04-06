@@ -27,7 +27,7 @@ export default class BannerView extends ApplicationComponent {
         <LinearProgress
           classes={{
             barColorPrimary: classes.barColorPrimary,
-            colorPrimary: classes.colorPrimary
+            colorPrimary: classes.colorPrimary,
           }}
           style={styles.linearProgressor}
         />
@@ -39,27 +39,21 @@ export default class BannerView extends ApplicationComponent {
 const styles = {
   linearProgressor: {
     color: "pink",
-    width: "inherit"
-  },
-  rootContainer: {
-    alignItems: "start",
-    borderColor: styleSchema.color.greyDark,
-    justifyContent: "center",
-    width: "inherit"
+    width: "inherit",
   },
   uploadObjectContainer: {
     paddingBottom: 10,
     paddingLeft: 15,
     paddingRight: 15,
-    paddingTop: 10
-  }
+    paddingTop: 10,
+  },
 };
 
 const materialUIStyleOverride = makeStyles({
   barColorPrimary: {
-    background: styleSchema.color.primaryGradient
+    background: styleSchema.color.primaryGradient,
   },
   colorPrimary: {
-    backgroundColor: styleSchema.color.primaryColorTransparent
-  }
+    backgroundColor: styleSchema.color.primaryColorTransparent,
+  },
 });

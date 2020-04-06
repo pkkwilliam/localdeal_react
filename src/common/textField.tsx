@@ -1,28 +1,29 @@
 import React, { Component } from "react";
-import { TextField as MaterialTextField, withStyles } from "@material-ui/core";
+import { default as MaterialTextField } from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/core/styles";
 
 const overrideStyles = {
   root: {
     "& label.Mui-focused": {
-      color: "yellow"
+      color: "yellow",
     },
     "& .MuiInput-underline:after": {
       borderBottomColor: "yellow",
-      borderWidth: "0px"
+      borderWidth: "0px",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "red"
+        borderColor: "red",
       },
       "&:hover fieldset": {
-        borderColor: "yellow"
+        borderColor: "yellow",
       },
       "&.Mui-focused fieldset": {
         borderColor: "yellow",
-        borderWidth: "0px"
-      }
-    }
-  }
+        borderWidth: "0px",
+      },
+    },
+  },
 };
 
 interface Props {
@@ -38,7 +39,7 @@ export default class TextField extends Component<Props> {
     return (
       <MaterialTextField
         multiline={this.props.multiline}
-        onChange={event => this.props.onChange(event.target.value)}
+        onChange={(event) => this.props.onChange(event.target.value)}
         placeholder={this.props.placeholder}
         rows={this.props.rows}
         style={styles.textField}
@@ -49,6 +50,6 @@ export default class TextField extends Component<Props> {
 
 const styles = {
   textField: {
-    width: "inherit"
-  }
+    width: "inherit",
+  },
 };

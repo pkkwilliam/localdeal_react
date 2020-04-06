@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Deal from "../../../../modal/deal";
+import Deal from "../../modal/deal";
 import DealCardV2 from "./dealCardV2";
 
 interface Props {

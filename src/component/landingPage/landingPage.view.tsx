@@ -1,22 +1,12 @@
 import React from "react";
-import Deal, { Address } from "../../modal/deal";
+import Deal from "../../modal/deal";
 import { H5, styleSchema, View } from "../../common";
 import ApplicationComponent from "../../common/applicationComponent";
-import { DealSectionV2View } from "./dealSection";
+import DealSectionV2View from "./dealSection.v2.view";
 
 export interface Props {
   deals: Deal[];
-  executeGetDeals: () => void;
   isLoadingDeals: boolean;
-  onBlurTextField: () => void;
-  onClickCard: () => void;
-  onClickDealSection: () => void;
-  onClickSearch: () => void;
-  onChangeSearchTextField: (text: string) => void;
-  onFocusTextField: () => void;
-  selectedAddress?: Address;
-  showSearchButton: boolean;
-  textFieldValue: string;
 }
 
 export default class LandingPageView extends ApplicationComponent<Props> {
@@ -66,62 +56,25 @@ export default class LandingPageView extends ApplicationComponent<Props> {
 }
 
 const styles = {
-  circularProgress: {
-    marginLeft: 5
-  },
-  createNewButton: {
-    borderColor: styleSchema.color.secondaryColor,
-    borderRadius: styleSchema.button.borderRadius,
-    borderWidth: 3
-  },
   dealSectionContainer: {
     alignItems: "center",
-    width: "100%"
+    width: "100%",
   },
-
   locationButtonContainer: {
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   noDealInAreaContainer: {},
   rootContainer: {
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
-    width: styleSchema.dimension.FILL_ALL_WIDTH
+    width: styleSchema.dimension.FILL_ALL_WIDTH,
   },
   searchButton: {
     borderColor: styleSchema.remind.secondaryColor,
     borderRadius: styleSchema.button.borderRadius,
     backgroundColor: styleSchema.remind.secondaryColor,
-    borderWidth: 3
+    borderWidth: 3,
   },
-  searchMethodLabel: {
-    coordinate: {
-      borderColor: styleSchema.remind.primaryColor,
-      borderRadius: styleSchema.button.borderRadius,
-      backgroundColor: styleSchema.remind.primaryColor,
-      borderWidth: 3,
-      paddingBottom: 5,
-      paddingTop: 5
-    },
-    manual: {
-      borderColor: styleSchema.remind.secondaryColor,
-      borderRadius: styleSchema.button.borderRadius,
-      backgroundColor: styleSchema.remind.secondaryColor,
-      borderWidth: 3,
-      paddingBottom: 5,
-      paddingTop: 5
-    }
-  },
-  slideImageContainer: {
-    alightItems: "center",
-    backgroundColor: "blue",
-    justifyContent: "center"
-  },
-  topBarContainer: {
-    justifyContent: "space-between",
-    paddingTop: 15,
-    width: "100%"
-  }
 };

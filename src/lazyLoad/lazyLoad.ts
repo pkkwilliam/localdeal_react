@@ -9,6 +9,8 @@ function getPath(component: LazyLoadComponent): any {
   switch (component) {
     case LazyLoadComponent.Banner:
       return import("../component/banner/banner");
+    case LazyLoadComponent.CollapseCard:
+      return import("../common/collapseCard");
     case LazyLoadComponent.CreateDeal:
       return import(
         "../component/createDealLandingPage/createDealLandingPage.v2"

@@ -1,7 +1,7 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { Image, View, styleSchema, TextButton, H4, H5, P } from "../../common";
-import { Menu as MenuIcon } from "@material-ui/icons";
+import { default as MenuIcon } from "@material-ui/icons/Menu";
 import Link from "@material-ui/core/Link";
 import { Feature } from "../../common/feature/feature";
 import { OAuth } from "../oAuth";

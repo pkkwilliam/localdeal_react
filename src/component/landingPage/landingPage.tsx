@@ -4,27 +4,19 @@ import Deal, { Coordinate, Address, GetDealResponse } from "../../modal/deal";
 import { LandingPageView } from ".";
 import {
   GET_CURRENT_ADDRESS,
-  GET_DEALS
+  GET_DEALS,
 } from "../../common/middleware/service";
 import "../../App.css";
 
 export interface State {
-  isCreateDealDrawerOpen: boolean;
   isLoading: boolean;
-  showSearchButton: boolean;
-  textFieldValue: string;
-  useAutoLocation: boolean;
 }
 
 export default class LandingPage extends ApplicationComponent<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      isCreateDealDrawerOpen: false,
       isLoading: true,
-      showSearchButton: false,
-      textFieldValue: "",
-      useAutoLocation: true
     };
   }
 
@@ -55,71 +47,17 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
       this.appContext.serviceExecutor
         .execute(
           GET_CURRENT_ADDRESS({
-            coordinate: this.appState.position.coordinate
+            coordinate: this.appState.position.coordinate,
           })
         )
         .then((addresses: Address[]) => {
           this.appState.address.setPredicteAddresses(addresses);
           this.appState.position.setLoadingPosition(false);
+          this.appState.address.setSelectedAddress(addresses[0]);
           return resolve();
         });
     });
   }
-
-  protected onBlurTextField = () => {
-    // need to complete
-    console.debug("onBlurTextField");
-  };
-
-  protected onClickedCard = () => {
-    // need to complete
-    console.debug("Card Clicked");
-  };
-
-  protected onClickedDealSection = () => {
-    // need to complete
-    console.debug("onClickedDealSection");
-    this.setState({
-      showSearchButton: false
-    });
-  };
-
-  protected onClickSearch = () => {
-    // need to complete
-    console.debug("onClickSearch");
-    // this.setState({
-    //   showSearchButton: false
-    //   Disable this for now, user need internet to access the service anyway
-    //   useAutoLocation: false
-    // });
-    // this.getDeals();
-  };
-
-  protected onClickDownVote = () => {
-    console.debug("onClickDownVote");
-  };
-
-  protected onClickUpVote = () => {
-    console.debug("onClickUpVote");
-  };
-
-  protected onChangeSearchTextField = (textFieldValue: string) => {
-    // TODO need to think about if we need to allow user to search by area. because user will have coordinate by their location.
-    // search can be only for item!!!!!!!
-    // need to complete
-    console.debug("onChangeSearchTextField");
-    this.setState({
-      // currentSearchArea: { areaName: textFieldValue }
-    });
-  };
-
-  protected onFocusTextField = () => {
-    // need to complete
-    console.debug("onFocusTextField");
-    this.setState({
-      showSearchButton: true
-    });
-  };
 
   protected executeGetDeals = () => {
     if (this.appState.address.selectedAddress?.area) {
@@ -127,7 +65,7 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
         .execute(GET_DEALS(this.appState.address.selectedAddress))
         .then((getDealResponse: GetDealResponse) => {
           this.setState({
-            isLoading: false
+            isLoading: false,
           });
           this.appState.deal.setDeals(getDealResponse.deals);
         });
@@ -141,25 +79,13 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
   }
 
   render() {
-    let { showSearchButton, textFieldValue } = this.state;
-    // sort deal
     const sortedDeal: Deal[] = this.sortDeals(
       this.appState.deal.deals ? this.appState.deal.deals : []
     );
     return (
       <LandingPageView
         deals={sortedDeal}
-        executeGetDeals={this.executeGetDeals}
         isLoadingDeals={this.state.isLoading}
-        onBlurTextField={this.onBlurTextField}
-        onClickCard={this.onClickedCard}
-        onClickDealSection={this.onClickedDealSection}
-        onClickSearch={this.onClickSearch}
-        onChangeSearchTextField={this.onChangeSearchTextField}
-        onFocusTextField={this.onFocusTextField}
-        selectedAddress={this.appState.address.selectedAddress}
-        showSearchButton={showSearchButton}
-        textFieldValue={textFieldValue}
       />
     );
   }

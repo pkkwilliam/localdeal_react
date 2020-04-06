@@ -6,17 +6,16 @@ import {
   PrimaryButton,
   MiniText,
   H5,
-  P
+  P,
 } from "../../common";
-import {
-  Add as AddIcon,
-  Close as CloseIcon,
-  Delete as DeleteIcon,
-  FolderOpen as FolderOpenIcon,
-  HelpOutline as HelpOutlineIcon,
-  Room as LocationIcon
-} from "@material-ui/icons";
-import { Button } from "@material-ui/core";
+import { default as AddIcon } from "@material-ui/icons/Add";
+import { default as CloseIcon } from "@material-ui/icons/Close";
+import { default as DeleteIcon } from "@material-ui/icons/Delete";
+import { default as FolderOpenIcon } from "@material-ui/icons/FolderOpen";
+import { default as HelpOutlineIcon } from "@material-ui/icons/HelpOutline";
+import { default as LocationIcon } from "@material-ui/icons/Room";
+
+import Button from "@material-ui/core/Button";
 import TextField from "../../common/textField";
 import { Address } from "../../modal/deal";
 import { FileDetail } from "../../modal/fileDetal";
@@ -58,7 +57,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
       <this.Frame>
         <input
           accept="image/*"
-          onChange={event => this.props.onAddFile(event)}
+          onChange={(event) => this.props.onAddFile(event)}
           style={{ display: "none" }}
           id="raised-button-file"
           multiple
@@ -94,7 +93,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
   };
 
   protected AddressBubble = () => {
-    const bubbles = this.appState.address.addressesPrediction.map(address => {
+    const bubbles = this.appState.address.addressesPrediction.map((address) => {
       return (
         <View
           border={1}
@@ -154,7 +153,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
   };
 
   protected FileSection = () => {
-    const images: ReactNode[] = this.props.files.map(image => (
+    const images: ReactNode[] = this.props.files.map((image) => (
       <this.ImageContainer image={image} />
     ));
     if (this.props.files.length < this.props.allowNumberOfFile) {
@@ -213,7 +212,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
 
   protected MissingSectionLabel = ({
     label,
-    hide
+    hide,
   }: {
     label: string;
     hide: boolean;
@@ -258,10 +257,10 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
 const styles = {
   addIcon: {
     color: styleSchema.color.greyTransparent,
-    fontSize: "80"
+    fontSize: "80",
   },
   addIconButton: {
-    borderRadius: 10
+    borderRadius: 10,
   },
   addressBubbleContainer: {
     borderColor: styleSchema.color.secondaryColor,
@@ -270,40 +269,40 @@ const styles = {
     paddingBottom: 2,
     paddingLeft: 10,
     paddingRight: 10,
-    marginRight: 5
+    marginRight: 5,
   },
   addressSelectionContainer: {
     overflow: "scroll",
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   addressSectionContainer: {
     alignItems: "center",
     marginTop: 5,
-    width: "inherit"
+    width: "inherit",
   },
   bottomButtonSectionContainer: {
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 20,
     marginTop: 20,
-    width: "inherit"
+    width: "inherit",
   },
   closeIcon: {
-    color: styleSchema.color.greyDark
+    color: styleSchema.color.greyDark,
   },
   deleteIcon: {
-    color: styleSchema.color.greyDark
+    color: styleSchema.color.greyDark,
   },
   descriptionTextField: {
     marginTop: 10,
-    width: "inherit"
+    width: "inherit",
   },
   draftButton: {
-    padding: 0
+    padding: 0,
   },
   draftButtonContainer: {
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   draftIcon: {
     backgroundColor: styleSchema.color.secondaryColorTransparent,
@@ -311,14 +310,14 @@ const styles = {
     color: styleSchema.color.secondaryColor,
     fontSize: 16,
     marginBottom: 1,
-    padding: 3
+    padding: 3,
   },
   fileSectionContainer: {
     alignItems: "start",
     overflow: "scroll",
     paddingBottom: 10,
     paddingTop: 10,
-    width: "inherit"
+    width: "inherit",
   },
   frameContainer: {
     alignItems: "center",
@@ -329,47 +328,47 @@ const styles = {
     maxHeight: 80,
     maxWidth: 80,
     minHeight: 80,
-    minWidth: 80
+    minWidth: 80,
   },
   headerContainer: {
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: 15,
-    width: "inherit"
+    width: "inherit",
   },
   imageDimensionTipsContainer: {
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   imageDimensionTipsIcon: {
     color: styleSchema.color.secondaryColor,
-    fontSize: 18
+    fontSize: 18,
   },
   imageStyle: {
     borderRadius: 10,
     minHeight: "inherit",
-    minWidth: "inherit"
+    minWidth: "inherit",
   },
   locationIcon: {
     color: styleSchema.color.red,
     marginLeft: -5,
     marginRight: 3,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   rootContainer: {
-    width: "inherit"
+    width: "inherit",
   },
   selectedAddressContainer: {
     alignItems: "center",
     justifyContent: "space-between",
     paddingBottom: 10,
-    width: "inherit"
+    width: "inherit",
   },
   selectedAddressText: {
-    color: styleSchema.color.black
+    color: styleSchema.color.black,
   },
   titleTextField: {
     marginTop: 10,
-    width: "inherit"
-  }
+    width: "inherit",
+  },
 };

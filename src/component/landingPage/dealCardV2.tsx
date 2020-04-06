@@ -1,18 +1,20 @@
 import React from "react";
-import Deal, { Address } from "../../../../modal/deal";
+import Deal, { Address } from "../../modal/deal";
 import {
   Slider,
   CardBottomVote,
-  CollapseCard,
   View,
   styleSchema,
   H1,
   H5,
-  AddressDisplay
-} from "../../../../common";
-import ApplicationComponent from "../../../../common/applicationComponent";
+  AddressDisplay,
+} from "../../common";
+import ApplicationComponent from "../../common/applicationComponent";
+import { getLazyComponent } from "../../lazyLoad/lazyLoad";
+import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
 
 const MAXIMUM_IMAGE_HEIGHT = 500;
+const CollapseCard = getLazyComponent(LazyLoadComponent.CollapseCard);
 
 interface Props {
   deal: Deal;
@@ -31,7 +33,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
     this.state = {
       coverImageHeight: 150,
       coverImageLoaded: false,
-      expanded: false
+      expanded: false,
     };
   }
 
@@ -74,7 +76,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
   protected CardHeader = ({
     address,
     timestamp,
-    title
+    title,
   }: {
     address?: Address;
     timestamp: number;
@@ -123,7 +125,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
 
   protected onExpand = () => {
     this.setState({
-      expanded: !this.state.expanded
+      expanded: !this.state.expanded,
     });
   };
 
@@ -136,7 +138,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
       this.setState({
         coverImageHeight:
           height < MAXIMUM_IMAGE_HEIGHT ? height : MAXIMUM_IMAGE_HEIGHT,
-        coverImageLoaded: true
+        coverImageLoaded: true,
       });
     }
   };
@@ -145,19 +147,19 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
 const styles = {
   cardContainer: {
     justifyContent: "space-between",
-    width: "inherit"
+    width: "inherit",
   },
   empty: {},
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",
     marginTop: 5,
-    width: "inherit"
+    width: "inherit",
   },
   rootContainer: {
     backgroundColor: styleSchema.color.white,
     borderColor: styleSchema.color.greyTransparent,
     padding: 15,
-    width: "inherit"
-  }
+    width: "inherit",
+  },
 };

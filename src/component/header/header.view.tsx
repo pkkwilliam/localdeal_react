@@ -3,24 +3,18 @@ import ApplicationComponent from "../../common/applicationComponent";
 import "../../App.css";
 import { Address } from "../../modal/deal";
 import { styleSchema, View } from "../../common";
-import { AddressPrediction } from "../addressPrediction";
 import logo from "../../resouces/logo_icon_character-min.png";
-import { Add as AddIcon, Room as LocationIcon } from "@material-ui/icons";
+import { default as AddIcon } from "@material-ui/icons/Add";
+import { default as LocationIcon } from "@material-ui/icons/Room";
 import ToolTips from "../../common/ToolTips";
-import { UserProfile } from "../../modal/userProfile";
 import { getLazyComponent } from "../../lazyLoad/lazyLoad";
 import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
 
 export interface Props {
   isCreateDealDrawerOpen: boolean;
-  isHamburgerMenuDrawerOpen: boolean;
   onClickCreateDeal: () => void;
-  onClickHamburgerMenu: () => void;
   onCloseCreateDeal: () => void;
-  onCloseHamburgerMenu: () => void;
-  onClickLocationButton: () => void;
   selectedAddress?: Address;
-  userProfile: UserProfile;
 }
 
 const CreateDealComponent = getLazyComponent(LazyLoadComponent.CreateDeal);
@@ -35,7 +29,6 @@ export default class HeaderView extends ApplicationComponent<Props> {
           isFlexDirectionRow={true}
           style={styles.rootContainer}
         >
-          <AddressPrediction />
           <this.CreateDealDrawer />
           <this.HeaderTextAndLogo />
           <this.TopBarSection />
@@ -105,21 +98,9 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
   },
-  circularProgress: {
-    marginLeft: 5,
-  },
   createNewDealIcon: {
     color: styleSchema.color.primaryColor,
     ...styleSchema.icon,
-  },
-  createNewButton: {
-    borderColor: styleSchema.color.secondaryColor,
-    borderRadius: styleSchema.button.borderRadius,
-    borderWidth: 3,
-  },
-  locationButtonContainer: {
-    alignItems: "center",
-    justifyContent: "center",
   },
   locationIcon: {
     color: styleSchema.color.greenMedium,
@@ -131,17 +112,5 @@ const styles = {
     borderColor: styleSchema.color.greyDark,
     justifyContent: "space-between",
     padding: 15,
-  },
-  searchMethodLabel: {
-    backgroundColor: styleSchema.remind.primaryColor,
-    borderColor: styleSchema.remind.primaryColor,
-    borderRadius: styleSchema.button.borderRadius,
-    marginRight: 10,
-    borderWidth: 3,
-    paddingBottom: 5,
-    paddingTop: 5,
-  },
-  userProfileImageContainer: {
-    marginLeft: 15,
   },
 };

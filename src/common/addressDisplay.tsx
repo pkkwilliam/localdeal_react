@@ -17,14 +17,6 @@ export default class AddressDisplay extends ApplicationComponent<Props> {
   }
 
   protected generateAddressWithSpace(address: Address): string {
-    let { street1, street2, city, state, zipCode, country } = address;
-    // return `
-    // ${this.removeNotValidAddress(street1 || "")}
-    // ${this.removeNotValidAddress(street2 || "")}
-    // ${this.removeNotValidAddress(city || "")}
-    // ${this.removeNotValidAddress(state || "")}
-    // ${this.removeNotValidAddress(zipCode || "")}
-    // ${this.removeNotValidAddress(country)}`;
     return address.formattedAddress || "";
   }
 

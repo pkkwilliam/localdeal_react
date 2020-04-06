@@ -1,9 +1,10 @@
 import ApplicationComponent from "./applicationComponent";
 import React from "react";
 import { View, H5 } from ".";
-import { ThumbDown, ThumbUp } from "@material-ui/icons";
+import ThumbDown from "@material-ui/icons/ThumbDown";
+import ThumbUp from "@material-ui/icons/ThumbUp";
 import { styleSchema } from "./stylesheet";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import Deal, { Address, GetDealResponse } from "../modal/deal";
 import { CREATE_VOTE } from "./middleware/service";
 
@@ -20,7 +21,7 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      voted: false
+      voted: false,
     };
   }
 
@@ -36,7 +37,7 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
 
   protected VoteButton = ({
     voteCount,
-    voteUpIcon
+    voteUpIcon,
   }: {
     voteCount: number;
     voteUpIcon: boolean;
@@ -88,7 +89,7 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
           CREATE_VOTE({
             id,
             upVote,
-            serverIdentifierName
+            serverIdentifierName,
           })
         )
         .then((getDealResponse: GetDealResponse) => {
@@ -103,33 +104,33 @@ const styles = {
   buttonContainer: {
     alignItems: "center",
     borderRadius: 5,
-    marginRight: 5
+    marginRight: 5,
   },
   componentStyle: {
-    paddingRight: 10
+    paddingRight: 10,
   },
   mainIconStyle: {
     fontSize: 22,
     paddingTop: 2,
-    paddingBottom: 2
+    paddingBottom: 2,
   },
   iconButton: {
-    padding: 0
+    padding: 0,
   },
   rootContainer: {
     alignItems: "center",
-    marginTop: 10
+    marginTop: 10,
   },
   VotedButtonContainer: {
-    backgroundColor: styleSchema.color.secondaryColorTransparent
+    backgroundColor: styleSchema.color.secondaryColorTransparent,
   },
   VoteButtonContainer: {
-    backgroundColor: styleSchema.color.primaryColorTransparent
+    backgroundColor: styleSchema.color.primaryColorTransparent,
   },
   votedIcon: {
-    color: styleSchema.color.secondaryColor
+    color: styleSchema.color.secondaryColor,
   },
   voteIcon: {
-    color: styleSchema.color.primaryColor
-  }
+    color: styleSchema.color.primaryColor,
+  },
 };

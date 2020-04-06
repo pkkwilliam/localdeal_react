@@ -1,10 +1,10 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
-import { Button, Link } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
 import { OAuthProvider } from "../../common/feature/oAuthProvider";
-import { BackgroundTheme, View, H4, Image, TextButton, H1 } from "../../common";
+import { BackgroundTheme, View, H4, Image, TextButton } from "../../common";
 import { UserProfile } from "../../modal/userProfile";
-import Modal from "../../common/modal";
 import { Feature } from "../../common/feature/feature";
 
 interface Props {
@@ -92,16 +92,16 @@ const styles = {
   logoutButtonContainer: {
     height: "inherit",
     alignItems: "right",
-    justifyContent: "right"
+    justifyContent: "right",
   },
   rootContainer: {
     alignItems: "center",
     justifyContent: "space-around",
     padding: 10,
-    width: "inherit"
+    width: "inherit",
   },
   userTextInfoContainer: {
     marginLeft: 15,
-    width: "inherit"
-  }
+    width: "inherit",
+  },
 };

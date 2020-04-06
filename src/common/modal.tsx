@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Modal as MaterialUIModal, ModalProps } from "@material-ui/core";
+import {
+  default as MaterialUIModal,
+  ModalProps,
+} from "@material-ui/core/Modal";
 
 export default class Modal extends Component<ModalProps> {
   render() {
@@ -15,6 +18,6 @@ const styles = {
   rootContainer: {
     alignItems: "center",
     display: "flex",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 };

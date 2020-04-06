@@ -1,8 +1,10 @@
 import React from "react";
-import { ExpandMore, ExpandLess } from "@material-ui/icons";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLess from "@material-ui/icons/ExpandLess";
 import { View, H4, H5 } from ".";
 import { styleSchema } from "./stylesheet";
-import { Button, Collapse } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Collapse from "@material-ui/core/Collapse";
 import ApplicationComponent from "./applicationComponent";
 
 export interface Props {
@@ -89,23 +91,23 @@ export default class CollapseCard extends ApplicationComponent<Props> {
 const styles = {
   bottonToolBar: {
     justifyContent: "space-between",
-    width: "inherit"
+    width: "inherit",
   },
   collapsedContentContainer: {
     paddingBottom: 15,
-    paddingTop: 15
+    paddingTop: 15,
   },
   empty: {},
   expandSignButton: {
     backgroundColor: styleSchema.color.primaryColorTransparent,
     padding: 0,
     paddingLeft: 15,
-    paddingRight: 5
+    paddingRight: 5,
   },
   expandSignIcon: {
-    color: styleSchema.color.primaryColor
+    color: styleSchema.color.primaryColor,
   },
   rootContainer: {
-    width: "inherit"
-  }
+    width: "inherit",
+  },
 };
