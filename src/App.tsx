@@ -7,11 +7,12 @@ import { getLazyComponent } from "./lazyLoad/lazyLoad";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const Banner = getLazyComponent(LazyLoadComponent.Banner);
+const Header = getLazyComponent(LazyLoadComponent.Header);
+const LandingPage = getLazyComponent(LazyLoadComponent.LandingPage);
+
 export default class App extends Component {
   render() {
-    const Banner = getLazyComponent(LazyLoadComponent.Banner);
-    const Header = getLazyComponent(LazyLoadComponent.Header);
-    const LandingPage = getLazyComponent(LazyLoadComponent.LandingPage);
     return (
       <GlobalStateComponent>
         <Suspense fallback={<></>}>

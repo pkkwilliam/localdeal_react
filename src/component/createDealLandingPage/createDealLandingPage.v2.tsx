@@ -5,7 +5,7 @@ import Deal, { Address, GetDealResponse } from "../../modal/deal";
 import {
   CREATE_DEAL,
   UPLOAD_IMAGE_SIGNED_URL,
-  GET_PRESIGNED_URL
+  GET_PRESIGNED_URL,
 } from "../../common/middleware/service";
 import { GET_DEALS } from "../../common/middleware/service";
 import { FileUploadResponse } from "../../modal/fileUploadResponse";
@@ -39,7 +39,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       description: "",
       hasAddress: true,
       hasField: true,
-      title: ""
+      title: "",
     };
   }
 
@@ -75,17 +75,17 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
 
   protected async convertImageToBase64(image: File) {
     const fileReader: FileReader = new FileReader();
-    fileReader.onload = changeEvent => {
+    fileReader.onload = (changeEvent) => {
       if (changeEvent.target && changeEvent.target.result) {
         this.imageProcessor
           .fixRotation(changeEvent.target.result.toString())
-          .then(fixedRotation => {
+          .then((fixedRotation) => {
             this.setState({
               files: this.state.files.concat({
                 base64Value: fixedRotation,
                 name: image.name,
-                type: image.type
-              })
+                type: image.type,
+              }),
             });
           });
       }
@@ -96,28 +96,28 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
   protected onChangeDescription = (description: string) => {
     console.debug("onChangeDescription");
     this.setState({
-      description
+      description,
     });
   };
 
   protected onChangeTitle = (title: string) => {
     console.debug("onChangeTitle");
     this.setState({
-      title
+      title,
     });
   };
 
   protected onClickAddress = (selectedAddress: Address) => {
     console.debug("onClickAddress");
     this.setState({
-      selectedAddress
+      selectedAddress,
     });
   };
 
   protected onClickRemoveSelectedAddress = () => {
     console.debug("onClickRemoveSelectedAddress");
     this.setState({
-      selectedAddress: undefined
+      selectedAddress: undefined,
     });
   };
 
@@ -141,7 +141,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       labels.uploadingImage
     );
     const imageUploadResult = await Promise.all(
-      this.state.files.map(async file => {
+      this.state.files.map(async (file) => {
         const imageBlob: File = await this.imageProcessor.imagePrecprocess(
           file.base64Value
         );
@@ -156,7 +156,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         );
         return fileUploadResponse.url;
       })
-    ).then(url => url);
+    ).then((url) => url);
 
     await this.appState.createDeal.setCreateDealProgressMessage(
       labels.uploadingDeal
@@ -164,10 +164,10 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     const createDeal: Deal = {
       address: this.state.selectedAddress,
       description: this.state.description,
-      filesUrl: imageUploadResult.map(url => url ?? ""),
+      filesUrl: imageUploadResult.map((url) => url ?? ""),
       serverIdentifierName: this.state.selectedAddress?.area,
       timestamp: 0,
-      title: this.state.title
+      title: this.state.title,
     };
     await this.appContext.serviceExecutor.execute(CREATE_DEAL(createDeal));
     if (this.state.selectedAddress) {
@@ -197,7 +197,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       state.title !== "" || state.description !== "" || state.files.length > 0;
     this.setState({
       hasAddress,
-      hasField
+      hasField,
     });
     return hasAddress && hasField;
   }

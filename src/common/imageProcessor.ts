@@ -37,7 +37,7 @@ export default class ImageProcessor {
           height: image.height,
           size: file.size,
           type: file.type,
-          width: image.width
+          width: image.width,
         });
       };
     });
@@ -48,9 +48,11 @@ export default class ImageProcessor {
     const { height, size, type, width } = await this.getImageInfo(blob);
     console.debug("original image size:", size);
     const imageCompressQuality = size > 100000 ? 10 : 100;
+    const imageNameSplit = type.split("/");
+    console.log(imageNameSplit, imageNameSplit[imageNameSplit.length - 1]);
     const processedImage = await this.imageCompress(
       blob,
-      type,
+      imageNameSplit[imageNameSplit.length - 1],
       height,
       width,
       imageCompressQuality
@@ -62,8 +64,8 @@ export default class ImageProcessor {
   protected transferToBlob(file: any): Promise<any> {
     return new Promise((resolve, reject) => {
       return fetch(file)
-        .then(originalImage => originalImage.blob())
-        .then(result => resolve(result));
+        .then((originalImage) => originalImage.blob())
+        .then((result) => resolve(result));
     });
   }
 
