@@ -147,7 +147,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
           file.base64Value
         );
         const fileUploadResponse: FileUploadResponse = await this.appContext.serviceExecutor.execute(
-          GET_PRESIGNED_URL(file.type, file.name)
+          GET_PRESIGNED_URL(imageBlob.type, file.name)
         );
         const fileName = fileUploadResponse.url.substring(
           fileUploadResponse.url.lastIndexOf("/") + 1
@@ -157,7 +157,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         });
         this.appContext.serviceExecutor.execute(
           PRINT_FILE_DETAIL(
-            `file:type-${file.type} file:name-${file.name} image.blob.name-${myNewFile.name} image.blob.type-${myNewFile.type} accessUrl-${fileUploadResponse.url}`
+            `file:type-${imageBlob.type} file:name-${file.name} image.blob.name-${myNewFile.name} image.blob.type-${myNewFile.type} accessUrl-${fileUploadResponse.url}`
           )
         );
         await this.appContext.serviceExecutor.execute(
