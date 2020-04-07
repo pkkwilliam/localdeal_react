@@ -126,18 +126,6 @@ export const LOGOUT_OAUTH = (): Endpoint => ({
   serviceName: ServiceName.LOGOUT_OAUTH,
 });
 
-export const PRINT_FILE_DETAIL = (detail: string): Endpoint => {
-  return {
-    externalService: false,
-    hasMock: false,
-    isMultipartFileRequest: false,
-    method: "POST",
-    optionalRequestParam: () => `?fileDetail=${detail}`,
-    url: "/file",
-    serviceName: ServiceName.CREATE_DEAL,
-  };
-};
-
 export const UPLOAD_IMAGE = (image: any): Endpoint => {
   return {
     body: image,

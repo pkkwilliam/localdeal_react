@@ -6,7 +6,6 @@ import {
   CREATE_DEAL,
   UPLOAD_IMAGE_SIGNED_URL,
   GET_PRESIGNED_URL,
-  PRINT_FILE_DETAIL,
 } from "../../common/middleware/service";
 import { GET_DEALS } from "../../common/middleware/service";
 import { FileUploadResponse } from "../../modal/fileUploadResponse";
@@ -147,34 +146,17 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
           file.base64Value
         );
         const fileUploadResponse: FileUploadResponse = await this.appContext.serviceExecutor.execute(
-          GET_PRESIGNED_URL(imageBlob.type, file.name)
-        );
-        const fileName = fileUploadResponse.url.substring(
-          fileUploadResponse.url.lastIndexOf("/") + 1
-        );
-        const myNewFile = new File([imageBlob], fileName, {
-          type: imageBlob.type,
-        });
-        this.appContext.serviceExecutor.execute(
-          PRINT_FILE_DETAIL(
-            `file:type-${imageBlob.type} file:name-${file.name} image.blob.name-${myNewFile.name} image.blob.type-${myNewFile.type} accessUrl-${fileUploadResponse.url}`
-          )
+          GET_PRESIGNED_URL(imageBlob.type, imageBlob.name)
         );
         await this.appContext.serviceExecutor.execute(
           UPLOAD_IMAGE_SIGNED_URL(
-            myNewFile,
+            imageBlob,
             fileUploadResponse.preSignedUrl ?? ""
           )
         );
         return fileUploadResponse.url;
       })
-    )
-      .then((url) => url)
-      .catch((ex) =>
-        this.appContext.serviceExecutor.execute(
-          PRINT_FILE_DETAIL(`upload file error ${ex}`)
-        )
-      );
+    ).then((url) => url);
 
     await this.appState.createDeal.setCreateDealProgressMessage(
       labels.uploadingDeal
