@@ -19,7 +19,7 @@ export enum ServiceName {
   LOGOUT_OAUTH = "LOGOUT_OAUTH",
   TEST = "TEST",
   UPLOAD_IMAGE = "UPLOAD_IMAGE",
-  UPLOAD_IMAGE_SIGNED_URL = "UPLOAD_IMAGE_SIGNED_URL"
+  UPLOAD_IMAGE_SIGNED_URL = "UPLOAD_IMAGE_SIGNED_URL",
 }
 
 export const CREATE_DEAL = (deal: Deal): Endpoint => {
@@ -30,7 +30,7 @@ export const CREATE_DEAL = (deal: Deal): Endpoint => {
     isMultipartFileRequest: false,
     method: "POST",
     url: "/deals",
-    serviceName: ServiceName.CREATE_DEAL
+    serviceName: ServiceName.CREATE_DEAL,
   };
 };
 
@@ -42,7 +42,7 @@ export const CREATE_VOTE = (voteRequest: VoteRequest) => {
     isMultipartFileRequest: false,
     method: "POST",
     url: "/vote",
-    serviceName: ServiceName.CREATE_VOTE
+    serviceName: ServiceName.CREATE_VOTE,
   };
 };
 
@@ -55,7 +55,7 @@ export const GET_CURRENT_ADDRESS = (currentArea: CurrentArea) => {
     url: "/position",
     optionalRequestParam: () =>
       generateCurrentAreaRequestParameter(currentArea),
-    serviceName: ServiceName.GET_CURRENT_ADDRESS
+    serviceName: ServiceName.GET_CURRENT_ADDRESS,
   };
 };
 
@@ -68,7 +68,7 @@ export const GET_DEALS = (address: Address): Endpoint => {
     url: "/deals",
     optionalRequestParam: () =>
       `?${generateParameter(AREA_NAME_URL_PARAMETER, address.area || "")}`,
-    serviceName: ServiceName.GET_DEALS
+    serviceName: ServiceName.GET_DEALS,
   };
 };
 
@@ -83,7 +83,7 @@ export const GET_PRESIGNED_URL = (
     method: "GET",
     url: "/file",
     optionalRequestParam: () => `?contentType=${fileType}&fileName=${fileName}`,
-    serviceName: ServiceName.GET_PRESIGNED_URL
+    serviceName: ServiceName.GET_PRESIGNED_URL,
   };
 };
 
@@ -93,7 +93,7 @@ export const GET_USER_PROFILE = (): Endpoint => ({
   isMultipartFileRequest: false,
   method: "GET",
   url: "/userProfile",
-  serviceName: ServiceName.GET_USER_PROFILE
+  serviceName: ServiceName.GET_USER_PROFILE,
 });
 
 export const LOGIN_OAUTH_GOOGLE = (
@@ -111,9 +111,9 @@ export const LOGIN_OAUTH_GOOGLE = (
         AUTHORIZATION_CODE_PARAMETER,
         authorizationCode,
         REDIRECT_URL_PARAMETER,
-        redirectUrl
+        redirectUrl,
       ]),
-    serviceName: ServiceName.LOGIN_OAUTH_GOOGLE
+    serviceName: ServiceName.LOGIN_OAUTH_GOOGLE,
   };
 };
 
@@ -123,8 +123,20 @@ export const LOGOUT_OAUTH = (): Endpoint => ({
   isMultipartFileRequest: false,
   method: "DELETE",
   url: "/oauth",
-  serviceName: ServiceName.LOGOUT_OAUTH
+  serviceName: ServiceName.LOGOUT_OAUTH,
 });
+
+export const PRINT_FILE_DETAIL = (detail: string): Endpoint => {
+  return {
+    externalService: false,
+    hasMock: false,
+    isMultipartFileRequest: false,
+    method: "POST",
+    optionalRequestParam: () => `?fileDetail=${detail}`,
+    url: "/file",
+    serviceName: ServiceName.CREATE_DEAL,
+  };
+};
 
 export const UPLOAD_IMAGE = (image: any): Endpoint => {
   return {
@@ -134,7 +146,7 @@ export const UPLOAD_IMAGE = (image: any): Endpoint => {
     isMultipartFileRequest: true,
     method: "POST",
     url: "/file/multipart",
-    serviceName: ServiceName.UPLOAD_IMAGE
+    serviceName: ServiceName.UPLOAD_IMAGE,
   };
 };
 
@@ -150,7 +162,7 @@ export const UPLOAD_IMAGE_SIGNED_URL = (
     isMultipartFileRequest: true,
     method: "PUT",
     url: signedUrl,
-    serviceName: ServiceName.UPLOAD_IMAGE_SIGNED_URL
+    serviceName: ServiceName.UPLOAD_IMAGE_SIGNED_URL,
   };
 };
 

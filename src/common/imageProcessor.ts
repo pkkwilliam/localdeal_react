@@ -49,7 +49,6 @@ export default class ImageProcessor {
     console.debug("original image size:", size);
     const imageCompressQuality = size > 100000 ? 10 : 100;
     const imageNameSplit = type.split("/");
-    console.log(imageNameSplit, imageNameSplit[imageNameSplit.length - 1]);
     const processedImage = await this.imageCompress(
       blob,
       imageNameSplit[imageNameSplit.length - 1],

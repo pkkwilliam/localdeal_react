@@ -6,6 +6,7 @@ import {
   CREATE_DEAL,
   UPLOAD_IMAGE_SIGNED_URL,
   GET_PRESIGNED_URL,
+  PRINT_FILE_DETAIL,
 } from "../../common/middleware/service";
 import { GET_DEALS } from "../../common/middleware/service";
 import { FileUploadResponse } from "../../modal/fileUploadResponse";
@@ -148,6 +149,11 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         const fileUploadResponse: FileUploadResponse = await this.appContext.serviceExecutor.execute(
           GET_PRESIGNED_URL(file.type, file.name)
         );
+        this.appContext.serviceExecutor.execute(
+          PRINT_FILE_DETAIL(
+            `${file.type} ${file.name} ${fileUploadResponse.preSignedUrl}`
+          )
+        );
         await this.appContext.serviceExecutor.execute(
           UPLOAD_IMAGE_SIGNED_URL(
             imageBlob,
@@ -156,7 +162,13 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         );
         return fileUploadResponse.url;
       })
-    ).then((url) => url);
+    )
+      .then((url) => url)
+      .catch((ex) =>
+        this.appContext.serviceExecutor.execute(
+          PRINT_FILE_DETAIL(`upload file error ${ex}`)
+        )
+      );
 
     await this.appState.createDeal.setCreateDealProgressMessage(
       labels.uploadingDeal
@@ -164,7 +176,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     const createDeal: Deal = {
       address: this.state.selectedAddress,
       description: this.state.description,
-      filesUrl: imageUploadResult.map((url) => url ?? ""),
+      filesUrl: imageUploadResult.map((url: any) => url ?? ""),
       serverIdentifierName: this.state.selectedAddress?.area,
       timestamp: 0,
       title: this.state.title,
@@ -179,7 +191,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         .then(() => {
           setTimeout(() => {
             this.appState.createDeal.setCreateDealUploading(false);
-          }, 5000);
+          }, 2500);
         })
         .catch(() => {
           console.debug("something weng wrong while creating deal");
