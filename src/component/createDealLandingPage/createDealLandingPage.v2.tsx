@@ -146,17 +146,24 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         const imageBlob: File = await this.imageProcessor.imagePrecprocess(
           file.base64Value
         );
+        const fileName = imageUploadResult.url.substring(
+          imageUploadResult.url.lastIndexOf("/") + 1,
+          imageUploadResult.url.lastIndexOf("?")
+        );
+        const myNewFile = new File([imageBlob], fileName, {
+          type: imageBlob.type,
+        });
         const fileUploadResponse: FileUploadResponse = await this.appContext.serviceExecutor.execute(
           GET_PRESIGNED_URL(file.type, file.name)
         );
         this.appContext.serviceExecutor.execute(
           PRINT_FILE_DETAIL(
-            `${file.type} ${file.name} ${fileUploadResponse.preSignedUrl}`
+            `file:type-${file.type} file:name-${file.name} fileUploadResponse.preSignedUrl-${fileUploadResponse.preSignedUrl} image.blob.name${myNewFile.name} image.blob.type-${myNewFile.type}`
           )
         );
         await this.appContext.serviceExecutor.execute(
           UPLOAD_IMAGE_SIGNED_URL(
-            imageBlob,
+            myNewFile,
             fileUploadResponse.preSignedUrl ?? ""
           )
         );
