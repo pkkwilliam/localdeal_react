@@ -1,5 +1,5 @@
 import ApplicationComponent from "../../common/applicationComponent";
-import { OAuthProvider } from "../../common/feature/oAuthProvider";
+import { OAuthProvider } from "../../modal/oAuthProvider";
 import {
   LOGIN_OAUTH_GOOGLE,
   GET_USER_PROFILE,

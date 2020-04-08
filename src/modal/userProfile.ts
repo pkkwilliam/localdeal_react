@@ -1,4 +1,4 @@
-import { OAuthProvider } from "../common/feature/oAuthProvider";
+import { OAuthProvider } from "./oAuthProvider";
 
 export interface UserProfile {
   id: number;

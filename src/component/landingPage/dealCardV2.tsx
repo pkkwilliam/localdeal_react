@@ -97,9 +97,6 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
 
   protected ImageSection = () => {
     const deal = this.props.deal;
-    const coverImageStyle = this.state.coverImageLoaded
-      ? { height: this.state.coverImageHeight }
-      : styles.empty;
     if (this.state.expanded) {
       return (
         <Slider
@@ -109,6 +106,9 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
         />
       );
     } else {
+      const coverImageStyle = this.state.coverImageLoaded
+        ? { height: this.state.coverImageHeight }
+        : styles.empty;
       return deal.filesUrl?.length ? (
         <img
           alt={"cover"}

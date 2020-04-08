@@ -1,10 +1,8 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { styleSchema } from "../../common/stylesheet";
-import Image from "../../common/image";
 import View from "../../common/view";
 import TextButton from "../../common/textButton";
-import H4 from "../../common/h4";
 import H5 from "../../common/h5";
 import P from "../../common/paragraph";
 import { default as MenuIcon } from "@material-ui/icons/Menu";
@@ -12,7 +10,6 @@ import Link from "@material-ui/core/Link";
 import { Feature } from "../../common/feature/feature";
 import { OAuth } from "../oAuth";
 import { UserProfile } from "../../modal/userProfile";
-import { OAuthProvider } from "../../common/feature/oAuthProvider";
 import { getLazyComponent } from "../../lazyLoad/lazyLoad";
 import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
 
@@ -105,34 +102,12 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
     const label = this.appContext.labels.headerMenu;
     return (
       <View style={styles.upperPortionContainer}>
-        <this.UserProfileHeaderSection />
+        <OAuth />
         <this.DevelopingFeatures />
         <H5>{label.bugReportDescription}</H5>
-        <View style={styles.oAuthContainer}>
-          <OAuth />
-        </View>
+        <View style={styles.oAuthContainer}></View>
       </View>
     );
-  };
-
-  UserProfileHeaderSection = () => {
-    const userProfile = this.props.userProfile;
-    if (userProfile.oAuthProvider !== OAuthProvider.NONE) {
-      return (
-        <View
-          boxShadow={1}
-          isFlexDirectionRow
-          style={styles.userProfileHeaderSectionContainer}
-        >
-          <Image size="miniCircularImage" src={userProfile.imageUrl} />
-          <H4>{userProfile.name}</H4>
-          <TextButton onClick={this.props.onClickLogout} underline>
-            {this.appContext.labels.headerMenu.logout}
-          </TextButton>
-        </View>
-      );
-    }
-    return null;
   };
 }
 const styles = {
@@ -165,13 +140,6 @@ const styles = {
   upperPortionContainer: {
     alignItems: "center",
     paddingTop: 20,
-    width: "inherit",
-  },
-  userProfileHeaderSectionContainer: {
-    alignItems: "center",
-    borderRadius: 5,
-    justifyContent: "space-between",
-    padding: 5,
     width: "inherit",
   },
 };

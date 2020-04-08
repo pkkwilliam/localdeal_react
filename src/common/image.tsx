@@ -34,12 +34,12 @@ export default class Image extends Component<Props> {
 const styles = {
   bigImage: { width: 100 },
   defaultStyle: {
-    borderRadius: 5
+    borderRadius: 5,
   },
   miniCircularImage: {
     borderRadius: 30,
-    width: 35
+    width: 30,
   },
   mediumImage: { width: 75 },
-  smallImage: { width: 50 }
+  smallImage: { width: 50 },
 };

@@ -4,7 +4,7 @@ import "./slide.css";
 
 interface Props {
   dealIndex: number;
-  height?: number;
+  height: number;
   fileUrls: string[];
 }
 
@@ -28,7 +28,7 @@ export default class Slide extends Component<Props> {
   }
 
   protected generateImages() {
-    return this.props.fileUrls.map(content => {
+    return this.props.fileUrls.map((content) => {
       return (
         <div>
           <img alt="post" src={content} style={this.getImageStlye()} />
@@ -46,9 +46,9 @@ const styles = {
   imageDefaultStyle: {
     minHeight: "100%",
     minWidth: "100%",
-    objectFit: "cover"
+    objectFit: "cover",
   },
   sliderWrapper: {
-    width: "100%"
-  }
+    width: "100%",
+  },
 };

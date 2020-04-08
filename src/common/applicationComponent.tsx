@@ -1,6 +1,6 @@
 import { Component } from "react";
 import AppContext from "./appContext";
-import { OAuthProvider } from "./feature/oAuthProvider";
+import { OAuthProvider } from "../modal/oAuthProvider";
 import ImageProcessor from "./imageProcessor";
 import AppState from "../common/context/appState";
 import AppStateInterface from "./context/appStateInterface";
