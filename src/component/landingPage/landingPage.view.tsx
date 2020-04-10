@@ -5,6 +5,7 @@ import View from "../../common/view";
 import { styleSchema } from "../../common/stylesheet";
 import ApplicationComponent from "../../common/applicationComponent";
 import DealSectionV2View from "./dealSection.v2.view";
+import { CircularProgress } from "@material-ui/core";
 
 export interface Props {
   deals: Deal[];
@@ -42,7 +43,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
 
   LoadingDeals = () => {
     return (
-      <View style={styles.noDealInAreaContainer}>
+      <View isFlexDirectionRow style={styles.noDealInAreaContainer}>
         <H5>{this.appContext.labels.landingPage.loadingDeals}</H5>
       </View>
     );
@@ -66,7 +67,10 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
   },
-  noDealInAreaContainer: {},
+  noDealInAreaContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   rootContainer: {
     alignItems: "center",
     justifyContent: "center",

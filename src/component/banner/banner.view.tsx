@@ -7,7 +7,7 @@ import { AppBar, LinearProgress, makeStyles } from "@material-ui/core";
 
 export default class BannerView extends ApplicationComponent {
   render() {
-    const showBanner = this.appState.createDeal.uploading;
+    const showBanner = this.appState.banner.show;
     if (showBanner) {
       return (
         <AppBar position={"sticky"} style={{ backgroundColor: "white" }}>
@@ -24,7 +24,7 @@ export default class BannerView extends ApplicationComponent {
     return (
       <>
         <View style={styles.uploadObjectContainer}>
-          <P color={"black"}>{this.appState.createDeal.progressMessage}</P>
+          <P color={"black"}>{this.appState.banner.progressMessage}</P>
         </View>
         <LinearProgress
           classes={{

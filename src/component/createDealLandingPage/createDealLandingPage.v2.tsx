@@ -134,12 +134,10 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
 
   protected onSubmit = async () => {
     console.debug("start to submit a new deal");
-    await this.appState.createDeal.setCreateDealUploading(true);
+    await this.appState.banner.setShowBanner(true);
     this.props.onClose();
     const labels = this.appContext.labels.createDealPageV2;
-    await this.appState.createDeal.setCreateDealProgressMessage(
-      labels.uploadingImage
-    );
+    await this.appState.banner.setBannerProgressMessage(labels.uploadingImage);
     const imageUploadResult = await Promise.all(
       this.state.files.map(async (file) => {
         const imageBlob: File = await this.imageProcessor.imagePrecprocess(
@@ -158,9 +156,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       })
     ).then((url) => url);
 
-    await this.appState.createDeal.setCreateDealProgressMessage(
-      labels.uploadingDeal
-    );
+    await this.appState.banner.setBannerProgressMessage(labels.uploadingDeal);
     const createDeal: Deal = {
       address: this.state.selectedAddress,
       description: this.state.description,
@@ -178,16 +174,14 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         })
         .then(() => {
           setTimeout(() => {
-            this.appState.createDeal.setCreateDealUploading(false);
+            this.appState.banner.setShowBanner(false);
           }, 2500);
         })
         .catch(() => {
           console.debug("something weng wrong while creating deal");
         });
     }
-    await this.appState.createDeal.setCreateDealProgressMessage(
-      labels.uploadCompleted
-    );
+    await this.appState.banner.setBannerProgressMessage(labels.uploadCompleted);
   };
 
   protected verifyInput(): boolean {

@@ -1,6 +1,5 @@
-import React, { Component, Suspense } from "react";
+import React, { Suspense, Component } from "react";
 import "./App.css";
-import Init from "./component/init/init";
 import GlobalStateComponent from "./common/context/globalStateComponent";
 import { LazyLoadComponent } from "./lazyLoad/lazyLoadComponent";
 import { getLazyComponent } from "./lazyLoad/lazyLoad";
@@ -16,7 +15,6 @@ export default class App extends Component {
     return (
       <GlobalStateComponent>
         <Suspense fallback={<></>}>
-          <Init />
           <div className="App-header">
             <Header />
           </div>

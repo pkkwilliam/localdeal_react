@@ -8,11 +8,11 @@ export default interface AppStateInterface {
     setPredicteAddresses: (addresses: Address[]) => {};
     setSelectedAddress: (address: Address) => {};
   };
-  createDeal: {
-    uploading: boolean;
+  banner: {
+    show: boolean;
     progressMessage: string;
-    setCreateDealUploading: (uploading: boolean) => {};
-    setCreateDealProgressMessage: (progressMessage: string) => {};
+    setShowBanner: (uploading: boolean) => {};
+    setBannerProgressMessage: (progressMessage: string) => {};
   };
   deal: {
     deals: Deal[];
@@ -24,6 +24,10 @@ export default interface AppStateInterface {
     coordinate: Coordinate;
     setGeolocation: (coordinate: Coordinate) => {};
     setLoadingPosition: (loadingPosition: boolean) => {};
+  };
+  service: {
+    serviceUp: boolean;
+    setServiceUp: (serviceUp: boolean) => {};
   };
   user: {
     userProfile: UserProfile;

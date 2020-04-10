@@ -9,8 +9,8 @@ export interface State {
     addressesPrediction: Address[];
     selectedAddress: Address;
   };
-  createDeal: {
-    uploading: boolean;
+  banner: {
+    show: boolean;
     progressMessage: string;
   };
   deal: {
@@ -20,6 +20,9 @@ export interface State {
   position: {
     loadingPosition: boolean;
     coordinate?: Coordinate;
+  };
+  service: {
+    serviceUp: boolean;
   };
   user: {
     userProfile?: UserProfile;
@@ -42,8 +45,8 @@ export default class GlobalStateComponent extends Component<{}, State> {
           zipCode: "",
         },
       },
-      createDeal: {
-        uploading: false,
+      banner: {
+        show: false,
         progressMessage: "",
       },
       deal: {
@@ -55,6 +58,9 @@ export default class GlobalStateComponent extends Component<{}, State> {
           latitude: 0,
           longitude: 0,
         },
+      },
+      service: {
+        serviceUp: true,
       },
       user: {
         userProfile: {
@@ -68,7 +74,7 @@ export default class GlobalStateComponent extends Component<{}, State> {
   }
 
   render() {
-    const { address, createDeal, deal, position, user } = this.state;
+    const { address, banner, deal, service, position, user } = this.state;
     return (
       <AppState.Provider
         value={{
@@ -77,16 +83,20 @@ export default class GlobalStateComponent extends Component<{}, State> {
             setSelectedAddress: this.setSelectedAddress,
             setPredicteAddresses: this.setPredicteAddresses,
           },
-          createDeal: {
-            ...createDeal,
-            setCreateDealUploading: this.setCreateDealUploading,
-            setCreateDealProgressMessage: this.setCreateDealProgressMessage,
+          banner: {
+            ...banner,
+            setShowBanner: this.setShowBanner,
+            setBannerProgressMessage: this.setBannerProgressMessage,
           },
           deal: { ...deal, setDeals: this.setDeals },
           position: {
             ...position,
             setGeolocation: this.setGeolocation,
             setLoadingPosition: this.setLoadingPosition,
+          },
+          service: {
+            ...service,
+            setServiceUp: this.setServiceUp,
           },
           user: {
             ...user,
@@ -121,15 +131,15 @@ export default class GlobalStateComponent extends Component<{}, State> {
     });
   };
 
-  protected setCreateDealUploading = (uploading: boolean) => {
+  protected setShowBanner = (show: boolean) => {
     this.setState({
-      createDeal: { ...this.state.createDeal, uploading },
+      banner: { ...this.state.banner, show },
     });
   };
 
-  protected setCreateDealProgressMessage = (progressMessage: string) => {
+  protected setBannerProgressMessage = (progressMessage: string) => {
     this.setState({
-      createDeal: { ...this.state.createDeal, progressMessage },
+      banner: { ...this.state.banner, progressMessage },
     });
   };
 
@@ -154,6 +164,12 @@ export default class GlobalStateComponent extends Component<{}, State> {
   protected setSelectedAddress = (selectedAddress: Address) => {
     this.setState({
       address: { ...this.state.address, selectedAddress },
+    });
+  };
+
+  protected setServiceUp = (serviceUp: boolean) => {
+    this.setState({
+      service: { ...this.state.service, serviceUp },
     });
   };
 

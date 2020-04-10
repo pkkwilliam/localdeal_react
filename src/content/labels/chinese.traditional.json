@@ -34,7 +34,9 @@
   },
   "header": {
     "currentLocation": "當前地區:",
-    "loading": "Google API 正在為你定位"
+    "loading": "Google API 正在為你定位",
+    "ok": "好吧",
+    "serverError": "服務器又斷線了"
   },
   "headerMenu": {
     "bugReportDescription": "歡迎告訴我們任何bug，或有趣的功能",
@@ -44,7 +46,7 @@
       "Google登入 進度: 80%",
       "存草稿 進度: 0%",
       "短影片 進度: 0%",
-      "微信登入 進度: 35%",
+      "微信登入 進度: 35% (等待審批)",
       "深色模式 進度: 20%",
       "公告文字 進度: 0%"
     ],

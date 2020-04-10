@@ -19,6 +19,10 @@ export default class Header extends ApplicationComponent<{}, State> {
     };
   }
 
+  componentDidMount() {
+    this.executeInit();
+  }
+
   render() {
     return (
       <HeaderView
@@ -26,6 +30,7 @@ export default class Header extends ApplicationComponent<{}, State> {
         onClickCreateDeal={this.onClickCreateDeal}
         onCloseCreateDeal={this.onCloseCreateDeal}
         selectedAddress={this.appState.address.selectedAddress}
+        serverUp={this.appState.service.serviceUp}
       />
     );
   }

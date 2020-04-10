@@ -16,10 +16,12 @@ export interface Props {
   onClickCreateDeal: () => void;
   onCloseCreateDeal: () => void;
   selectedAddress?: Address;
+  serverUp: boolean;
 }
 
 const CreateDealComponent = getLazyComponent(LazyLoadComponent.CreateDeal);
 const Drawer = getLazyComponent(LazyLoadComponent.Drawer);
+const Modal = getLazyComponent(LazyLoadComponent.Modal);
 
 export default class HeaderView extends ApplicationComponent<Props> {
   render() {
@@ -30,6 +32,7 @@ export default class HeaderView extends ApplicationComponent<Props> {
           isFlexDirectionRow={true}
           style={styles.rootContainer}
         >
+          <this.ServerErrorModal />
           <this.CreateDealDrawer />
           <this.HeaderTextAndLogo />
           <this.TopBarSection />
@@ -57,6 +60,21 @@ export default class HeaderView extends ApplicationComponent<Props> {
         style={styles.createNewDealIcon}
       />
     );
+  };
+
+  ServerErrorModal = () => {
+    if (!this.props.serverUp) {
+      const label = this.appContext.labels.header;
+      return (
+        <Modal
+          primaryButtonMessage={label.ok}
+          message={label.serverError}
+          open={true}
+        ></Modal>
+      );
+    } else {
+      return null;
+    }
   };
 
   HeaderTextAndLogo = () => {

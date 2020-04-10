@@ -53,9 +53,9 @@ export default class CollapseCard extends ApplicationComponent<Props> {
   protected ExpandLessSign = () => {
     return (
       <>
-        <H5 style={{ color: styleSchema.color.primaryColor }}>
+        <H4 color="primary" style={{ color: styleSchema.color.primaryColor }}>
           {this.appContext.labels.localDealCardPage.collapse}
-        </H5>
+        </H4>
         <ExpandLess style={styles.expandSignIcon} />
       </>
     );
@@ -64,7 +64,9 @@ export default class CollapseCard extends ApplicationComponent<Props> {
   protected ExpandMoreSign = () => {
     return (
       <>
-        <H4>{this.appContext.labels.localDealCardPage.expand}</H4>
+        <H4 color="primary">
+          {this.appContext.labels.localDealCardPage.expand}
+        </H4>
         <ExpandMore style={styles.expandSignIcon} />
       </>
     );

@@ -56,7 +56,7 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
     if (this.appContext.features.includes(Feature.CONTACT_SHOW_EMAIL)) {
       return (
         <Link href={`mailto:${label.emailAddress}`} underline={"none"}>
-          <P>{label.contactUs}</P>
+          <P color="primary">{label.contactUs}</P>
         </Link>
       );
     } else {

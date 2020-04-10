@@ -25,9 +25,9 @@ export default class ServiceExecutor {
           credentials: endpoint.externalService ? "omit" : "include", // this is for CORS sending cookies
           headers: endpoint.externalService ? endpoint.customHeader : headers,
           method: endpoint.method,
-          mode: "cors"
+          mode: "cors",
         })
-          .then(result => {
+          .then((result) => {
             const isJsonResponse = result.headers
               .get("content-type")
               ?.match("application/json");
@@ -43,7 +43,7 @@ export default class ServiceExecutor {
             }
           })
           // .then(result => Promise.resolve(result))
-          .catch(exception => {
+          .catch((exception) => {
             console.warn(
               "Something is wrong while fetch: ",
               requestUrl,
@@ -68,7 +68,7 @@ export default class ServiceExecutor {
     return !endpoint.isMultipartFileRequest
       ? {
           ...this.headers,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         }
       : { ...this.headers };
   };
@@ -81,6 +81,8 @@ const getResponse = (serviceName: ServiceName): any => {
       return GET_DEALS_RESPONSE;
     case ServiceName.GET_CURRENT_ADDRESS:
       return GET_POSITION_RESPONSE;
+    case ServiceName.GET_SERVER_HEALTH:
+      return GET_SERVICE_HEALTH;
     case ServiceName.GET_USER_PROFILE:
       return GET_USER_PROFILE;
     default:
@@ -103,18 +105,18 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
         country: "澳門",
         coordinate: {
           latitude: 113,
-          longitude: 234
-        }
+          longitude: 234,
+        },
       },
       description:
         '<p><img src="https://storage.cloud.google.com/deal_image/1577871875967"></p>',
       filesUrl: [
         "https://open-shelf.ca/wp-content/uploads/2015/03/twitter-logo-small-1024x576@2x.jpg",
-        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
       ],
       serverIdentifierName: "MACAU",
       title: "澳門 蛋逹王子",
-      timestamp: 1577872077582
+      timestamp: 1577872077582,
     },
     {
       id: 1,
@@ -129,8 +131,8 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
         country: "澳門",
         coordinate: {
           latitude: 113,
-          longitude: 234
-        }
+          longitude: 234,
+        },
       },
       description:
         "The content of ExpansionPanels is mounted by default even if the panel is not expanded. This default behavior has server-side rendering and SEO in mind. If you render expensive component trees inside your panels or simply render many panels it might be a good idea to change this default behavior by enabling the unmountOnExit in TransitionProps:",
@@ -139,11 +141,11 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
         "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
         "https://open-shelf.ca/wp-content/uploads/2015/03/twitter-logo-small-1024x576@2x.jpg",
         "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-        "https://open-shelf.ca/wp-content/uploads/2015/03/twitter-logo-small-1024x576@2x.jpg"
+        "https://open-shelf.ca/wp-content/uploads/2015/03/twitter-logo-small-1024x576@2x.jpg",
       ],
       serverIdentifierName: "MACAU",
       title: "澳門 CRAZY 蛋逹王子",
-      timestamp: 1576871229332
+      timestamp: 1576871229332,
     },
     {
       id: 2,
@@ -158,20 +160,20 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
         country: "澳門",
         coordinate: {
           latitude: 113,
-          longitude: 234
-        }
+          longitude: 234,
+        },
       },
       description:
         "The content of ExpansionPanels is mounted by default even if the panel is not expanded. This default behavior has server-side rendering and SEO in mind. If you render expensive component trees inside your panels or simply render many panels it might be a good idea to change this default behavior by enabling the unmountOnExit in TransitionProps:",
       filesUrl: [
         "https://open-shelf.ca/wp-content/uploads/2015/03/twitter-logo-small-1024x576@2x.jpg",
-        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
       ],
       serverIdentifierName: "MACAU",
       title: "澳門 CRAZY 蛋逹王子",
-      timestamp: 1576871229332
-    }
-  ]
+      timestamp: 1576871229332,
+    },
+  ],
 };
 
 const GET_POSITION_RESPONSE: Address[] = [
@@ -179,51 +181,55 @@ const GET_POSITION_RESPONSE: Address[] = [
     id: 0,
     area: "澳門",
     formattedAddress: "澳門漁翁街166號",
-    country: "澳門"
+    country: "澳門",
   },
   {
     id: 0,
     area: "澳門",
     formattedAddress: "澳門漁翁街166號",
-    country: "澳門"
+    country: "澳門",
   },
   {
     id: 0,
     area: "澳門",
     formattedAddress: "澳門漁翁街148號",
-    country: "澳門"
+    country: "澳門",
   },
   {
     id: 0,
     area: "澳門",
     formattedAddress: "澳門漁翁街90號",
-    country: "澳門"
+    country: "澳門",
   },
   {
     id: 0,
     area: "澳門",
     formattedAddress: "澳門花地瑪堂區",
     city: "花地瑪堂區",
-    country: "澳門"
+    country: "澳門",
   },
   {
     id: 0,
     area: "澳門",
     formattedAddress: "澳門",
-    country: "澳門"
+    country: "澳門",
   },
   {
     id: 0,
     area: "澳門",
     formattedAddress: "澳門",
-    country: "澳門"
-  }
+    country: "澳門",
+  },
 ];
+
+const GET_SERVICE_HEALTH = {
+  up: true,
+};
 
 const GET_USER_PROFILE = {
   id: 0,
   name: "Mock User",
   imageUrl:
     "https://www.picclickimg.com/d/l400/pict/163647152800_/Cubd-Collectibles-Disney-Frozen-Elsa-Small-Soft-Stuffed.jpg",
-  oAuthProvider: "GOOGLE"
+  oAuthProvider: "GOOGLE",
 };

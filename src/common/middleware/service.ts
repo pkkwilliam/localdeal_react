@@ -14,6 +14,7 @@ export enum ServiceName {
   GET_CURRENT_ADDRESS = "GET_CURRENT_ADDRESS",
   GET_DEALS = "GET_DEALS",
   GET_PRESIGNED_URL = "GET_PRESIGNED_URL",
+  GET_SERVER_HEALTH = "GET_SERVER_HEALTH",
   GET_USER_PROFILE = "GET_USER_PROFILE",
   LOGIN_OAUTH_GOOGLE = "LOGIN_OAUTH_GOOGLE",
   LOGOUT_OAUTH = "LOGOUT_OAUTH",
@@ -86,6 +87,15 @@ export const GET_PRESIGNED_URL = (
     serviceName: ServiceName.GET_PRESIGNED_URL,
   };
 };
+
+export const GET_SERVER_HEALTH = (): Endpoint => ({
+  externalService: false,
+  hasMock: true,
+  isMultipartFileRequest: false,
+  method: "GET",
+  url: "/health",
+  serviceName: ServiceName.GET_SERVER_HEALTH,
+});
 
 export const GET_USER_PROFILE = (): Endpoint => ({
   externalService: false,
