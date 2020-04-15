@@ -99,7 +99,6 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
         dots={this.state.expanded}
         fileUrls={deal.filesUrl ?? []}
         swipe={this.state.expanded}
-        height={284}
       />
     );
     // if (this.state.expanded) {

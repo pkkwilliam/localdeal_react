@@ -29,6 +29,7 @@ export default class Header extends ApplicationComponent<{}, State> {
         isCreateDealDrawerOpen={this.state.isCreateDealDrawerOpen}
         onClickCreateDeal={this.onClickCreateDeal}
         onCloseCreateDeal={this.onCloseCreateDeal}
+        onClickRefresh={this.onClickRefresh}
         selectedAddress={this.appState.address.selectedAddress}
         serverUp={this.appState.service.serviceUp}
       />
@@ -47,5 +48,10 @@ export default class Header extends ApplicationComponent<{}, State> {
     this.setState({
       isCreateDealDrawerOpen: false,
     });
+  };
+
+  protected onClickRefresh = () => {
+    console.debug("onClickRefresh");
+    this.executeInit();
   };
 }

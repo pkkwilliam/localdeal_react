@@ -4,10 +4,9 @@ import {
   ModalProps,
 } from "@material-ui/core/Modal";
 import View from "./view";
-import P from "./paragraph";
-import { Button } from "@material-ui/core";
 import { styleSchema } from "./stylesheet";
 import H1 from "./h1";
+import Button from "@material-ui/core/Button";
 
 interface Props extends ModalProps {
   onClickPrimaryButton?: () => void;
@@ -23,35 +22,73 @@ export default class Modal extends Component<Props> {
     return (
       <MaterialUIModal style={styles.rootContainer} {...this.props}>
         <View style={styles.contentContainer}>
-          <View borderBottom={1} style={styles.messageTextContainer}>
+          <View style={styles.messageTextContainer}>
             <H1>{props.message}</H1>
           </View>
-          <View isFlexDirectionRow></View>
+          <View
+            borderTop={1}
+            isFlexDirectionRow
+            style={styles.buttonsContainer}
+          >
+            <this.ButtonSelection />
+          </View>
         </View>
       </MaterialUIModal>
     );
   }
+
+  Button = ({ message, onClick }: { message: string; onClick: () => void }) => {
+    return (
+      <Button onClick={onClick} style={styles.button}>
+        {message}
+      </Button>
+    );
+  };
+
+  ButtonSelection = () => {
+    const props = this.props;
+    if (props.primaryButtonMessage && props.secondaryButtonMessage) {
+      return <></>;
+    } else if (props.primaryButtonMessage) {
+      return (
+        <Button onClick={props.onClickPrimaryButton} style={styles.button}>
+          {props.primaryButtonMessage}
+        </Button>
+      );
+    } else {
+      return null;
+    }
+  };
 }
 
 const styles = {
-  buttonStyle: {},
+  buttonsContainer: {
+    alignItems: "center",
+    borderColor: styleSchema.color.greyTransparent,
+    justifyContent: "center",
+    marginLeft: 10,
+    marginRight: 10,
+    width: styleSchema.dimension.FILL_ALL_WIDTH,
+  },
+  button: {
+    color: styleSchema.color.primaryColor,
+    padding: 10,
+    width: "inherit",
+  },
   contentContainer: {
     alignItems: "center",
     borderRadius: 10,
     backgroundColor: styleSchema.color.white,
     justifyContent: "center",
+    outline: "none",
     width: "inherit",
   },
   messageTextContainer: {
     alignItems: "center",
-    borderColor: styleSchema.color.greyTransparent,
     padding: 35,
-    width: styleSchema.dimension.FILL_ALL_WIDTH,
+    paddingBottom: 20,
+    paddingTop: 20,
   },
-  PrimaryButton: {
-    backgroundColor: styleSchema.color.primaryColor,
-  },
-
   rootContainer: {
     alignItems: "center",
     display: "flex",

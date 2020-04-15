@@ -15,6 +15,7 @@ export interface Props {
   isCreateDealDrawerOpen: boolean;
   onClickCreateDeal: () => void;
   onCloseCreateDeal: () => void;
+  onClickRefresh: () => void;
   selectedAddress?: Address;
   serverUp: boolean;
 }
@@ -67,7 +68,8 @@ export default class HeaderView extends ApplicationComponent<Props> {
       const label = this.appContext.labels.header;
       return (
         <Modal
-          primaryButtonMessage={label.ok}
+          primaryButtonMessage={label.refresh}
+          onClickPrimaryButton={this.props.onClickRefresh}
           message={label.serverError}
           open={true}
         ></Modal>

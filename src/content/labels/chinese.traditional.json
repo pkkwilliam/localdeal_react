@@ -35,7 +35,7 @@
   "header": {
     "currentLocation": "當前地區:",
     "loading": "Google API 正在為你定位",
-    "ok": "好吧",
+    "refresh": "刷新",
     "serverError": "服務器斷線了"
   },
   "headerMenu": {
