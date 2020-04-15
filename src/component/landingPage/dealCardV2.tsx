@@ -46,11 +46,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
       (deal.description !== null && deal.description !== "") ||
       deal.filesUrl.length > 1;
     return (
-      <View
-        borderBottom={1}
-        style={styles.rootContainer}
-        onClick={this.onExpand}
-      >
+      <View borderBottom={1} style={styles.rootContainer}>
         <this.CardHeader
           address={deal.address}
           timestamp={deal.timestamp}
@@ -97,28 +93,37 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
 
   protected ImageSection = () => {
     const deal = this.props.deal;
-    if (this.state.expanded) {
-      return (
-        <Slider
-          dealIndex={deal.id ?? 0}
-          fileUrls={deal.filesUrl ?? []}
-          height={this.state.coverImageHeight}
-        />
-      );
-    } else {
-      const coverImageStyle = this.state.coverImageLoaded
-        ? { height: this.state.coverImageHeight }
-        : styles.empty;
-      return deal.filesUrl?.length ? (
-        <img
-          alt={"cover"}
-          id={`deal-${this.props.index} cover-image`}
-          onLoad={this.onLoadImage}
-          src={deal.filesUrl[0]}
-          style={coverImageStyle}
-        />
-      ) : null;
-    }
+    return (
+      <Slider
+        dealIndex={deal.id ?? 0}
+        dots={this.state.expanded}
+        fileUrls={deal.filesUrl ?? []}
+        swipe={this.state.expanded}
+        height={284}
+      />
+    );
+    // if (this.state.expanded) {
+    //   return (
+    //     <Slider
+    //       dealIndex={deal.id ?? 0}
+    //       fileUrls={deal.filesUrl ?? []}
+    //       height={this.state.coverImageHeight}
+    //     />
+    //   );
+    // } else {
+    //   const coverImageStyle = this.state.coverImageLoaded
+    //     ? { height: this.state.coverImageHeight }
+    //     : styles.empty;
+    //   return deal.filesUrl?.length ? (
+    //     <img
+    //       alt={"cover"}
+    //       id={`deal-${this.props.index} cover-image`}
+    //       onLoad={this.onLoadImage}
+    //       src={deal.filesUrl[0]}
+    //       style={coverImageStyle}
+    //     />
+    //   ) : null;
+    // }
   };
 
   protected onExpand = () => {

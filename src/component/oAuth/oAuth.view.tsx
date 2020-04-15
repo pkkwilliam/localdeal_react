@@ -59,7 +59,7 @@ export default class OAuthView extends ApplicationComponent<Props> {
       return (
         <>
           <Image size="miniCircularImage" src={userProfile.imageUrl} />
-          <H4>{userProfile.name}</H4>
+          <H4 color="primary">{userProfile.name}</H4>
           <TextButton onClick={this.props.onClickLogout} underline>
             {this.appContext.labels.headerMenu.logout}
           </TextButton>

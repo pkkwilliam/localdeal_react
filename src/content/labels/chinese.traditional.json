@@ -36,7 +36,7 @@
     "currentLocation": "當前地區:",
     "loading": "Google API 正在為你定位",
     "ok": "好吧",
-    "serverError": "服務器又斷線了"
+    "serverError": "服務器斷線了"
   },
   "headerMenu": {
     "bugReportDescription": "歡迎告訴我們任何bug，或有趣的功能",
