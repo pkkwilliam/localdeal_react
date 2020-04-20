@@ -61,7 +61,7 @@ export default class AppContext {
   }
 
   get isProd(): boolean {
-    return true;
+    return false;
   }
 
   get oAuthRedirectUrl(): string {

@@ -46,7 +46,10 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
       (deal.description !== null && deal.description !== "") ||
       deal.filesUrl.length > 1;
     return (
-      <View borderBottom={1} style={styles.rootContainer}>
+      <View
+        borderBottom={1}
+        style={{ ...styles.rootContainer, whiteSpace: "pre-wrap" }}
+      >
         <this.CardHeader
           address={deal.address}
           timestamp={deal.timestamp}

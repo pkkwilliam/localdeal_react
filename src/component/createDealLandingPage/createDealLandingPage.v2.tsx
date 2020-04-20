@@ -52,6 +52,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
         onChangeDescription={this.onChangeDescription}
         onChangeTitle={this.onChangeTitle}
         onClickAddress={this.onClickAddress}
+        onClickRemoveImage={this.onClickRemoveImage}
         onClickRemoveSelectedAddress={this.onClickRemoveSelectedAddress}
         onClickSaveDraft={this.onClickSaveDraft}
         onClickSubmit={this.onClickSubmit}
@@ -95,6 +96,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
 
   protected onChangeDescription = (description: string) => {
     console.debug("onChangeDescription");
+    console.log(description);
     this.setState({
       description,
     });
@@ -111,6 +113,13 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     console.debug("onClickAddress");
     this.setState({
       selectedAddress,
+    });
+  };
+
+  protected onClickRemoveImage = (imageIndex: number) => {
+    console.debug("onClickRemoveSelectedAddress");
+    this.setState({
+      files: this.state.files.splice(imageIndex, 1),
     });
   };
 
@@ -157,6 +166,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     ).then((url) => url);
 
     await this.appState.banner.setBannerProgressMessage(labels.uploadingDeal);
+    console.log(this.state.description);
     const createDeal: Deal = {
       address: this.state.selectedAddress,
       description: this.state.description,

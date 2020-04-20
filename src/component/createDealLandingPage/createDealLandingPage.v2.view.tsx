@@ -27,6 +27,7 @@ interface Props {
   onChangeDescription: (description: string) => void;
   onChangeTitle: (title: string) => void;
   onClickAddress: (address: Address) => void;
+  onClickRemoveImage: (imageIndex: number) => void;
   onClickRemoveSelectedAddress: () => void;
   onClickSaveDraft: () => void;
   onClickSubmit: () => void;
