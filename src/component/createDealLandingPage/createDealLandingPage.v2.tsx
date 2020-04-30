@@ -178,7 +178,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       serverIdentifierName: this.state.selectedAddress?.area,
       timestamp: 0,
       title: this.state.title,
-      verifiedUpLikedUserCount: 0,
+      verifiedLikedUserCount: 0,
     };
     await this.appContext.serviceExecutor.execute(CREATE_DEAL(createDeal));
     if (this.state.selectedAddress) {

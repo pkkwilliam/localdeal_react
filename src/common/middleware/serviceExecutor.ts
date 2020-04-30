@@ -114,7 +114,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       title: "澳門 蛋逹王子",
       timestamp: 1577872077582,
       likedCount: 1378,
-      verifiedUpLikedUserCount: 521,
+      verifiedLikedUserCount: 521,
       liked: false,
     },
     {
@@ -134,7 +134,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       title: "澳門 CRAZY 蛋逹王子",
       timestamp: 1576871229332,
       likedCount: 0,
-      verifiedUpLikedUserCount: 0,
+      verifiedLikedUserCount: 0,
       liked: false,
     },
     {
@@ -151,7 +151,7 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       title: "澳門 CRAZY 蛋逹王子",
       timestamp: 1576871229332,
       likedCount: 0,
-      verifiedUpLikedUserCount: 0,
+      verifiedLikedUserCount: 0,
       liked: false,
     },
   ],

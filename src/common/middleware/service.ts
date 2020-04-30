@@ -151,14 +151,20 @@ export const UPLOAD_IMAGE_SIGNED_URL = (
   };
 };
 
-export const VOTE_CHANGE = (dealId: number) => {
+export const VOTE_CHANGE = (dealId: number, liked?: boolean) => {
   return {
     externalService: false,
     hasMock: false,
     isMultipartFileRequest: false,
     method: "PUT",
-    optionalRequestParam: () =>
-      generateMultipleUrlParameters(["dealId", dealId.toString()]),
+    optionalRequestParam: () => {
+      let parameters = ["dealId", dealId.toString()];
+      if (liked !== undefined) {
+        parameters.push("liked");
+        parameters.push(liked.toString());
+      }
+      return generateMultipleUrlParameters(parameters);
+    },
     url: "/deals",
     serviceName: ServiceName.VOTE_CHANGE,
   };

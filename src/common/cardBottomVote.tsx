@@ -9,13 +9,26 @@ import Image from "./image";
 import H6 from "./h6";
 import { styleSchema } from "./stylesheet";
 import { VOTE_CHANGE } from "./middleware/service";
+import { OAuthProvider } from "../modal/oAuthProvider";
+import { OAuth } from "../component/oAuth";
 
 export interface Props {
   deal: Deal;
   selectedAddress?: Address;
 }
 
-export default class CardBottomVote extends ApplicationComponent<Props> {
+interface State {
+  liked: boolean;
+}
+
+export default class CardBottomVote extends ApplicationComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      liked: false,
+    };
+  }
+
   render() {
     return (
       <View isFlexDirectionRow style={styles.rootContainer}>
@@ -48,8 +61,13 @@ export default class CardBottomVote extends ApplicationComponent<Props> {
   };
 
   protected LikeSection = () => {
-    console.log(this.props.deal.liked);
-    const icon = this.props.deal.liked ? (
+    let likedValue = false;
+    if (this.appState.user.userProfile.oAuthProvider !== OAuthProvider.NONE) {
+      likedValue = this.props.deal.liked;
+    } else {
+      likedValue = this.state.liked;
+    }
+    const icon = likedValue ? (
       <FavoriteIcon style={styles.likedIcon} />
     ) : (
       <FavoriteBorderIcon style={styles.likedIcon} />
@@ -74,21 +92,23 @@ export default class CardBottomVote extends ApplicationComponent<Props> {
   };
 
   protected VerifyCount = () => {
-    return (
-      <this.CountContainer
-        count={this.props.deal.verifiedUpLikedUserCount}
-        icon={<VerifiedUserIcon style={styles.verifyIcon} />}
-      />
-    );
+    const deal = this.props.deal;
+    if (deal.createdBy !== null || deal.verifiedLikedUserCount > 0) {
+      return (
+        <this.CountContainer
+          count={this.props.deal.verifiedLikedUserCount}
+          icon={<VerifiedUserIcon style={styles.verifyIcon} />}
+        />
+      );
+    } else {
+      return null;
+    }
   };
 
   // this method will call to update the vote, service will return the deal that was update, UI is responsible to map it
   protected onClickVote = () => {
-    console.log(
-      "--- this feature is only for user who wants to likes a post or even attend an event anonymously, if any abusion is found, feature will be terminated! ---"
-    );
     this.appContext.serviceExecutor
-      .execute(VOTE_CHANGE(this.props.deal.id))
+      .execute(VOTE_CHANGE(this.props.deal.id, !this.state.liked))
       .then((result: Deal) => {
         this.appState.deal.setDeals(
           this.appState.deal.deals.map((deal) => {
@@ -99,7 +119,13 @@ export default class CardBottomVote extends ApplicationComponent<Props> {
             }
           })
         );
+        this.setState({
+          liked: !this.state.liked,
+        });
       });
+    console.log(
+      "--- this feature is only for user who wants to likes a post or even attend an event anonymously, if any abusion is found, feature will be terminated! ---"
+    );
   };
 }
 

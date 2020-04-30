@@ -13,7 +13,7 @@ export default interface Deal {
   serverIdentifierName?: string;
   title: string;
   timestamp: number;
-  verifiedUpLikedUserCount: number;
+  verifiedLikedUserCount: number;
 }
 
 export enum Category {
