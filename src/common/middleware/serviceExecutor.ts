@@ -1,5 +1,6 @@
 import { Endpoint, ServiceName } from "./service";
 import { GetDealResponse, Address } from "../../modal/deal";
+import { OAuthProvider } from "../../modal/oAuthProvider";
 
 export default class ServiceExecutor {
   constructor(
@@ -93,20 +94,15 @@ const getResponse = (serviceName: ServiceName): any => {
 const GET_DEALS_RESPONSE: GetDealResponse = {
   deals: [
     {
-      id: 0,
-      address: {
+      id: 1,
+      address: "Mock Address 2",
+      attendCount: 5,
+      createdBy: {
         id: 0,
-        street1: "街道1",
-        street2: "地下B座",
-        city: "澳門",
-        formattedAddress: "澳門漁翁街24號",
-        state: "",
-        zipCode: "",
-        country: "澳門",
-        coordinate: {
-          latitude: 113,
-          longitude: 234,
-        },
+        name: "Mock User",
+        imageUrl:
+          "https://www.picclickimg.com/d/l400/pict/163647152800_/Cubd-Collectibles-Disney-Frozen-Elsa-Small-Soft-Stuffed.jpg",
+        oAuthProvider: OAuthProvider.GOOGLE,
       },
       description:
         '<p><img src="https://storage.cloud.google.com/deal_image/1577871875967"></p>',
@@ -117,23 +113,14 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       serverIdentifierName: "MACAU",
       title: "澳門 蛋逹王子",
       timestamp: 1577872077582,
+      likedCount: 1378,
+      verifiedUpLikedUserCount: 521,
+      liked: false,
     },
     {
       id: 1,
-      address: {
-        id: 0,
-        street1: "街道1",
-        street2: "地下B座",
-        city: "澳門",
-        formattedAddress: "澳門漁翁街24號",
-        state: "",
-        zipCode: "",
-        country: "澳門",
-        coordinate: {
-          latitude: 113,
-          longitude: 234,
-        },
-      },
+      address: "Mock Address 2",
+      attendCount: 5,
       description:
         "The content of ExpansionPanels is mounted by default even if the panel is not expanded. This default behavior has server-side rendering and SEO in mind. If you render expensive component trees inside your panels or simply render many panels it might be a good idea to change this default behavior by enabling the unmountOnExit in TransitionProps:",
       filesUrl: [
@@ -146,25 +133,16 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       serverIdentifierName: "MACAU",
       title: "澳門 CRAZY 蛋逹王子",
       timestamp: 1576871229332,
+      likedCount: 0,
+      verifiedUpLikedUserCount: 0,
+      liked: false,
     },
     {
       id: 2,
-      address: {
-        id: 0,
-        street1: "街道1",
-        street2: "地下B座",
-        city: "澳門",
-        formattedAddress: "澳門漁翁街24號",
-        state: "",
-        zipCode: "",
-        country: "澳門",
-        coordinate: {
-          latitude: 113,
-          longitude: 234,
-        },
-      },
+      address: "Mock Address 2",
+      attendCount: 0,
       description:
-        "The content of ExpansionPanels is mounted by default even if the panel is not expanded. This default behavior has server-side rendering and SEO in mind. If you render expensive component trees inside your panels or simply render many panels it might be a good idea to change this default behavior by enabling the unmountOnExit in TransitionProps:",
+        "STTSTSDFounted by default even if the panel is not expanded. This default behavior has server-side rendering and SEO in mind. If you render expensive component trees inside your panels or simply render many panels it might be a good idea to change this default behavior by enabling the unmountOnExit in TransitionProps:",
       filesUrl: [
         "https://open-shelf.ca/wp-content/uploads/2015/03/twitter-logo-small-1024x576@2x.jpg",
         "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -172,6 +150,9 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       serverIdentifierName: "MACAU",
       title: "澳門 CRAZY 蛋逹王子",
       timestamp: 1576871229332,
+      likedCount: 0,
+      verifiedUpLikedUserCount: 0,
+      liked: false,
     },
   ],
 };

@@ -1,1 +1,0 @@
-{"version":3,"sources":["slide.css"],"names":[],"mappings":"AAAA,YACE,2BACF,CACA,0CACE,uBACF","file":"18.6ec5b631.chunk.css","sourcesContent":[".slick-dots {\n  margin-bottom: 6px !important;\n}\n.slick-dots li.slick-active button:before {\n  color: #ff4f00 !important;\n}\n"]}

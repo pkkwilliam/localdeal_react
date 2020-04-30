@@ -1,137 +1,133 @@
 import ApplicationComponent from "./applicationComponent";
-import React from "react";
+import React, { ReactNode } from "react";
 import View from "./view";
-import H5 from "./h5";
-import ThumbDown from "@material-ui/icons/ThumbDown";
-import ThumbUp from "@material-ui/icons/ThumbUp";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import Deal, { Address } from "../modal/deal";
+import Image from "./image";
+import H6 from "./h6";
 import { styleSchema } from "./stylesheet";
-import Button from "@material-ui/core/Button";
-import Deal, { Address, GetDealResponse } from "../modal/deal";
-import { CREATE_VOTE } from "./middleware/service";
+import { VOTE_CHANGE } from "./middleware/service";
 
 export interface Props {
   deal: Deal;
   selectedAddress?: Address;
 }
 
-export interface State {
-  voted: boolean;
-}
-
-export default class CardBottomVote extends ApplicationComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      voted: false,
-    };
-  }
-
+export default class CardBottomVote extends ApplicationComponent<Props> {
   render() {
-    const { downVote, upVote } = this.props.deal?.vote ?? {};
     return (
       <View isFlexDirectionRow style={styles.rootContainer}>
-        <this.VoteButton voteCount={upVote ?? 0} voteUpIcon={true} />
-        <this.VoteButton voteCount={downVote ?? 0} voteUpIcon={false} />
+        <this.CreatedByUserProfile />
+        <this.LikeSection />
+        <this.VerifyCount />
       </View>
     );
   }
 
-  protected VoteButton = ({
-    voteCount,
-    voteUpIcon,
+  protected CountContainer = ({
+    icon,
+    count,
   }: {
-    voteCount: number;
-    voteUpIcon: boolean;
+    icon: ReactNode;
+    count: number;
   }) => {
-    let buttonContainerStyle = null;
-    let iconStyle = null;
-    if (this.state.voted) {
-      buttonContainerStyle = styles.VotedButtonContainer;
-      iconStyle = { ...styles.mainIconStyle, ...styles.votedIcon };
-    } else {
-      buttonContainerStyle = styles.VoteButtonContainer;
-      iconStyle = { ...styles.mainIconStyle, ...styles.voteIcon };
-    }
-    let voteFunction = voteUpIcon ? this.onPressUpVote : this.onPressDownVote;
     return (
       <View
         isFlexDirectionRow
-        style={{ ...styles.buttonContainer, ...buttonContainerStyle }}
+        onClick={this.onClickVote}
+        style={styles.countContainer}
       >
-        <Button
-          disabled={this.state.voted}
-          onClick={voteFunction}
-          style={styles.iconButton}
-        >
-          {voteUpIcon ? (
-            <ThumbUp style={iconStyle} />
-          ) : (
-            <ThumbDown style={iconStyle} />
-          )}
-        </Button>
-        <H5 style={styles.componentStyle}>{voteCount}</H5>
+        {icon}
+        <H6 color="secondary" style={styles.countText}>
+          {count}
+        </H6>
       </View>
     );
   };
 
-  protected onPressDownVote = () => {
-    this.createVoteRequest(false);
+  protected LikeSection = () => {
+    console.log(this.props.deal.liked);
+    const icon = this.props.deal.liked ? (
+      <FavoriteIcon style={styles.likedIcon} />
+    ) : (
+      <FavoriteBorderIcon style={styles.likedIcon} />
+    );
+    return (
+      <this.CountContainer count={this.props.deal.likedCount} icon={icon} />
+    );
   };
 
-  protected onPressUpVote = () => {
-    this.createVoteRequest(true);
-  };
-
-  protected createVoteRequest = async (upVote: boolean) => {
-    const { id, serverIdentifierName } = this.props.deal;
-    if (!this.state.voted && id && serverIdentifierName) {
-      this.appContext.serviceExecutor
-        .execute(
-          CREATE_VOTE({
-            id,
-            upVote,
-            serverIdentifierName,
-          })
-        )
-        .then((getDealResponse: GetDealResponse) => {
-          this.setState({ voted: true });
-          this.appState.deal.setDeals(getDealResponse.deals);
-        });
+  protected CreatedByUserProfile = () => {
+    if (this.props.deal.createdBy) {
+      const createdBy = this.props.deal.createdBy;
+      return (
+        <View isFlexDirectionRow style={styles.createdByUserProfileContainer}>
+          <Image size="miniCircularImage" src={createdBy.imageUrl} />
+          <H6 style={styles.createdByUserProfileName}>{createdBy.name}</H6>
+        </View>
+      );
+    } else {
+      return null;
     }
+  };
+
+  protected VerifyCount = () => {
+    return (
+      <this.CountContainer
+        count={this.props.deal.verifiedUpLikedUserCount}
+        icon={<VerifiedUserIcon style={styles.verifyIcon} />}
+      />
+    );
+  };
+
+  // this method will call to update the vote, service will return the deal that was update, UI is responsible to map it
+  protected onClickVote = () => {
+    console.log(
+      "--- this feature is only for user who wants to likes a post or even attend an event anonymously, if any abusion is found, feature will be terminated! ---"
+    );
+    this.appContext.serviceExecutor
+      .execute(VOTE_CHANGE(this.props.deal.id))
+      .then((result: Deal) => {
+        this.appState.deal.setDeals(
+          this.appState.deal.deals.map((deal) => {
+            if (deal.id === result.id) {
+              return result;
+            } else {
+              return deal;
+            }
+          })
+        );
+      });
   };
 }
 
 const styles = {
-  buttonContainer: {
+  createdByUserProfileContainer: {
     alignItems: "center",
-    borderRadius: 5,
-    marginRight: 5,
+    justifyContent: "center",
   },
-  componentStyle: {
-    paddingRight: 10,
+  createdByUserProfileName: {
+    paddingLeft: 5,
   },
-  mainIconStyle: {
-    fontSize: 22,
-    paddingTop: 2,
-    paddingBottom: 2,
+  countContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10,
   },
-  iconButton: {
-    padding: 0,
+  countText: {
+    paddingLeft: 5,
+  },
+  likedIcon: {
+    color: styleSchema.color.red,
+    fontSize: 20,
   },
   rootContainer: {
     alignItems: "center",
-    marginTop: 10,
   },
-  VotedButtonContainer: {
-    backgroundColor: styleSchema.color.secondaryColorTransparent,
-  },
-  VoteButtonContainer: {
-    backgroundColor: styleSchema.color.primaryColorTransparent,
-  },
-  votedIcon: {
-    color: styleSchema.color.secondaryColor,
-  },
-  voteIcon: {
-    color: styleSchema.color.primaryColor,
+  verifyIcon: {
+    color: styleSchema.color.green,
+    fontSize: 20,
   },
 };

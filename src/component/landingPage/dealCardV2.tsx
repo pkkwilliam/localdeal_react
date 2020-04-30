@@ -1,11 +1,10 @@
 import React from "react";
-import Deal, { Address } from "../../modal/deal";
+import Deal from "../../modal/deal";
 import CardBottomVote from "../../common/cardBottomVote";
 import View from "../../common/view";
 import { styleSchema } from "../../common/stylesheet";
 import H1 from "../../common/h1";
 import H5 from "../../common/h5";
-import AddressDisplay from "../../common/addressDisplay";
 import ApplicationComponent from "../../common/applicationComponent";
 import { getLazyComponent } from "../../lazyLoad/lazyLoad";
 import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
@@ -75,7 +74,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
     timestamp,
     title,
   }: {
-    address?: Address;
+    address?: string;
     timestamp: number;
     title: string;
   }) => {
@@ -89,7 +88,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
               : this.appContext.labels.date.unknown}
           </H5>
         </View>
-        {address ? <AddressDisplay address={address} /> : null}
+        {address ? <H5>{address}</H5> : null}
       </>
     );
   };
@@ -104,28 +103,6 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
         swipe={this.state.expanded}
       />
     );
-    // if (this.state.expanded) {
-    //   return (
-    //     <Slider
-    //       dealIndex={deal.id ?? 0}
-    //       fileUrls={deal.filesUrl ?? []}
-    //       height={this.state.coverImageHeight}
-    //     />
-    //   );
-    // } else {
-    //   const coverImageStyle = this.state.coverImageLoaded
-    //     ? { height: this.state.coverImageHeight }
-    //     : styles.empty;
-    //   return deal.filesUrl?.length ? (
-    //     <img
-    //       alt={"cover"}
-    //       id={`deal-${this.props.index} cover-image`}
-    //       onLoad={this.onLoadImage}
-    //       src={deal.filesUrl[0]}
-    //       style={coverImageStyle}
-    //     />
-    //   ) : null;
-    // }
   };
 
   protected onExpand = () => {

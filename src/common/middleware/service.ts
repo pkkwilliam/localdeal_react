@@ -1,6 +1,5 @@
 import CurrentArea from "../../modal/currentArea";
 import Deal, { Address } from "../../modal/deal";
-import VoteRequest from "../../modal/voteRequest";
 
 const AREA_NAME_URL_PARAMETER: string = "areaName";
 const AUTHORIZATION_CODE_PARAMETER: string = "authorizationCode";
@@ -10,7 +9,6 @@ const REDIRECT_URL_PARAMETER: string = "redirectUrl";
 
 export enum ServiceName {
   CREATE_DEAL = "CREATE_DEAL",
-  CREATE_VOTE = "CREATE_VOTE",
   GET_CURRENT_ADDRESS = "GET_CURRENT_ADDRESS",
   GET_DEALS = "GET_DEALS",
   GET_PRESIGNED_URL = "GET_PRESIGNED_URL",
@@ -21,6 +19,7 @@ export enum ServiceName {
   TEST = "TEST",
   UPLOAD_IMAGE = "UPLOAD_IMAGE",
   UPLOAD_IMAGE_SIGNED_URL = "UPLOAD_IMAGE_SIGNED_URL",
+  VOTE_CHANGE = "VOTE_CHANGE",
 }
 
 export const CREATE_DEAL = (deal: Deal): Endpoint => {
@@ -32,18 +31,6 @@ export const CREATE_DEAL = (deal: Deal): Endpoint => {
     method: "POST",
     url: "/deals",
     serviceName: ServiceName.CREATE_DEAL,
-  };
-};
-
-export const CREATE_VOTE = (voteRequest: VoteRequest) => {
-  return {
-    body: JSON.stringify(voteRequest),
-    externalService: false,
-    hasMock: false,
-    isMultipartFileRequest: false,
-    method: "POST",
-    url: "/vote",
-    serviceName: ServiceName.CREATE_VOTE,
   };
 };
 
@@ -161,6 +148,19 @@ export const UPLOAD_IMAGE_SIGNED_URL = (
     method: "PUT",
     url: signedUrl,
     serviceName: ServiceName.UPLOAD_IMAGE_SIGNED_URL,
+  };
+};
+
+export const VOTE_CHANGE = (dealId: number) => {
+  return {
+    externalService: false,
+    hasMock: false,
+    isMultipartFileRequest: false,
+    method: "PUT",
+    optionalRequestParam: () =>
+      generateMultipleUrlParameters(["dealId", dealId.toString()]),
+    url: "/deals",
+    serviceName: ServiceName.VOTE_CHANGE,
   };
 };
 

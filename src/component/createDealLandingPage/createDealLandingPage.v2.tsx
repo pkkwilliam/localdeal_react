@@ -168,12 +168,17 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     await this.appState.banner.setBannerProgressMessage(labels.uploadingDeal);
     console.log(this.state.description);
     const createDeal: Deal = {
-      address: this.state.selectedAddress,
+      id: 0,
+      address: this.state.selectedAddress?.formattedAddress,
+      attendCount: 0,
       description: this.state.description,
       filesUrl: imageUploadResult.map((url: any) => url ?? ""),
+      liked: false,
+      likedCount: 0,
       serverIdentifierName: this.state.selectedAddress?.area,
       timestamp: 0,
       title: this.state.title,
+      verifiedUpLikedUserCount: 0,
     };
     await this.appContext.serviceExecutor.execute(CREATE_DEAL(createDeal));
     if (this.state.selectedAddress) {

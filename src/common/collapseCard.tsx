@@ -2,10 +2,7 @@ import React from "react";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import View from "./view";
-import H4 from "./h4";
-import H5 from "./h5";
 import { styleSchema } from "./stylesheet";
-import Button from "@material-ui/core/Button";
 import Collapse from "@material-ui/core/Collapse";
 import ApplicationComponent from "./applicationComponent";
 
@@ -40,51 +37,24 @@ export default class CollapseCard extends ApplicationComponent<Props> {
   protected BottomToolBar = () => {
     return (
       <View isFlexDirectionRow style={styles.bottonToolBar}>
-        <View style={{ alignSelf: "flex-start" }}>
-          {this.props.bottomToolBarContent}
-        </View>
-        <View style={{ alignSelf: "flex-end" }}>
-          <this.ExpandSign />
-        </View>
+        {this.props.bottomToolBarContent}
+        <this.ExpandSign />
       </View>
-    );
-  };
-
-  protected ExpandLessSign = () => {
-    return (
-      <>
-        <H4 color="primary" style={{ color: styleSchema.color.primaryColor }}>
-          {this.appContext.labels.localDealCardPage.collapse}
-        </H4>
-        <ExpandLess style={styles.expandSignIcon} />
-      </>
-    );
-  };
-
-  protected ExpandMoreSign = () => {
-    return (
-      <>
-        <H4 color="primary">
-          {this.appContext.labels.localDealCardPage.expand}
-        </H4>
-        <ExpandMore style={styles.expandSignIcon} />
-      </>
     );
   };
 
   protected ExpandSign = () => {
     if (this.props.allowExpand) {
-      return (
-        <Button
+      return this.props.expanded ? (
+        <ExpandLess
           onClick={this.props.onClickExpandSign}
-          style={styles.expandSignButton}
-        >
-          {this.props.expanded ? (
-            <this.ExpandLessSign />
-          ) : (
-            <this.ExpandMoreSign />
-          )}
-        </Button>
+          style={styles.expandSignIcon}
+        />
+      ) : (
+        <ExpandMore
+          onClick={this.props.onClickExpandSign}
+          style={styles.expandSignIcon}
+        />
       );
     } else {
       return null;
@@ -95,6 +65,7 @@ export default class CollapseCard extends ApplicationComponent<Props> {
 const styles = {
   bottonToolBar: {
     justifyContent: "space-between",
+    marginTop: 10,
     width: "inherit",
   },
   collapsedContentContainer: {
@@ -105,11 +76,10 @@ const styles = {
   expandSignButton: {
     backgroundColor: styleSchema.color.primaryColorTransparent,
     padding: 0,
-    paddingLeft: 15,
-    paddingRight: 5,
   },
   expandSignIcon: {
     color: styleSchema.color.primaryColor,
+    marginLeft: 10,
   },
   rootContainer: {
     width: "inherit",

@@ -7,13 +7,9 @@ export default class H5 extends H1 {
   }
 
   protected getStyle() {
-    return styles.text;
+    return {
+      fontSize: 15,
+      fontWeight: 500,
+    };
   }
 }
-
-const styles = {
-  text: {
-    fontSize: 15,
-    fontWeight: 500,
-  },
-};

@@ -21,6 +21,7 @@ export default class OAuthView extends ApplicationComponent<Props> {
 
   protected Container = () => {
     const child =
+      this.props.userProfile &&
       this.props.userProfile.oAuthProvider !== OAuthProvider.NONE ? (
         <this.UserProfileSection />
       ) : (
