@@ -107,7 +107,6 @@ export default class OAuthView extends ApplicationComponent<Props> {
 
   protected generateOAuthSelection() {
     return this.props.oAuthDetails.map((oAuthDetail) => {
-      console.log(oAuthDetail.iconUrl);
       if (oAuthDetail.provider !== OAuthProvider.NONE) {
         return (
           <Link

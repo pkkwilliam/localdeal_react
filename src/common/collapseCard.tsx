@@ -1,10 +1,9 @@
 import React from "react";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import ExpandLess from "@material-ui/icons/ExpandLess";
 import View from "./view";
 import { styleSchema } from "./stylesheet";
 import Collapse from "@material-ui/core/Collapse";
 import ApplicationComponent from "./applicationComponent";
+import Icon from "./icon";
 
 export interface Props {
   allowExpand: boolean;
@@ -46,15 +45,9 @@ export default class CollapseCard extends ApplicationComponent<Props> {
   protected ExpandSign = () => {
     if (this.props.allowExpand) {
       return this.props.expanded ? (
-        <ExpandLess
-          onClick={this.props.onClickExpandSign}
-          style={styles.expandSignIcon}
-        />
+        <Icon onClick={this.props.onClickExpandSign} type="expandLess" />
       ) : (
-        <ExpandMore
-          onClick={this.props.onClickExpandSign}
-          style={styles.expandSignIcon}
-        />
+        <Icon onClick={this.props.onClickExpandSign} type="expandMore" />
       );
     } else {
       return null;
@@ -76,10 +69,6 @@ const styles = {
   expandSignButton: {
     backgroundColor: styleSchema.color.primaryColorTransparent,
     padding: 0,
-  },
-  expandSignIcon: {
-    color: styleSchema.color.primaryColor,
-    marginLeft: 10,
   },
   rootContainer: {
     width: "inherit",

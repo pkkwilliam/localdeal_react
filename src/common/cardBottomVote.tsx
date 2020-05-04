@@ -1,16 +1,12 @@
 import ApplicationComponent from "./applicationComponent";
 import React, { ReactNode } from "react";
 import View from "./view";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import Deal, { Address } from "../modal/deal";
 import Image from "./image";
 import H6 from "./h6";
-import { styleSchema } from "./stylesheet";
 import { VOTE_CHANGE } from "./middleware/service";
 import { OAuthProvider } from "../modal/oAuthProvider";
-import { OAuth } from "../component/oAuth";
+import Icon from "./icon";
 
 export interface Props {
   deal: Deal;
@@ -68,9 +64,9 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
       likedValue = this.state.liked;
     }
     const icon = likedValue ? (
-      <FavoriteIcon style={styles.likedIcon} />
+      <Icon type="favroite" />
     ) : (
-      <FavoriteBorderIcon style={styles.likedIcon} />
+      <Icon type="favroiteBorder" />
     );
     return (
       <this.CountContainer count={this.props.deal.likedCount} icon={icon} />
@@ -97,7 +93,7 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
       return (
         <this.CountContainer
           count={this.props.deal.verifiedLikedUserCount}
-          icon={<VerifiedUserIcon style={styles.verifyIcon} />}
+          icon={<Icon type="verified" />}
         />
       );
     } else {
@@ -145,15 +141,7 @@ const styles = {
   countText: {
     paddingLeft: 5,
   },
-  likedIcon: {
-    color: styleSchema.color.red,
-    fontSize: 20,
-  },
   rootContainer: {
     alignItems: "center",
-  },
-  verifyIcon: {
-    color: styleSchema.color.green,
-    fontSize: 20,
   },
 };

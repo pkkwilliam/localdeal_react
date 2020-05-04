@@ -5,11 +5,9 @@ import { Address } from "../../modal/deal";
 import View from "../../common/view";
 import { styleSchema } from "../../common/stylesheet";
 import logo from "../../resouces/logo_icon_character-min.png";
-import { default as AddIcon } from "@material-ui/icons/Add";
-import { default as LocationIcon } from "@material-ui/icons/Room";
-import ToolTips from "../../common/ToolTips";
 import { getLazyComponent } from "../../lazyLoad/lazyLoad";
 import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
+import Icon from "../../common/icon";
 
 export interface Props {
   isCreateDealDrawerOpen: boolean;
@@ -55,12 +53,7 @@ export default class HeaderView extends ApplicationComponent<Props> {
   };
 
   CreateNewDealButton = () => {
-    return (
-      <AddIcon
-        onClick={this.props.onClickCreateDeal}
-        style={styles.createNewDealIcon}
-      />
-    );
+    return <Icon onClick={this.props.onClickCreateDeal} type="add" />;
   };
 
   ServerErrorModal = () => {
@@ -96,9 +89,10 @@ export default class HeaderView extends ApplicationComponent<Props> {
       areaLabel = label.loading;
     }
     return (
-      <ToolTips title={`${label.currentLocation} ${areaLabel}`}>
-        <LocationIcon style={styles.locationIcon} />
-      </ToolTips>
+      <Icon
+        toolTipsMessage={`${label.currentLocation} ${areaLabel}`}
+        type="location"
+      />
     );
   };
 
@@ -118,14 +112,6 @@ const styles = {
   buttonContainer: {
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  createNewDealIcon: {
-    color: styleSchema.color.primaryColor,
-    ...styleSchema.icon,
-  },
-  locationIcon: {
-    color: styleSchema.color.greenMedium,
-    ...styleSchema.icon,
   },
   rootContainer: {
     alignItems: "center",

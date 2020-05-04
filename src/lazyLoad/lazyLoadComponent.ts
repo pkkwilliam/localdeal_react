@@ -1,4 +1,5 @@
 export enum LazyLoadComponent {
+  Announcement = "Announcement",
   Banner = "Banner",
   CollapseCard = "CollapseCard",
   CreateDeal = "CreateDeal",

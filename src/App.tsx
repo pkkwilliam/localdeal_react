@@ -5,8 +5,8 @@ import { LazyLoadComponent } from "./lazyLoad/lazyLoadComponent";
 import { getLazyComponent } from "./lazyLoad/lazyLoad";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Announcement from "./component/announcement/announcement";
 
+const Announcement = getLazyComponent(LazyLoadComponent.Announcement);
 const Banner = getLazyComponent(LazyLoadComponent.Banner);
 const Header = getLazyComponent(LazyLoadComponent.Header);
 const LandingPage = getLazyComponent(LazyLoadComponent.LandingPage);

@@ -5,13 +5,13 @@ import View from "../../common/view";
 import TextButton from "../../common/textButton";
 import H5 from "../../common/h5";
 import P from "../../common/paragraph";
-import { default as MenuIcon } from "@material-ui/icons/Menu";
 import Link from "@material-ui/core/Link";
 import { Feature } from "../../common/feature/feature";
 import { OAuth } from "../oAuth";
 import { UserProfile } from "../../modal/userProfile";
 import { getLazyComponent } from "../../lazyLoad/lazyLoad";
 import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
+import Icon from "../../common/icon";
 
 export interface Props {
   isMenuOpen: boolean;
@@ -28,7 +28,7 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
     if (this.appContext.features.includes(Feature.HEADER_MENU)) {
       return (
         <View borderLeft={1} style={styles.menuIconContainer}>
-          <MenuIcon style={styles.menuIcon} onClick={this.props.onClickMenu} />
+          <Icon onClick={this.props.onClickMenu} type="menu" />
           <Drawer
             anchor={"right"}
             onClose={this.props.onCloseMenu}
@@ -123,10 +123,6 @@ const styles = {
   menuIconContainer: {
     borderColor: styleSchema.color.greyTransparent,
     marginLeft: 18,
-  },
-  menuIcon: {
-    color: styleSchema.color.greyDark,
-    ...styleSchema.icon,
   },
   menuContainer: {
     alignItems: "center",

@@ -7,6 +7,8 @@ export const getLazyComponent = (component: LazyLoadComponent) => {
 
 function getPath(component: LazyLoadComponent): any {
   switch (component) {
+    case LazyLoadComponent.Announcement:
+      return import("../component/announcement/announcement");
     case LazyLoadComponent.Banner:
       return import("../component/banner/banner");
     case LazyLoadComponent.CollapseCard:
