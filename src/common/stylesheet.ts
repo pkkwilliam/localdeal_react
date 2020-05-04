@@ -5,6 +5,7 @@ const borderRadius = 15;
 const BLACK = "black"; // TODO replace this with HEX code
 const BLUE = "#007AFF";
 const BLUE_TRANSPARENT = "rgba(0,132,255,.1)";
+const BLUE_TRANSPARENT_SEMI = "rgba(16, 137, 254,1)";
 const GREY_DARK = "#7D7D7D";
 const GREY_LIGHT = "#f6f6f6";
 const GREY_TRANSPARENT = "rgba(12, 12, 12, .1)";
@@ -36,6 +37,7 @@ export interface StyleSheet {
   color: {
     black: string;
     blueTransparent: string;
+    blueTransparentSemi: string;
     green: string;
     greenMedium: string;
     greyDark: string;
@@ -82,11 +84,12 @@ export interface StyleSheet {
 
 export const styleSchema: StyleSheet = {
   button: {
-    borderRadius
+    borderRadius,
   },
   color: {
     black: BLACK,
     blueTransparent: BLUE_TRANSPARENT,
+    blueTransparentSemi: BLUE_TRANSPARENT_SEMI,
     green: GREEN,
     greenMedium: GREEN_MDEIUM,
     greyDark: GREY_DARK,
@@ -106,30 +109,30 @@ export const styleSchema: StyleSheet = {
     systemInform: SYSTEM_INFORM,
     systemSuccess: SYSTEM_SUCCESS,
     systemWarn: SYSTEM_WARN,
-    white: WHITE
+    white: WHITE,
   },
   common: {
-    borderColor: GREY_LIGHT
+    borderColor: GREY_LIGHT,
   },
   dimension: {
     FILL_ALL_HEIGHT,
-    FILL_ALL_WIDTH
+    FILL_ALL_WIDTH,
   },
   font: {
     fontSize: FONT_SIZE,
-    primaryFont: PRIMARY_FONT
+    primaryFont: PRIMARY_FONT,
   },
   icon: {
     fontSize: 38,
-    marginLeft: 18
+    marginLeft: 18,
   },
   remind: {
     primaryColor: GREEN,
-    secondaryColor: BLUE
+    secondaryColor: BLUE,
   },
   textField: {
     borderColor: BLUE,
     borderRadius,
-    borderWidth: 2
-  }
+    borderWidth: 2,
+  },
 };

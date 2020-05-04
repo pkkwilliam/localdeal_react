@@ -11,22 +11,16 @@ export default class H1<ChildProps extends Props = Props> extends Component<
 > {
   render() {
     return (
-      <p
+      <span
         style={{
+          color: this.getColor(),
           ...this.getDefaultStyle(),
-          ...this.getDefaultColor(),
           ...this.props.style,
         }}
       >
         {this.props.children}
-      </p>
+      </span>
     );
-  }
-
-  protected getDefaultColor(): { color: string } {
-    return {
-      color: this.getColor(),
-    };
   }
 
   protected getColor(): string {
@@ -40,8 +34,12 @@ export default class H1<ChildProps extends Props = Props> extends Component<
       case "white":
         return styles.white.color;
       default:
-        return styles.black.color;
+        return this.getDefaultColor();
     }
+  }
+
+  protected getDefaultColor() {
+    return styles.black.color;
   }
 
   protected getDefaultStyle() {

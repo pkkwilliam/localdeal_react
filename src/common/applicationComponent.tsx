@@ -11,6 +11,7 @@ import {
   GET_SERVER_HEALTH,
   GET_USER_PROFILE,
 } from "./middleware/service";
+import LocalStorage from "../common/localStorage";
 import { Coordinate, GetDealResponse, Address } from "../modal/deal";
 
 export default class ApplicationComponent<
@@ -18,6 +19,7 @@ export default class ApplicationComponent<
   ChildState = {}
 > extends Component<ChildProps, ChildState> {
   static contextType = AppState;
+  private readonly _localStorage = new LocalStorage();
   private readonly _appContext: AppContext = new AppContext();
   private readonly _imageProcessor: ImageProcessor = new ImageProcessor();
 
@@ -31,6 +33,10 @@ export default class ApplicationComponent<
 
   get imageProcessor(): ImageProcessor {
     return this._imageProcessor;
+  }
+
+  get localStorage(): LocalStorage {
+    return this._localStorage;
   }
 
   public checkOAuth(): {

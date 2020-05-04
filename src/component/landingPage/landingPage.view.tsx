@@ -5,7 +5,6 @@ import View from "../../common/view";
 import { styleSchema } from "../../common/stylesheet";
 import ApplicationComponent from "../../common/applicationComponent";
 import DealSectionV2View from "./dealSection.v2.view";
-import { CircularProgress } from "@material-ui/core";
 
 export interface Props {
   deals: Deal[];

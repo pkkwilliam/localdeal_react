@@ -5,6 +5,7 @@ import { LazyLoadComponent } from "./lazyLoad/lazyLoadComponent";
 import { getLazyComponent } from "./lazyLoad/lazyLoad";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Announcement from "./component/announcement/announcement";
 
 const Banner = getLazyComponent(LazyLoadComponent.Banner);
 const Header = getLazyComponent(LazyLoadComponent.Header);
@@ -18,6 +19,7 @@ export default class App extends Component {
           <div className="App-header">
             <Header />
           </div>
+          <Announcement />
           <Banner />
           <div className="Content">
             <LandingPage />

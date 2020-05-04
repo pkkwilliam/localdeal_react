@@ -2,6 +2,19 @@
   "addressDisplay": {
     "nearBy": "附近"
   },
+  "announcement": {
+    "messages": [
+      {
+        "content": "誠邀市場推廣",
+        "type": "boldText"
+      },
+      {
+        "content": "Tensor Technology = 初創科技公司\n主要方向是讓用戶或企業主動發起活動\n讓附近有興趣或空閒的用戶參與該活 公司現在已有一位從美國50強企業回澳的電腦軟件工程師 現誠邀有市場推廣能力和經驗的人士一位參與共同發展該項目",
+        "type": "text"
+      }
+    ],
+    "version": 1
+  },
   "createDealPage": {
     "cancel": "取消",
     "close": "關閉",
@@ -32,13 +45,6 @@
     "unknown": "不明"
   },
   "header": {
-    "announcement": [
-      {
-        "type": "hire",
-        "title": "誠邀加入",
-        "detail": " Tensor Technology是一家初創科技公司，現主要方向是讓用戶或企業主動發起活動，讓附近的用戶有興趣可或空閒可即時參與其中。公司現在已有一位從美國100強企業回澳的電腦軟件工程師。現誠邀有市場推廣能力和經驗的人士參與共同發展該項目"
-      }
-    ],
     "currentLocation": "當前地區:",
     "loading": "Google API 正在為你定位",
     "refresh": "刷新",

@@ -43,8 +43,6 @@ export default class Header extends ApplicationComponent<{}, State> {
     });
   };
 
-  protected onCloseAnnouncement = () => {};
-
   protected onCloseCreateDeal = () => {
     console.debug("onCloseCreateDeal");
     this.setState({
