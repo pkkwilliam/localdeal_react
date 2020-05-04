@@ -1,12 +1,14 @@
 import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import { OAuthView } from ".";
-import { LOGOUT_OAUTH } from "../../common/middleware/service";
+import { LOGOUT_OAUTH, UPDATE_NICKNAME } from "../../common/middleware/service";
 import resources from "../../content/resource.json";
 import { OAuthDetail, OAuthProvider } from "../../modal/oAuthProvider";
 
 interface State {
+  nickname: string;
   oAuthDetails: OAuthDetail[];
+  showManageProfile: boolean;
 }
 
 export default class OAuth extends ApplicationComponent<{}, State> {
@@ -20,25 +22,62 @@ export default class OAuth extends ApplicationComponent<{}, State> {
         requestUrlNonProd: oAuth.requestUrlNonProd,
       };
     });
+    const nickname =
+      this.appState !== undefined ? this.appState.user.userProfile.name : "";
     this.state = {
+      nickname,
       oAuthDetails,
+      showManageProfile: false,
     };
   }
 
   render() {
     return (
       <OAuthView
+        nickname={this.state.nickname}
         oAuthDetails={this.state.oAuthDetails}
+        onChangeNickName={this.onChangeNickName}
+        onCloseManageProfile={this.onCloseManageProfile}
+        onClickManageProfile={this.onClickManageProfile}
         onClickLogout={this.onClickLogout}
+        onClickSaveProfile={this.onClickSaveProfile}
+        showManageProfile={this.state.showManageProfile}
         userProfile={this.appState.user.userProfile}
       />
     );
   }
 
+  protected onChangeNickName = (nickname: string) => {
+    this.setState({
+      nickname,
+    });
+  };
+
   protected onClickLogout = () => {
     console.debug("onClickLogout");
     this.appContext.serviceExecutor.execute(LOGOUT_OAUTH()).then(() => {
       this.appState.user.removeUserProfile();
+    });
+  };
+
+  protected onClickManageProfile = () => {
+    console.debug("showManageProfile");
+    this.setState({
+      showManageProfile: true,
+    });
+  };
+
+  protected onClickSaveProfile = () => {
+    console.debug("onClickSaveProfile");
+    this.appContext.serviceExecutor.execute(
+      UPDATE_NICKNAME(this.state.nickname)
+    );
+  };
+
+  protected onCloseManageProfile = () => {
+    console.log("onClickCloseManageProfile");
+    this.setState({
+      showManageProfile: false,
     });
   };
 

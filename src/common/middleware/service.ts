@@ -16,7 +16,7 @@ export enum ServiceName {
   GET_USER_PROFILE = "GET_USER_PROFILE",
   LOGIN_OAUTH_GOOGLE = "LOGIN_OAUTH_GOOGLE",
   LOGOUT_OAUTH = "LOGOUT_OAUTH",
-  TEST = "TEST",
+  UPDATE_NICKNAME = "UPDATE_NICKNAME",
   UPLOAD_IMAGE = "UPLOAD_IMAGE",
   UPLOAD_IMAGE_SIGNED_URL = "UPLOAD_IMAGE_SIGNED_URL",
   VOTE_CHANGE = "VOTE_CHANGE",
@@ -121,6 +121,17 @@ export const LOGOUT_OAUTH = (): Endpoint => ({
   method: "DELETE",
   url: "/oauth",
   serviceName: ServiceName.LOGOUT_OAUTH,
+});
+
+export const UPDATE_NICKNAME = (nickname: string): Endpoint => ({
+  externalService: false,
+  hasMock: false,
+  isMultipartFileRequest: false,
+  method: "PUT",
+  optionalRequestParam: () =>
+    generateMultipleUrlParameters(["nickname", nickname]),
+  url: "/userProfile/nickname",
+  serviceName: ServiceName.UPDATE_NICKNAME,
 });
 
 export const UPLOAD_IMAGE = (image: any): Endpoint => {

@@ -65,6 +65,8 @@ export default class GlobalStateComponent extends Component<{}, State> {
       user: {
         userProfile: {
           id: 0,
+          dealCreated: [],
+          likedSum: 0,
           name: "",
           imageUrl: "",
           oAuthProvider: OAuthProvider.NONE,
@@ -113,6 +115,8 @@ export default class GlobalStateComponent extends Component<{}, State> {
   protected removeUserProfile = () => {
     const userProfile: UserProfile = {
       id: 0,
+      dealCreated: [],
+      likedSum: 0,
       imageUrl: "",
       name: "",
       oAuthProvider: OAuthProvider.NONE,

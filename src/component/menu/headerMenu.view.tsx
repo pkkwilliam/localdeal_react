@@ -45,9 +45,10 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
 
   CloseButton = () => {
     return (
-      <TextButton onClick={this.props.onCloseMenu}>
-        {this.appContext.labels.headerMenu.closeButton}
-      </TextButton>
+      <TextButton
+        message={this.appContext.labels.headerMenu.closeButton}
+        onClick={this.props.onCloseMenu}
+      />
     );
   };
 

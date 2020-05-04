@@ -96,7 +96,6 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
 
   protected onChangeDescription = (description: string) => {
     console.debug("onChangeDescription");
-    console.log(description);
     this.setState({
       description,
     });

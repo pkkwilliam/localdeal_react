@@ -6,7 +6,7 @@ import {
 import View from "./view";
 import { styleSchema } from "./stylesheet";
 import H1 from "./h1";
-import Button from "@material-ui/core/Button";
+import TextButton from "./textButton";
 
 interface Props extends ModalProps {
   onClickPrimaryButton?: () => void;
@@ -37,23 +37,16 @@ export default class Modal extends Component<Props> {
     );
   }
 
-  Button = ({ message, onClick }: { message: string; onClick: () => void }) => {
-    return (
-      <Button onClick={onClick} style={styles.button}>
-        {message}
-      </Button>
-    );
-  };
-
   ButtonSelection = () => {
     const props = this.props;
     if (props.primaryButtonMessage && props.secondaryButtonMessage) {
       return <></>;
-    } else if (props.primaryButtonMessage) {
+    } else if (props.onClickPrimaryButton && props.primaryButtonMessage) {
       return (
-        <Button onClick={props.onClickPrimaryButton} style={styles.button}>
-          {props.primaryButtonMessage}
-        </Button>
+        <TextButton
+          onClick={props.onClickPrimaryButton}
+          message={props.primaryButtonMessage}
+        />
       );
     } else {
       return null;

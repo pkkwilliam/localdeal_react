@@ -7,7 +7,7 @@ export default class PrimaryButton extends Component<ButtonProps> {
     const color: any = {
       backgroundColor: this.props.disabled
         ? styleSchema.color.greyDark
-        : styleSchema.color.primaryColor
+        : styleSchema.color.primaryColor,
     };
     return (
       <Button style={{ ...color, ...styles.buttonStyle }} {...this.props}>
@@ -22,12 +22,12 @@ const styles = {
     borderRadius: 25,
     marginLeft: 20,
     marginRight: 20,
-    width: "inherit"
+    width: "inherit",
   },
   text: {
     color: styleSchema.color.white,
     fontSize: 15,
     fontWeight: 600,
-    margin: 0
-  }
+    margin: 0,
+  },
 };

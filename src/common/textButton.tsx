@@ -4,6 +4,7 @@ import { styleSchema } from "./stylesheet";
 
 interface Props extends ButtonProps {
   onClick: () => void;
+  message: string;
   underline?: boolean;
 }
 
@@ -17,7 +18,7 @@ export default class TextButton extends Component<Props> {
         variant="text"
         {...this.props}
       >
-        {this.props.children}
+        {this.props.message}
       </Button>
     );
   }
@@ -26,10 +27,12 @@ export default class TextButton extends Component<Props> {
 const styles = {
   buttonStyle: {
     color: styleSchema.color.primaryColor,
-    paddingBottom: 2,
-    paddingTop: 2
+    marginBottom: 5,
+    marginTop: 5,
+    paddingBottom: 5,
+    paddingTop: 5,
   },
   underline: {
-    textDecoration: "underline"
-  }
+    textDecoration: "underline",
+  },
 };

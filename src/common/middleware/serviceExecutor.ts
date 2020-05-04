@@ -99,6 +99,8 @@ const GET_DEALS_RESPONSE: GetDealResponse = {
       attendCount: 5,
       createdBy: {
         id: 0,
+        dealCreated: [9, 8, 2],
+        likedSum: 0,
         name: "Mock User",
         imageUrl:
           "https://www.picclickimg.com/d/l400/pict/163647152800_/Cubd-Collectibles-Disney-Frozen-Elsa-Small-Soft-Stuffed.jpg",
