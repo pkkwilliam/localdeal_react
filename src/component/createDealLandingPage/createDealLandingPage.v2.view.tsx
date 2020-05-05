@@ -314,7 +314,6 @@ const styles = {
   fileSectionContainer: {
     alignItems: "start",
     overflow: "scroll",
-    paddingBottom: 10,
     paddingTop: 10,
     width: "inherit",
   },

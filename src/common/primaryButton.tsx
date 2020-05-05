@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Button, ButtonProps } from "@material-ui/core";
+import Button, { ButtonProps } from "@material-ui/core/Button";
 import { styleSchema } from "./stylesheet";
 
-export default class PrimaryButton extends Component<ButtonProps> {
+export default class PrimaryButton<
+  ChildProps extends ButtonProps
+> extends Component<ChildProps> {
   render() {
     const color: any = {
       backgroundColor: this.props.disabled
@@ -10,19 +12,35 @@ export default class PrimaryButton extends Component<ButtonProps> {
         : styleSchema.color.primaryColor,
     };
     return (
-      <Button style={{ ...color, ...styles.buttonStyle }} {...this.props}>
-        <p style={styles.text}>{this.props.children}</p>
+      <Button
+        style={{
+          ...color,
+          ...styles.buttonDefaultStyle,
+          ...this.getButtonStyle(),
+        }}
+        {...this.props}
+      >
+        <p style={{ ...styles.text, ...this.getTextStyle() }}>
+          {this.props.children}
+        </p>
       </Button>
     );
+  }
+
+  public getButtonStyle() {
+    return { width: "inherit" };
+  }
+
+  public getTextStyle() {
+    return {};
   }
 }
 
 const styles = {
-  buttonStyle: {
+  buttonDefaultStyle: {
     borderRadius: 25,
     marginLeft: 20,
     marginRight: 20,
-    width: "inherit",
   },
   text: {
     color: styleSchema.color.white,

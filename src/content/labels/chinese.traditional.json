@@ -64,7 +64,7 @@
       "公告文字 進度: 0%"
     ],
     "developingFeature": "等待開發中的功能:",
-    "emailAddress": "pkkwilliam919@gmail.com",
+    "emailAddress": "tensortechnology@gmail.com",
     "logout": "登出",
     "moreFeatureIsComingDescription": "產品經理正在鞭撻理程序員推出更多新功能"
   },
@@ -89,10 +89,17 @@
     "username": "UID/用戶名/EMAIL"
   },
   "oAuth": {
+    "likedReceived": "收到的喜愛:",
     "login": "登入",
     "logout": "登出",
+    "postCreated": "已發布:",
     "successfullyLogout": "成功登出",
-    "undefined": "不明"
+    "undefined": "不明",
+    "userProfile": {
+      "cancel": "取消",
+      "name": "名字",
+      "save": "儲存"
+    }
   },
   "position": {
     "currentArea": "所在地區",

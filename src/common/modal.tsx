@@ -44,6 +44,7 @@ export default class Modal extends Component<Props> {
     } else if (props.onClickPrimaryButton && props.primaryButtonMessage) {
       return (
         <TextButton
+          buttonType="primary"
           onClick={props.onClickPrimaryButton}
           message={props.primaryButtonMessage}
         />

@@ -10,10 +10,12 @@ import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
 import Room from "@material-ui/icons/Room";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import { styleSchema } from "./stylesheet";
-import { Tooltip } from "@material-ui/core";
+import Tooltip from "@material-ui/core/Tooltip";
+import { Button } from "@material-ui/core";
 
 interface Props {
   onClick?: () => void;
+  style?: any;
   toolTipsMessage?: string;
   type:
     | "add"
@@ -31,10 +33,18 @@ interface Props {
 export default class Icon extends Component<Props> {
   render() {
     const icon = this.getIcon(this.props.type);
-    if (this.props.toolTipsMessage) {
+    if (this.props.toolTipsMessage && this.props.children) {
       return (
         <Tooltip disableTouchListener title={this.props.toolTipsMessage}>
-          <div>{icon}</div>
+          <Button startIcon={icon} style={styles.buttonStyle}>
+            {this.props.children}
+          </Button>
+        </Tooltip>
+      );
+    } else if (this.props.toolTipsMessage) {
+      return (
+        <Tooltip disableTouchListener title={this.props.toolTipsMessage}>
+          <Button style={styles.buttonStyle}>{icon}</Button>
         </Tooltip>
       );
     } else {
@@ -78,11 +88,16 @@ export default class Icon extends Component<Props> {
   };
 
   MenuIcon = () => {
-    return <Menu onClick={this.props.onClick} style={styles.menu} />;
+    return (
+      <Menu
+        onClick={this.props.onClick}
+        style={{ ...styles.menu, ...this.props.style }}
+      />
+    );
   };
 
   PostIcon = () => {
-    return <PhotoLibraryIcon />;
+    return <PhotoLibraryIcon style={styles.post} />;
   };
 
   VerifiedIcon = () => {
@@ -118,7 +133,10 @@ export default class Icon extends Component<Props> {
 const styles = {
   add: {
     color: styleSchema.color.primaryColor,
-    ...styleSchema.icon,
+    fontSize: 38,
+  },
+  buttonStyle: {
+    padding: 0,
   },
   close: {
     color: styleSchema.color.greyDark,
@@ -133,11 +151,14 @@ const styles = {
   },
   location: {
     color: styleSchema.color.greenMedium,
-    ...styleSchema.icon,
+    fontSize: 38,
   },
   menu: {
     color: styleSchema.color.greyDark,
-    ...styleSchema.icon,
+    fontSize: 38,
+  },
+  post: {
+    color: styleSchema.color.blueTransparentSemi,
   },
   verified: {
     color: styleSchema.color.green,

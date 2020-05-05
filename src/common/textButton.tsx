@@ -3,6 +3,7 @@ import { Button, ButtonProps } from "@material-ui/core";
 import { styleSchema } from "./stylesheet";
 
 interface Props extends ButtonProps {
+  buttonType: "primary" | "secondary";
   onClick: () => void;
   message: string;
   underline?: boolean;
@@ -11,10 +12,17 @@ interface Props extends ButtonProps {
 export default class TextButton extends Component<Props> {
   render() {
     const additionalStyle = this.props.underline ? styles.underline : "";
+    const color = {
+      color:
+        this.props.buttonType === "primary"
+          ? styleSchema.color.primaryColor
+          : styleSchema.color.secondaryColor,
+    };
+
     return (
       <Button
         onClick={this.props.onClick}
-        style={{ ...styles.buttonStyle, ...additionalStyle }}
+        style={{ ...color, ...styles.buttonStyle, ...additionalStyle }}
         variant="text"
         {...this.props}
       >
@@ -26,7 +34,6 @@ export default class TextButton extends Component<Props> {
 
 const styles = {
   buttonStyle: {
-    color: styleSchema.color.primaryColor,
     marginBottom: 5,
     marginTop: 5,
     paddingBottom: 5,

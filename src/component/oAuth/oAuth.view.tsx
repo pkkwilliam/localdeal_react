@@ -8,8 +8,9 @@ import Image from "../../common/image";
 import TextButton from "../../common/textButton";
 import { UserProfile } from "../../modal/userProfile";
 import Collapse from "@material-ui/core/Collapse";
-import PrimaryButton from "../../common/primaryButton";
-import TextField from "../../common/textField";
+import SecondaryButton from "../../common/secondaryButton";
+import OutlinedTextField from "../../common/outlinedTextField";
+import Icon from "../../common/icon";
 
 interface Props {
   nickname: string;
@@ -36,16 +37,12 @@ export default class OAuthView extends ApplicationComponent<Props> {
     ) : (
       <this.OAuthSelection />
     );
-    const onClick =
-      userLoggedIn && !this.props.showManageProfile
-        ? this.props.onClickManageProfile
-        : this.props.onCloseManageProfile;
     return (
       <>
         <View
           boxShadow={1}
           isFlexDirectionRow
-          onClick={onClick}
+          onClick={this.props.onClickManageProfile}
           style={styles.userProfileHeaderSectionContainer}
         >
           {child}
@@ -58,25 +55,37 @@ export default class OAuthView extends ApplicationComponent<Props> {
   protected LogoutButton = () => {
     return (
       <TextButton
+        buttonType="secondary"
         message={this.appContext.labels.oAuth.logout}
         onClick={this.props.onClickLogout}
-        style={{ alignSelf: "flexEnd" }}
-        underline
       />
     );
   };
 
   protected ManageProfile = () => {
+    const labels = this.appContext.labels.oAuth.userProfile;
     return (
       <Collapse in={this.props.showManageProfile} style={{ width: "inherit" }}>
-        <View style={{ width: "inherit" }}>
-          <TextField
-            placeholder={"Need Label - Nickname"}
+        <View style={{ alignItems: "center", width: "inherit" }}>
+          <OutlinedTextField
+            label={labels.name}
             onChange={this.props.onChangeNickName}
+            value={this.props.nickname}
           />
-          <PrimaryButton onClick={this.props.onClickSaveProfile}>
-            {"Need Label - Save"}
-          </PrimaryButton>
+          <View isFlexDirectionRow>
+            <SecondaryButton
+              buttonType="secondary"
+              onClick={this.props.onCloseManageProfile}
+            >
+              {labels.cancel}
+            </SecondaryButton>
+            <SecondaryButton
+              buttonType="primary"
+              onClick={this.props.onClickSaveProfile}
+            >
+              {labels.save}
+            </SecondaryButton>
+          </View>
           <this.LogoutButton />
         </View>
       </Collapse>
@@ -93,12 +102,24 @@ export default class OAuthView extends ApplicationComponent<Props> {
 
   protected UserProfileSection = () => {
     const userProfile = this.props.userProfile;
+    const labels = this.appContext.labels.oAuth;
     if (userProfile.oAuthProvider !== OAuthProvider.NONE) {
       return (
         <>
           <Image size="miniCircularImage" src={userProfile.imageUrl} />
-          <H4 color="primary">{userProfile.name}</H4>
-          <View isFlexDirectionRow></View>
+          <H4 color="black">{userProfile.name}</H4>
+          <Icon
+            type="post"
+            toolTipsMessage={`${labels.postCreated}${userProfile.dealCreated.length}`}
+          >
+            {userProfile.dealCreated.length}
+          </Icon>
+          <Icon
+            type="favroite"
+            toolTipsMessage={`${labels.likedReceived}${userProfile.likedSum}`}
+          >
+            {userProfile.likedSum}
+          </Icon>
         </>
       );
     }

@@ -22,13 +22,19 @@ export default class OAuth extends ApplicationComponent<{}, State> {
         requestUrlNonProd: oAuth.requestUrlNonProd,
       };
     });
-    const nickname =
-      this.appState !== undefined ? this.appState.user.userProfile.name : "";
     this.state = {
-      nickname,
+      nickname: "",
       oAuthDetails,
       showManageProfile: false,
     };
+  }
+
+  componentDidMount() {
+    const nickname =
+      this.appState !== undefined ? this.appState.user.userProfile.name : "";
+    this.setState({
+      nickname,
+    });
   }
 
   render() {
@@ -69,9 +75,9 @@ export default class OAuth extends ApplicationComponent<{}, State> {
 
   protected onClickSaveProfile = () => {
     console.debug("onClickSaveProfile");
-    this.appContext.serviceExecutor.execute(
-      UPDATE_NICKNAME(this.state.nickname)
-    );
+    this.appContext.serviceExecutor
+      .execute(UPDATE_NICKNAME(this.state.nickname))
+      .then(() => this.getUserProfile());
   };
 
   protected onCloseManageProfile = () => {

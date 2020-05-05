@@ -28,7 +28,11 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
     if (this.appContext.features.includes(Feature.HEADER_MENU)) {
       return (
         <View borderLeft={1} style={styles.menuIconContainer}>
-          <Icon onClick={this.props.onClickMenu} type="menu" />
+          <Icon
+            onClick={this.props.onClickMenu}
+            style={styles.menuIcon}
+            type="menu"
+          />
           <Drawer
             anchor={"right"}
             onClose={this.props.onCloseMenu}
@@ -46,6 +50,7 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
   CloseButton = () => {
     return (
       <TextButton
+        buttonType="primary"
         message={this.appContext.labels.headerMenu.closeButton}
         onClick={this.props.onCloseMenu}
       />
@@ -120,9 +125,11 @@ const styles = {
     paddingTop: 20,
     paddingBottom: 20,
   },
+  menuIcon: {
+    marginLeft: 18,
+  },
   menuIconContainer: {
     borderColor: styleSchema.color.greyTransparent,
-    marginLeft: 18,
   },
   menuContainer: {
     alignItems: "center",

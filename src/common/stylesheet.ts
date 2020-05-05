@@ -70,7 +70,6 @@ export interface StyleSheet {
     fontSize: number;
     primaryFont: string;
   };
-  icon: any;
   remind: {
     primaryColor: string;
     secondaryColor: string;
@@ -121,10 +120,6 @@ export const styleSchema: StyleSheet = {
   font: {
     fontSize: FONT_SIZE,
     primaryFont: PRIMARY_FONT,
-  },
-  icon: {
-    fontSize: 38,
-    marginLeft: 18,
   },
   remind: {
     primaryColor: GREEN,

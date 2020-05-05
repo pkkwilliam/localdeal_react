@@ -211,6 +211,8 @@ const GET_SERVICE_HEALTH = {
 
 const GET_USER_PROFILE = {
   id: 0,
+  dealCreated: [1, 3, 4],
+  likedSum: 1923,
   name: "Mock User",
   imageUrl:
     "https://www.picclickimg.com/d/l400/pict/163647152800_/Cubd-Collectibles-Disney-Frozen-Elsa-Small-Soft-Stuffed.jpg",

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { default as MaterialTextField } from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import { styleSchema } from "./stylesheet";
 
 const overrideStyles = {
   root: {
@@ -27,10 +28,12 @@ const overrideStyles = {
 };
 
 interface Props {
+  label?: string;
   multiline?: boolean;
   onChange: (value: string) => void;
   placeholder?: string;
   rows?: number;
+  value?: string;
 }
 
 export default class TextField extends Component<Props> {
@@ -43,6 +46,7 @@ export default class TextField extends Component<Props> {
         placeholder={this.props.placeholder}
         rows={this.props.rows}
         style={styles.textField}
+        value={this.props.value}
       />
     );
   }
@@ -50,6 +54,6 @@ export default class TextField extends Component<Props> {
 
 const styles = {
   textField: {
-    width: "inherit",
+    width: styleSchema.dimension.FILL_ALL_WIDTH,
   },
 };
