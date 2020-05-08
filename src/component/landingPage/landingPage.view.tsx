@@ -43,7 +43,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   LoadingDeals = () => {
     return (
       <View isFlexDirectionRow style={styles.noDealInAreaContainer}>
-        <H5>{this.appContext.labels.landingPage.loadingDeals}</H5>
+        <H5>{this.labels.landingPage.loadingDeals}</H5>
       </View>
     );
   };
@@ -51,7 +51,7 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   NoDealInArea = () => {
     return (
       <View style={styles.noDealInAreaContainer}>
-        <H5>{this.appContext.labels.landingPage.noDeal}</H5>
+        <H5>{this.labels.landingPage.noDeal}</H5>
       </View>
     );
   };

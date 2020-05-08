@@ -25,7 +25,7 @@ export default class Announcement extends ApplicationComponent<{}, State> {
   }
 
   protected generateAnnouncements() {
-    return this.appContext.labels.announcement.messages.map((message: any) => ({
+    return this.labels.announcement.messages.map((message: any) => ({
       content: message.content,
       type: message.type,
     }));

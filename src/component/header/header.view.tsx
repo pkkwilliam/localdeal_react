@@ -58,7 +58,7 @@ export default class HeaderView extends ApplicationComponent<Props> {
 
   ServerErrorModal = () => {
     if (!this.props.serverUp) {
-      const label = this.appContext.labels.header;
+      const label = this.labels.header;
       return (
         <Modal
           primaryButtonMessage={label.refresh}
@@ -81,7 +81,7 @@ export default class HeaderView extends ApplicationComponent<Props> {
   };
 
   LocationButton = () => {
-    const label = this.appContext.labels.header;
+    const label = this.labels.header;
     let areaLabel;
     if (this.props.selectedAddress && this.props.selectedAddress.area) {
       areaLabel = this.props.selectedAddress.area;

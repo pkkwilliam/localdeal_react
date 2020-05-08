@@ -1,4 +1,6 @@
 {
+  "labelName": "label_chinese_traditional",
+  "labelVersion": 1,
   "addressDisplay": {
     "nearBy": "附近"
   },
@@ -15,20 +17,12 @@
     ],
     "version": 1
   },
-  "createDealPage": {
-    "cancel": "取消",
-    "close": "關閉",
-    "create": "創建",
-    "descriptionMissing": "* 没有詳細啊...",
-    "descriptionPlaceHolder": "請加入內容...",
-    "header": "創建好去處",
-    "textFieldTitle": "標題",
-    "titleMissing": "* 没有標題啊..."
-  },
   "createDealPageV2": {
+    "addressNotDetailed": "* 地址唔夠詳細",
     "descriptionPlaceHolder": "講一下特別的地方",
     "error": "伺服器出錯啦!!!程序猿已經在路上了!!!",
     "imageDimensionTips": "比例相約的圖片會獲得更好的觀賞體驗",
+    "manualEnterAddress": "手動輸入",
     "missingAddress": "* 給點臉子選個地址啦",
     "missingField": "* 至少加一點內容吧",
     "saveDraft": "存草稿",

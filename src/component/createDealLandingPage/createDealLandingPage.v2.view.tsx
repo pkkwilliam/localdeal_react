@@ -6,27 +6,25 @@ import MiniText from "../../common/miniText";
 import H5 from "../../common/h5";
 import P from "../../common/paragraph";
 import { styleSchema } from "../../common/stylesheet";
-import { default as AddIcon } from "@material-ui/icons/Add";
-import { default as CloseIcon } from "@material-ui/icons/Close";
-import { default as DeleteIcon } from "@material-ui/icons/Delete";
-import { default as FolderOpenIcon } from "@material-ui/icons/FolderOpen";
-import { default as HelpOutlineIcon } from "@material-ui/icons/HelpOutline";
-import { default as LocationIcon } from "@material-ui/icons/Room";
-
 import Button from "@material-ui/core/Button";
 import TextField from "../../common/textField";
 import { Address } from "../../modal/deal";
 import { FileDetail } from "../../modal/fileDetal";
+import Icon from "../../common/icon";
 
 interface Props {
   allowNumberOfFile: number;
   files: FileDetail[];
   hasAddress: boolean;
   hasField: boolean;
+  isManualEnterAddress: boolean;
+  manualEnterAddress: string;
   onAddFile: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeDescription: (description: string) => void;
+  onChangeManualEnterAddress: (address: string) => void;
   onChangeTitle: (title: string) => void;
   onClickAddress: (address: Address) => void;
+  onClickManualEnterAddress: () => void;
   onClickRemoveImage: (imageIndex: number) => void;
   onClickRemoveSelectedAddress: () => void;
   onClickSaveDraft: () => void;
@@ -64,7 +62,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
         />
         <label htmlFor="raised-button-file">
           <Button component="span" style={styles.addIconButton}>
-            <AddIcon scale="big" style={styles.addIcon} />
+            <Icon type="addLarge" />
           </Button>
         </label>
       </this.Frame>
@@ -72,20 +70,29 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
   };
 
   protected AddressSelection = () => {
-    const addressDisplay = this.props.selectedAddress ? (
-      <this.SelectedAddress />
-    ) : (
-      <this.AddressBubble />
-    );
+    const labels = this.labels.createDealPageV2;
+    let addressSelectionSection = null;
+    if (this.props.isManualEnterAddress) {
+      addressSelectionSection = <this.ManualEnterAddress />;
+    } else if (this.props.selectedAddress) {
+      addressSelectionSection = <this.SelectedAddress />;
+    } else {
+      addressSelectionSection = <this.AddressBubble />;
+    }
     return (
       <>
         <this.MissingSectionLabel
           hide={this.props.hasAddress}
-          label={this.appContext.labels.createDealPageV2.missingAddress}
+          label={
+            this.props.isManualEnterAddress
+              ? labels.addressNotDetailed
+              : labels.missingAddress
+          }
         />
         <View isFlexDirectionRow style={styles.addressSectionContainer}>
-          <LocationIcon style={styles.locationIcon} />
-          {addressDisplay}
+          <Icon type="location" />
+          {addressSelectionSection}
+          <this.RevertIcon />
         </View>
       </>
     );
@@ -93,18 +100,18 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
 
   protected AddressBubble = () => {
     const bubbles = this.appState.address.addressesPrediction.map((address) => {
-      return (
-        <View
-          border={1}
-          onClick={() => this.props.onClickAddress(address)}
-          style={{ ...styles.addressBubbleContainer, whiteSpace: "nowrap" }}
-        >
-          <P style={{ color: styleSchema.color.secondaryColor }}>
-            {address.formattedAddress}
-          </P>
-        </View>
+      const onClickFunction = () => this.props.onClickAddress(address);
+      return this.generateSelectionBubble(
+        onClickFunction,
+        address.formattedAddress ?? ""
       );
     });
+    bubbles.unshift(
+      this.generateSelectionBubble(
+        this.props.onClickManualEnterAddress,
+        this.labels.createDealPageV2.manualEnterAddress
+      )
+    );
     return (
       <View isFlexDirectionRow style={styles.addressSelectionContainer}>
         {bubbles}
@@ -122,7 +129,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
   };
 
   protected CloseButton = () => {
-    return <CloseIcon onClick={this.props.onClose} style={styles.closeIcon} />;
+    return <Icon onClick={this.props.onClose} type="close" />;
   };
 
   protected Description = () => {
@@ -130,9 +137,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
       <TextField
         multiline
         onChange={this.props.onChangeDescription}
-        placeholder={
-          this.appContext.labels.createDealPageV2.descriptionPlaceHolder
-        }
+        placeholder={this.labels.createDealPageV2.descriptionPlaceHolder}
         rows={6}
       />
     );
@@ -142,9 +147,9 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     return (
       <Button onClick={this.props.onClickSaveDraft} style={styles.draftButton}>
         <View style={styles.draftButtonContainer}>
-          <FolderOpenIcon style={styles.draftIcon} />
+          <Icon type="folderOpen" />
           <MiniText color="secondary">
-            {this.appContext.labels.createDealPageV2.saveDraft}
+            {this.labels.createDealPageV2.saveDraft}
           </MiniText>
         </View>
       </Button>
@@ -162,7 +167,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
       <>
         <this.MissingSectionLabel
           hide={this.props.hasField}
-          label={this.appContext.labels.createDealPageV2.missingField}
+          label={this.labels.createDealPageV2.missingField}
         />
         <View isFlexDirectionRow style={styles.fileSectionContainer}>
           {images}
@@ -195,8 +200,8 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
   protected ImageDimensionTips = () => {
     return (
       <View isFlexDirectionRow style={styles.imageDimensionTipsContainer}>
-        <HelpOutlineIcon style={styles.imageDimensionTipsIcon} />
-        <H5>{this.appContext.labels.createDealPageV2.imageDimensionTips}</H5>
+        <Icon type="helpOutline" />
+        <H5>{this.labels.createDealPageV2.imageDimensionTips}</H5>
       </View>
     );
   };
@@ -205,6 +210,17 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     return (
       <View border={1} style={styles.frameContainer}>
         {children}
+      </View>
+    );
+  };
+
+  protected ManualEnterAddress = () => {
+    return (
+      <View style={styles.selectedAddressContainer}>
+        <TextField
+          onChange={this.props.onChangeManualEnterAddress}
+          placeholder={this.labels.createDealPageV2.manualEnterAddress}
+        />
       </View>
     );
   };
@@ -221,16 +237,22 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     );
   };
 
+  protected RevertIcon = () => {
+    if (this.props.selectedAddress || this.props.isManualEnterAddress) {
+      return (
+        <Icon onClick={this.props.onClickRemoveSelectedAddress} type="revert" />
+      );
+    } else {
+      return null;
+    }
+  };
+
   protected SelectedAddress = () => {
     return (
       <View isFlexDirectionRow style={styles.selectedAddressContainer}>
         <P style={styles.selectedAddressText}>
           {this.props.selectedAddress?.formattedAddress ?? ""}
         </P>
-        <DeleteIcon
-          onClick={this.props.onClickRemoveSelectedAddress}
-          style={styles.deleteIcon}
-        />
       </View>
     );
   };
@@ -238,7 +260,7 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
   protected SubmitButton = () => {
     return (
       <PrimaryButton onClick={this.props.onClickSubmit}>
-        {this.appContext.labels.createDealPageV2.submitPost}
+        {this.labels.createDealPageV2.submitPost}
       </PrimaryButton>
     );
   };
@@ -247,17 +269,29 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     return (
       <TextField
         onChange={this.props.onChangeTitle}
-        placeholder={this.appContext.labels.createDealPageV2.titlePlaceHolder}
+        placeholder={this.labels.createDealPageV2.titlePlaceHolder}
       />
     );
   };
+
+  protected generateSelectionBubble(
+    onClick: () => void,
+    value: string,
+    highLight?: boolean
+  ) {
+    return (
+      <View
+        border={1}
+        onClick={onClick}
+        style={{ ...styles.addressBubbleContainer, whiteSpace: "nowrap" }}
+      >
+        <P style={{ color: styleSchema.color.secondaryColor }}>{value}</P>
+      </View>
+    );
+  }
 }
 
 const styles = {
-  addIcon: {
-    color: styleSchema.color.greyTransparent,
-    fontSize: "80",
-  },
   addIconButton: {
     borderRadius: 10,
   },
@@ -272,7 +306,8 @@ const styles = {
   },
   addressSelectionContainer: {
     overflow: "scroll",
-    paddingBottom: 10,
+    paddingBottom: 5,
+    paddingTop: 5,
   },
   addressSectionContainer: {
     alignItems: "center",
@@ -286,12 +321,6 @@ const styles = {
     marginTop: 20,
     width: "inherit",
   },
-  closeIcon: {
-    color: styleSchema.color.greyDark,
-  },
-  deleteIcon: {
-    color: styleSchema.color.greyDark,
-  },
   descriptionTextField: {
     marginTop: 10,
     width: "inherit",
@@ -302,14 +331,6 @@ const styles = {
   draftButtonContainer: {
     alignItems: "center",
     justifyContent: "center",
-  },
-  draftIcon: {
-    backgroundColor: styleSchema.color.secondaryColorTransparent,
-    borderRadius: 25,
-    color: styleSchema.color.secondaryColor,
-    fontSize: 16,
-    marginBottom: 1,
-    padding: 3,
   },
   fileSectionContainer: {
     alignItems: "start",
@@ -347,19 +368,12 @@ const styles = {
     minHeight: "inherit",
     minWidth: "inherit",
   },
-  locationIcon: {
-    color: styleSchema.color.red,
-    marginLeft: -5,
-    marginRight: 3,
-    paddingBottom: 10,
-  },
   rootContainer: {
     width: "inherit",
   },
   selectedAddressContainer: {
     alignItems: "center",
     justifyContent: "space-between",
-    paddingBottom: 10,
     width: "inherit",
   },
   selectedAddressText: {

@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import Add from "@material-ui/icons/Add";
 import Close from "@material-ui/icons/Close";
+import EditIcon from "@material-ui/icons/Edit";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FolderOpenIcon from "@material-ui/icons/FolderOpen";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import Menu from "@material-ui/icons/Menu";
 import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
+import ReplyIcon from "@material-ui/icons/Reply";
 import Room from "@material-ui/icons/Room";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import { styleSchema } from "./stylesheet";
@@ -15,18 +19,24 @@ import { Button } from "@material-ui/core";
 
 interface Props {
   onClick?: () => void;
+  size?: "small" | "medium" | "large" | "xLarge";
   style?: any;
   toolTipsMessage?: string;
   type:
     | "add"
+    | "addLarge"
     | "close"
+    | "edit"
     | "expandMore"
     | "expandLess"
     | "favroite"
     | "favroiteBorder"
+    | "folderOpen"
+    | "helpOutline"
     | "location"
     | "menu"
     | "post"
+    | "revert"
     | "verified";
 }
 
@@ -52,12 +62,20 @@ export default class Icon extends Component<Props> {
     }
   }
 
+  AddIcon = () => {
+    return <Add onClick={this.props.onClick} style={styles.add} />;
+  };
+
+  AddLargeIcon = () => {
+    return <Add onClick={this.props.onClick} style={styles.addLarge} />;
+  };
+
   CloseIcon = () => {
     return <Close onClick={this.props.onClick} style={styles.close} />;
   };
 
-  AddIcon = () => {
-    return <Add onClick={this.props.onClick} style={styles.add} />;
+  EditIcon = () => {
+    return <EditIcon onClick={this.props.onClick} style={styles.edit} />;
   };
 
   ExpandLessIcon = () => {
@@ -83,6 +101,16 @@ export default class Icon extends Component<Props> {
     );
   };
 
+  FolderOpenIcon = () => {
+    return (
+      <FolderOpenIcon onClick={this.props.onClick} style={styles.folderOpen} />
+    );
+  };
+
+  HelpOutlineIcon = () => {
+    return <HelpOutlineIcon style={styles.helpOutline} />;
+  };
+
   LocationIcon = () => {
     return <Room style={styles.location} />;
   };
@@ -100,6 +128,10 @@ export default class Icon extends Component<Props> {
     return <PhotoLibraryIcon style={styles.post} />;
   };
 
+  ReplyIcon = () => {
+    return <ReplyIcon onClick={this.props.onClick} style={styles.reply} />;
+  };
+
   VerifiedIcon = () => {
     return <VerifiedUserIcon style={styles.verified} />;
   };
@@ -108,8 +140,12 @@ export default class Icon extends Component<Props> {
     switch (type) {
       case "add":
         return <this.AddIcon />;
+      case "addLarge":
+        return <this.AddLargeIcon />;
       case "close":
         return <this.CloseIcon />;
+      case "edit":
+        return <this.EditIcon />;
       case "expandLess":
         return <this.ExpandLessIcon />;
       case "expandMore":
@@ -118,12 +154,18 @@ export default class Icon extends Component<Props> {
         return <this.FavoriteIcon />;
       case "favroiteBorder":
         return <this.FavoriteBorderIcon />;
+      case "folderOpen":
+        return <this.FolderOpenIcon />;
+      case "helpOutline":
+        return <this.HelpOutlineIcon />;
       case "location":
         return <this.LocationIcon />;
       case "menu":
         return <this.MenuIcon />;
       case "post":
         return <this.PostIcon />;
+      case "revert":
+        return <this.ReplyIcon />;
       case "verified":
         return <this.VerifiedIcon />;
     }
@@ -135,11 +177,18 @@ const styles = {
     color: styleSchema.color.primaryColor,
     fontSize: 38,
   },
+  addLarge: {
+    color: styleSchema.color.greyTransparent,
+    fontSize: "80",
+  },
   buttonStyle: {
     padding: 0,
   },
   close: {
     color: styleSchema.color.greyDark,
+  },
+  edit: {
+    color: styleSchema.color.blueTransparentSemi,
   },
   expand: {
     color: styleSchema.color.primaryColor,
@@ -148,6 +197,18 @@ const styles = {
   favorite: {
     color: styleSchema.color.red,
     fontSize: 20,
+  },
+  folderOpen: {
+    backgroundColor: styleSchema.color.secondaryColorTransparent,
+    borderRadius: 25,
+    color: styleSchema.color.secondaryColor,
+    fontSize: 16,
+    marginBottom: 1,
+    padding: 3,
+  },
+  helpOutline: {
+    color: styleSchema.color.secondaryColor,
+    fontSize: 18,
   },
   location: {
     color: styleSchema.color.greenMedium,
@@ -159,6 +220,9 @@ const styles = {
   },
   post: {
     color: styleSchema.color.blueTransparentSemi,
+  },
+  reply: {
+    color: styleSchema.color.greyDark,
   },
   verified: {
     color: styleSchema.color.green,

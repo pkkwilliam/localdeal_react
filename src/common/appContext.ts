@@ -1,6 +1,5 @@
 import ServiceExecutor from "./middleware/serviceExecutor";
 import Transformer from "./transformer";
-import chineseTraditionalLabel from "../content/labels/chinese.traditional.json";
 import { Feature } from "./feature/feature";
 
 export default class AppContext {
@@ -19,7 +18,7 @@ export default class AppContext {
     this.headers
   );
 
-  private readonly _transformer: Transformer = new Transformer(this.labels);
+  private readonly _transformer: Transformer = new Transformer();
 
   get allowDealRefresh(): boolean {
     return this.ALLOW_DEAL_REFRESH;
@@ -52,16 +51,12 @@ export default class AppContext {
     };
   }
 
-  get labels() {
-    return chineseTraditionalLabel;
-  }
-
   get isMock(): boolean {
-    return false;
+    return true;
   }
 
   get isProd(): boolean {
-    return true;
+    return false;
   }
 
   get oAuthRedirectUrl(): string {

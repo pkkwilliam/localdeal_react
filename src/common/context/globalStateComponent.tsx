@@ -3,6 +3,7 @@ import AppState from "./appState";
 import Deal, { Address, Coordinate } from "../../modal/deal";
 import { UserProfile } from "../../modal/userProfile";
 import { OAuthProvider } from "../../modal/oAuthProvider";
+import chinese_label from "../../content/labels/chinese.traditional.json";
 
 export interface State {
   address: {
@@ -17,6 +18,7 @@ export interface State {
     dealDraft?: Deal;
     deals: Deal[];
   };
+  labels: {};
   position: {
     loadingPosition: boolean;
     coordinate?: Coordinate;
@@ -52,6 +54,7 @@ export default class GlobalStateComponent extends Component<{}, State> {
       deal: {
         deals: [],
       },
+      labels: chinese_label,
       position: {
         loadingPosition: true,
         coordinate: {
@@ -76,7 +79,15 @@ export default class GlobalStateComponent extends Component<{}, State> {
   }
 
   render() {
-    const { address, banner, deal, service, position, user } = this.state;
+    const {
+      address,
+      banner,
+      deal,
+      labels,
+      position,
+      service,
+      user,
+    } = this.state;
     return (
       <AppState.Provider
         value={{
@@ -91,6 +102,7 @@ export default class GlobalStateComponent extends Component<{}, State> {
             setBannerProgressMessage: this.setBannerProgressMessage,
           },
           deal: { ...deal, setDeals: this.setDeals },
+          labels: { ...labels, setLabels: this.setLabels },
           position: {
             ...position,
             setGeolocation: this.setGeolocation,
@@ -132,6 +144,12 @@ export default class GlobalStateComponent extends Component<{}, State> {
   protected setDeals = (deals: Deal[]) => {
     this.setState({
       deal: { ...this.state.deal, deals },
+    });
+  };
+
+  protected setLabels = (labels: {}) => {
+    this.setState({
+      labels: labels,
     });
   };
 

@@ -51,14 +51,14 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
     return (
       <TextButton
         buttonType="primary"
-        message={this.appContext.labels.headerMenu.closeButton}
+        message={this.labels.headerMenu.closeButton}
         onClick={this.props.onCloseMenu}
       />
     );
   };
 
   ContactInfomation = () => {
-    const label = this.appContext.labels.headerMenu;
+    const label = this.labels.headerMenu;
     if (this.appContext.features.includes(Feature.CONTACT_SHOW_EMAIL)) {
       return (
         <Link href={`mailto:${label.emailAddress}`} underline={"none"}>
@@ -71,12 +71,12 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
   };
 
   DevelopingFeatures = () => {
-    const featues: any = this.appContext.labels.headerMenu.currentDevelopingFeatuers.map(
+    const featues: any = this.labels.headerMenu.currentDevelopingFeatuers.map(
       (feature: string, index: number) => {
         return <H5>{`${index + 1}) ${feature}`}</H5>;
       }
     );
-    const label = this.appContext.labels.headerMenu;
+    const label = this.labels.headerMenu;
     return (
       <View style={styles.developingFeatureContainer}>
         <H5>{label.moreFeatureIsComingDescription}</H5>
@@ -105,7 +105,7 @@ export default class HeaderMenuView extends ApplicationComponent<Props> {
   };
 
   UpperPortion = () => {
-    const label = this.appContext.labels.headerMenu;
+    const label = this.labels.headerMenu;
     return (
       <View style={styles.upperPortionContainer}>
         <OAuth />

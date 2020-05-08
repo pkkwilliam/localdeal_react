@@ -19,6 +19,10 @@ export default interface AppStateInterface {
     draftDeal?: Deal;
     setDeals: (deals: Deal[]) => {};
   };
+  labels: {
+    labels: {};
+    setLabels: (labels: {}) => {};
+  };
   position: {
     loadingPosition: boolean;
     coordinate: Coordinate;

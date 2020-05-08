@@ -4,6 +4,7 @@ import { OAuthProvider } from "../modal/oAuthProvider";
 import ImageProcessor from "./imageProcessor";
 import AppState from "../common/context/appState";
 import AppStateInterface from "./context/appStateInterface";
+import LabelService from "./middleware/labelService";
 import {
   LOGIN_OAUTH_GOOGLE,
   GET_CURRENT_ADDRESS,
@@ -19,9 +20,14 @@ export default class ApplicationComponent<
   ChildState = {}
 > extends Component<ChildProps, ChildState> {
   static contextType = AppState;
+  private static labelLoaded = false;
   private readonly _localStorage = new LocalStorage();
   private readonly _appContext: AppContext = new AppContext();
   private readonly _imageProcessor: ImageProcessor = new ImageProcessor();
+  private readonly _labelService: LabelService = new LabelService(
+    this._localStorage,
+    this.appContext.serviceExecutor
+  );
 
   get appContext(): AppContext {
     return this._appContext;
@@ -33,6 +39,16 @@ export default class ApplicationComponent<
 
   get imageProcessor(): ImageProcessor {
     return this._imageProcessor;
+  }
+
+  get labels(): any {
+    if (!ApplicationComponent.labelLoaded) {
+      this._labelService.getLabels().then((result) => {
+        this.appState.labels.setLabels(result);
+      });
+      ApplicationComponent.labelLoaded = true;
+    }
+    return this.appState.labels;
   }
 
   get localStorage(): LocalStorage {
@@ -71,6 +87,7 @@ export default class ApplicationComponent<
     if (value[0]) {
       this.checkOAuthFromUrl();
       this.getUserProfile();
+      await this._labelService.checkLabelVersion();
       await this.setCurrentAddress();
       await this.executeGetDeals();
     }

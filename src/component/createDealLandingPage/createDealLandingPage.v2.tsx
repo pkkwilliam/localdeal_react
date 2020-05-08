@@ -23,6 +23,8 @@ interface State {
   files: FileDetail[];
   hasAddress: boolean;
   hasField: boolean;
+  isManualEnterAddress: boolean;
+  manualEnterAddress: string;
   selectedAddress?: Address;
   title: string;
 }
@@ -39,6 +41,8 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       description: "",
       hasAddress: true,
       hasField: true,
+      isManualEnterAddress: false,
+      manualEnterAddress: "",
       title: "",
     };
   }
@@ -48,10 +52,14 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       <CreateDealLandingPageV2View
         allowNumberOfFile={ALLOWED_NUMBER_OF_FILE}
         files={this.state.files}
+        isManualEnterAddress={this.state.isManualEnterAddress}
+        manualEnterAddress={this.state.manualEnterAddress}
         onAddFile={this.onAddFile}
         onChangeDescription={this.onChangeDescription}
+        onChangeManualEnterAddress={this.onChangeManualEnterAddress}
         onChangeTitle={this.onChangeTitle}
         onClickAddress={this.onClickAddress}
+        onClickManualEnterAddress={this.onClickManualEnterAddress}
         onClickRemoveImage={this.onClickRemoveImage}
         onClickRemoveSelectedAddress={this.onClickRemoveSelectedAddress}
         onClickSaveDraft={this.onClickSaveDraft}
@@ -101,6 +109,13 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     });
   };
 
+  protected onChangeManualEnterAddress = (manualEnterAddress: string) => {
+    console.debug("onChangeManualEnterAddress");
+    this.setState({
+      manualEnterAddress,
+    });
+  };
+
   protected onChangeTitle = (title: string) => {
     console.debug("onChangeTitle");
     this.setState({
@@ -115,6 +130,13 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
     });
   };
 
+  protected onClickManualEnterAddress = () => {
+    console.debug("onClickManualEnterAddress");
+    this.setState({
+      isManualEnterAddress: true,
+    });
+  };
+
   protected onClickRemoveImage = (imageIndex: number) => {
     console.debug("onClickRemoveSelectedAddress");
     this.setState({
@@ -125,6 +147,7 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
   protected onClickRemoveSelectedAddress = () => {
     console.debug("onClickRemoveSelectedAddress");
     this.setState({
+      isManualEnterAddress: false,
       selectedAddress: undefined,
     });
   };
@@ -142,12 +165,13 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
 
   protected onSubmit = async () => {
     console.debug("start to submit a new deal");
+    const state = this.state;
     await this.appState.banner.setShowBanner(true);
     this.props.onClose();
-    const labels = this.appContext.labels.createDealPageV2;
+    const labels = this.labels.createDealPageV2;
     await this.appState.banner.setBannerProgressMessage(labels.uploadingImage);
     const imageUploadResult = await Promise.all(
-      this.state.files.map(async (file) => {
+      state.files.map(async (file) => {
         const imageBlob: File = await this.imageProcessor.imagePrecprocess(
           file.base64Value
         );
@@ -164,25 +188,32 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
       })
     ).then((url) => url);
 
+    const address = state.isManualEnterAddress
+      ? state.manualEnterAddress
+      : state.selectedAddress?.formattedAddress;
+
+    const serverIdentifierName = state.isManualEnterAddress
+      ? this.appState.address.selectedAddress?.area
+      : state.selectedAddress?.area;
+
     await this.appState.banner.setBannerProgressMessage(labels.uploadingDeal);
-    console.log(this.state.description);
     const createDeal: Deal = {
       id: 0,
-      address: this.state.selectedAddress?.formattedAddress,
+      address,
       attendCount: 0,
       description: this.state.description,
       filesUrl: imageUploadResult.map((url: any) => url ?? ""),
       liked: false,
       likedCount: 0,
-      serverIdentifierName: this.state.selectedAddress?.area,
+      serverIdentifierName,
       timestamp: 0,
       title: this.state.title,
       verifiedLikedUserCount: 0,
     };
     await this.appContext.serviceExecutor.execute(CREATE_DEAL(createDeal));
-    if (this.state.selectedAddress) {
+    if (this.appState.address.selectedAddress) {
       await this.appContext.serviceExecutor
-        .execute(GET_DEALS(this.state.selectedAddress))
+        .execute(GET_DEALS(this.appState.address.selectedAddress))
         .then((result: GetDealResponse) => {
           this.appState.deal.setDeals(result.deals);
         })
@@ -200,7 +231,9 @@ export default class CreateDealLandingPageV2 extends ApplicationComponent<
 
   protected verifyInput(): boolean {
     const state = this.state;
-    let hasAddress = state.selectedAddress !== undefined;
+    let hasAddress =
+      state.selectedAddress !== undefined ||
+      state.manualEnterAddress.length > 3;
     let hasField: boolean =
       state.title !== "" || state.description !== "" || state.files.length > 0;
     this.setState({

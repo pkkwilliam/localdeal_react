@@ -10,6 +10,7 @@ const REDIRECT_URL_PARAMETER: string = "redirectUrl";
 export enum ServiceName {
   CREATE_DEAL = "CREATE_DEAL",
   GET_CURRENT_ADDRESS = "GET_CURRENT_ADDRESS",
+  GET_LABEL = "GET_LABEL",
   GET_DEALS = "GET_DEALS",
   GET_PRESIGNED_URL = "GET_PRESIGNED_URL",
   GET_SERVER_HEALTH = "GET_SERVER_HEALTH",
@@ -57,6 +58,19 @@ export const GET_DEALS = (address: Address): Endpoint => {
     optionalRequestParam: () =>
       `?${generateParameter(AREA_NAME_URL_PARAMETER, address.area || "")}`,
     serviceName: ServiceName.GET_DEALS,
+  };
+};
+
+export const GET_LABEL = (fileName: string): Endpoint => {
+  return {
+    externalService: false,
+    hasMock: false,
+    isMultipartFileRequest: false,
+    method: "GET",
+    url: "/persistence",
+    optionalRequestParam: () =>
+      generateMultipleUrlParameters(["fileName", fileName]),
+    serviceName: ServiceName.GET_LABEL,
   };
 };
 

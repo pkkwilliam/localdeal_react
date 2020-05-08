@@ -19,10 +19,6 @@ export default class Header extends ApplicationComponent<{}, State> {
     };
   }
 
-  componentDidMount() {
-    this.executeInit();
-  }
-
   render() {
     return (
       <HeaderView

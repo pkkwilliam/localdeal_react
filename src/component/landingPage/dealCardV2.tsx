@@ -84,8 +84,11 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
           <H1>{title}</H1>
           <H5>
             {timestamp
-              ? this.appContext.transformer.timeDifferentCalcualtor(timestamp)
-              : this.appContext.labels.date.unknown}
+              ? this.appContext.transformer.timeDifferentCalcualtor(
+                  this.labels.date,
+                  timestamp
+                )
+              : this.labels.date.unknown}
           </H5>
         </View>
         {address ? <H5>{address}</H5> : null}
@@ -128,6 +131,7 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
 
 const styles = {
   cardContainer: {
+    alignItems: "center",
     justifyContent: "space-between",
     width: "inherit",
   },

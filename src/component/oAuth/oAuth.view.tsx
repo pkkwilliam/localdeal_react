@@ -56,14 +56,14 @@ export default class OAuthView extends ApplicationComponent<Props> {
     return (
       <TextButton
         buttonType="secondary"
-        message={this.appContext.labels.oAuth.logout}
+        message={this.labels.oAuth.logout}
         onClick={this.props.onClickLogout}
       />
     );
   };
 
   protected ManageProfile = () => {
-    const labels = this.appContext.labels.oAuth.userProfile;
+    const labels = this.labels.oAuth.userProfile;
     return (
       <Collapse in={this.props.showManageProfile} style={{ width: "inherit" }}>
         <View style={{ alignItems: "center", width: "inherit" }}>
@@ -102,7 +102,7 @@ export default class OAuthView extends ApplicationComponent<Props> {
 
   protected UserProfileSection = () => {
     const userProfile = this.props.userProfile;
-    const labels = this.appContext.labels.oAuth;
+    const labels = this.labels.oAuth;
     if (userProfile.oAuthProvider !== OAuthProvider.NONE) {
       return (
         <>
