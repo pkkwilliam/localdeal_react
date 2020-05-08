@@ -109,7 +109,8 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
     bubbles.unshift(
       this.generateSelectionBubble(
         this.props.onClickManualEnterAddress,
-        this.labels.createDealPageV2.manualEnterAddress
+        this.labels.createDealPageV2.manualEnterAddress,
+        true
       )
     );
     return (
@@ -283,9 +284,23 @@ export default class CreateDealLandingPageV2View extends ApplicationComponent<
       <View
         border={1}
         onClick={onClick}
-        style={{ ...styles.addressBubbleContainer, whiteSpace: "nowrap" }}
+        style={{
+          ...styles.addressBubbleContainer,
+          ...(highLight
+            ? styles.addressBubbleBorderHighLight
+            : styles.addressBubbleBorder),
+          whiteSpace: "nowrap",
+        }}
       >
-        <P style={{ color: styleSchema.color.secondaryColor }}>{value}</P>
+        <P
+          style={
+            highLight
+              ? styles.addressBubbleTextHighLight
+              : styles.addressBubbleText
+          }
+        >
+          {value}
+        </P>
       </View>
     );
   }
@@ -295,8 +310,9 @@ const styles = {
   addIconButton: {
     borderRadius: 10,
   },
+  addressBubbleBorder: { borderColor: styleSchema.color.secondaryColor },
+  addressBubbleBorderHighLight: { borderColor: styleSchema.color.primaryColor },
   addressBubbleContainer: {
-    borderColor: styleSchema.color.secondaryColor,
     borderRadius: 30,
     paddingTop: 2,
     paddingBottom: 2,
@@ -304,6 +320,8 @@ const styles = {
     paddingRight: 10,
     marginRight: 5,
   },
+  addressBubbleText: { color: styleSchema.color.secondaryColor },
+  addressBubbleTextHighLight: { color: styleSchema.color.primaryColor },
   addressSelectionContainer: {
     overflow: "scroll",
     paddingBottom: 5,
