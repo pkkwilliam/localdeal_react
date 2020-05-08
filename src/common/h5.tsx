@@ -1,18 +1,15 @@
-import React, { Component } from "react";
-import { styleSchema, H1 } from "./";
+import H1 from "./h1";
+import { styleSchema } from "./stylesheet";
 
 export default class H5 extends H1 {
-  render() {
-    return (
-      <h5
-        style={{ ...this.getStyle(), ...this.getColor(), ...this.props.style }}
-      >
-        {this.props.children}
-      </h5>
-    );
+  protected getStyle() {
+    return {
+      fontSize: 15,
+      fontWeight: 500,
+    };
   }
 
-  protected getDefaultColor(): string {
-    return styleSchema.color.greyDark;
+  public getDefaultColor() {
+    return styleSchema.color.secondaryColor;
   }
 }

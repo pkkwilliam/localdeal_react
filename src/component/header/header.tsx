@@ -2,16 +2,6 @@ import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import "../../App.css";
 import { HeaderView } from ".";
-import { ReduxState } from "../../common/redux/reducers";
-import CurrentArea from "../../modal/currentArea";
-import { Address } from "../../modal/deal";
-import { connect } from "react-redux";
-
-interface Props {
-  addressesPrediction: Address[];
-  position: CurrentArea;
-  selectedAddress: Address;
-}
 
 interface State {
   isCreateDealDrawerOpen: boolean;
@@ -19,13 +9,13 @@ interface State {
   useAutoLocation: boolean;
 }
 
-export class Header extends ApplicationComponent<Props, State> {
-  constructor(props: Props) {
+export default class Header extends ApplicationComponent<{}, State> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       isCreateDealDrawerOpen: false,
       isHamburgerMenuDrawerOpen: false,
-      useAutoLocation: true
+      useAutoLocation: true,
     };
   }
 
@@ -33,13 +23,11 @@ export class Header extends ApplicationComponent<Props, State> {
     return (
       <HeaderView
         isCreateDealDrawerOpen={this.state.isCreateDealDrawerOpen}
-        isHamburgerMenuDrawerOpen={this.state.isHamburgerMenuDrawerOpen}
         onClickCreateDeal={this.onClickCreateDeal}
-        onClickHamburgerMenu={this.onClickHamburgerMenu}
         onCloseCreateDeal={this.onCloseCreateDeal}
-        onCloseHamburgerMenu={this.onCloseHamburgerMenu}
-        onClickLocationButton={this.onClickLocationButton}
-        selectedAddress={this.props.selectedAddress}
+        onClickRefresh={this.onClickRefresh}
+        selectedAddress={this.appState.address.selectedAddress}
+        serverUp={this.appState.service.serviceUp}
       />
     );
   }
@@ -47,44 +35,19 @@ export class Header extends ApplicationComponent<Props, State> {
   protected onClickCreateDeal = () => {
     console.debug("onClickCreateDeal");
     this.setState({
-      isCreateDealDrawerOpen: true
-    });
-  };
-
-  protected onClickHamburgerMenu = () => {
-    console.debug("onClickHamburgerMenu");
-    this.setState({
-      isHamburgerMenuDrawerOpen: true
+      isCreateDealDrawerOpen: true,
     });
   };
 
   protected onCloseCreateDeal = () => {
     console.debug("onCloseCreateDeal");
     this.setState({
-      isCreateDealDrawerOpen: false
+      isCreateDealDrawerOpen: false,
     });
   };
 
-  protected onCloseHamburgerMenu = () => {
-    console.debug("onCloseHamburgerMenu");
-    this.setState({
-      isHamburgerMenuDrawerOpen: false
-    });
-  };
-
-  protected onClickLocationButton = () => {
-    // need to complete
-    console.debug("onClickLocationButton");
-    this.setState({
-      useAutoLocation: true
-    });
+  protected onClickRefresh = () => {
+    console.debug("onClickRefresh");
+    this.executeInit();
   };
 }
-
-const mapStateToProps = (state: ReduxState): Props => ({
-  addressesPrediction: state.addressesPrediction,
-  position: state.position,
-  selectedAddress: state.selectedAddress
-});
-
-export default connect(mapStateToProps)(Header);

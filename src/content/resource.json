@@ -1,0 +1,16 @@
+{
+  "oAuth": [
+    {
+      "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+      "provider": "GOOGLE",
+      "requestUrl": "https://accounts.google.com/o/oauth2/v2/auth?scope=profile&access_type=offline&include_granted_scopes=true&response_type=code&state=GOOGLE&redirect_uri=https://liuda.site&client_id=965687889406-d0pqe0hr6i3c4uo18rr5j0spqq73phth.apps.googleusercontent.com",
+      "requestUrlNonProd": "https://accounts.google.com/o/oauth2/v2/auth?scope=profile&access_type=offline&include_granted_scopes=true&response_type=code&state=GOOGLE&redirect_uri=http://127.0.0.1:3000&client_id=965687889406-d0pqe0hr6i3c4uo18rr5j0spqq73phth.apps.googleusercontent.com"
+    },
+    {
+      "iconUrl": "https://www.logo.wine/a/logo/WeChat/WeChat-Icon-Logo.wine.svg",
+      "provider": "NONE",
+      "requestUrl": "",
+      "requestUrlNonProd": ""
+    }
+  ]
+}

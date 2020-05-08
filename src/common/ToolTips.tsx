@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Tooltip, Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
 
 interface Props {
   children: React.ReactNode;

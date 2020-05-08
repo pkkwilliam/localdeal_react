@@ -1,20 +1,25 @@
+import { UserProfile } from "./userProfile";
+
 export default interface Deal {
-  id?: number;
-  address: Address;
+  id: number;
+  address?: string;
+  attendCount: number;
   category?: Category;
-  discussions?: Discussion[];
+  createdBy?: UserProfile;
   description: string;
+  filesUrl: string[];
+  liked: boolean;
+  likedCount: number;
   serverIdentifierName?: string;
   title: string;
-  timeAvailable?: WeekTime;
   timestamp: number;
-  vote?: Vote;
+  verifiedLikedUserCount: number;
 }
 
 export enum Category {
   FOOD_AND_DRINK = "FOOD_AND_DRINK",
   SERVICE = "SERVICE",
-  SHOPPING = "SHIPPING"
+  SHOPPING = "SHIPPING",
 }
 
 export interface GetDealResponse {
@@ -37,25 +42,4 @@ export interface Address {
 export interface Coordinate {
   latitude: number;
   longitude: number;
-}
-
-export interface Discussion {
-  timestamp: string;
-  vote: Vote;
-}
-
-export interface Vote {
-  downVote: number;
-  upVote: number;
-  ableToVote: boolean;
-}
-
-export interface WeekTime {
-  sunday?: string;
-  monday?: string;
-  tuesday?: string;
-  wednesday?: string;
-  thursday?: string;
-  friday?: string;
-  saturday?: string;
 }

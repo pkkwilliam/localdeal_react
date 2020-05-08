@@ -1,39 +1,75 @@
 import React, { Component } from "react";
 import { styleSchema } from "./stylesheet";
 
-interface Props {
-  color?: string;
+export interface Props {
+  color?: "primary" | "secondary" | "black" | "white";
   style?: any;
 }
 
-export default class H1 extends Component<Props> {
+export default class H1<ChildProps extends Props = Props> extends Component<
+  ChildProps
+> {
   render() {
     return (
-      <h4
-        style={{ ...this.getStyle(), ...this.getColor(), ...this.props.style }}
+      <span
+        style={{
+          color: this.getColor(),
+          ...this.getDefaultStyle(),
+          ...this.props.style,
+        }}
       >
         {this.props.children}
-      </h4>
+      </span>
     );
   }
 
-  protected getColor(): { color: string } {
-    return {
-      color: this.props.color ? this.props.color : this.getDefaultColor()
-    };
+  protected getColor(): string {
+    switch (this.props.color) {
+      case "primary":
+        return styles.primaryColor.color;
+      case "secondary":
+        return styles.secondaryColor.color;
+      case "black":
+        return styles.black.color;
+      case "white":
+        return styles.white.color;
+      default:
+        return this.getDefaultColor();
+    }
+  }
+
+  protected getDefaultColor() {
+    return styles.black.color;
+  }
+
+  protected getDefaultStyle() {
+    return { ...styles.defaultStyle, ...this.getStyle() };
   }
 
   protected getStyle(): any {
     return styles.text;
   }
-
-  protected getDefaultColor(): string {
-    return styleSchema.color.black;
-  }
 }
 
 const styles = {
+  defaultStyle: {
+    margin: 0,
+  },
   text: {
-    margin: 0
-  }
+    fontFamily: styleSchema.font.primaryFont,
+    fontSize: 18,
+    fontWeight: 600,
+  },
+  primaryColor: {
+    color: styleSchema.color.primaryColor,
+  },
+  secondaryColor: {
+    color: styleSchema.color.secondaryColor,
+  },
+  black: {
+    color: styleSchema.color.black,
+  },
+  white: {
+    color: styleSchema.color.white,
+  },
 };

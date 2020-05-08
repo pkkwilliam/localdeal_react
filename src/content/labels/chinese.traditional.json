@@ -1,16 +1,37 @@
 {
+  "labelName": "label_chinese_traditional",
+  "labelVersion": 1,
   "addressDisplay": {
     "nearBy": "附近"
   },
-  "createDealPage": {
-    "cancel": "取消",
-    "close": "關閉",
-    "create": "創建",
-    "descriptionMissing": "* 没有詳細啊...",
-    "descriptionPlaceHolder": "請加入內容...",
-    "header": "創建好去處",
-    "textFieldTitle": "標題",
-    "titleMissing": "* 没有標題啊..."
+  "announcement": {
+    "messages": [
+      {
+        "content": "誠邀市場推廣",
+        "type": "boldText"
+      },
+      {
+        "content": "Tensor Technology = 初創科技公司\n主要方向是讓用戶或企業主動發起活動\n讓附近有興趣或空閒的用戶參與該活 公司現已有一位從美國50強企業回澳的電腦軟件工程師協助開發 現誠邀有市場推廣能力和經驗的人士一位參與共同發展該項 如有意向請點擊右上角找聯絡我們",
+        "type": "text"
+      }
+    ],
+    "version": 1
+  },
+  "createDealPageV2": {
+    "addressNotDetailed": "* 地址唔夠詳細",
+    "descriptionPlaceHolder": "講一下特別的地方",
+    "error": "伺服器出錯啦!!!程序猿已經在路上了!!!",
+    "imageDimensionTips": "比例相約的圖片會獲得更好的觀賞體驗",
+    "manualEnterAddress": "手動輸入",
+    "missingAddress": "* 給點臉子選個地址啦",
+    "missingField": "* 至少加一點內容吧",
+    "saveDraft": "存草稿",
+    "success": "發布成功",
+    "submitPost": "發布好玩",
+    "uploadingImage": "瘋狂上傳圖片",
+    "uploadingDeal": "伺服器愛理不理中",
+    "uploadCompleted": "搞掂!!!",
+    "titlePlaceHolder": "標題有趣會有更多Like哦"
   },
   "date": {
     "day": "日",
@@ -19,7 +40,27 @@
   },
   "header": {
     "currentLocation": "當前地區:",
-    "loading": "Google API 正在為你定位"
+    "loading": "Google API 正在為你定位",
+    "refresh": "刷新",
+    "serverError": "服務器斷線了"
+  },
+  "headerMenu": {
+    "bugReportDescription": "歡迎告訴我們任何bug，或有趣的功能",
+    "closeButton": "關閉",
+    "contactUs": "聯絡我們",
+    "currentDevelopingFeatuers": [
+      "修理後台服務與伺服器 (優先處理): 0%",
+      "Google登入 進度: 80%",
+      "存草稿 進度: 0%",
+      "短影片 進度: 0%",
+      "微信登入 進度: 35% (等待審批)",
+      "深色模式 進度: 20%",
+      "公告文字 進度: 0%"
+    ],
+    "developingFeature": "等待開發中的功能:",
+    "emailAddress": "tensortechnology@gmail.com",
+    "logout": "登出",
+    "moreFeatureIsComingDescription": "產品經理正在鞭撻理程序員推出更多新功能"
   },
   "landingPage": {
     "area": "地區",
@@ -27,11 +68,32 @@
     "createDealButton": "創建好去處",
     "loadingDeals": "正在全力為你讀取好去處",
     "geolocationProvider": "API定位",
-    "noDeal": "網友們未曾添加好去處，請你幫助我們一起覆蓋這個區域好嗎?"
+    "noDeal": "網友們未曾添加好去處\n請你幫助我們一起覆蓋這個區域好嗎?"
   },
   "localDealCardPage": {
     "expand": "展開",
     "collapse": "收起"
+  },
+  "login": {
+    "formName": "登入",
+    "loginNotYetAvaiable": "未用得啊 等陣先啦",
+    "password": "密碼",
+    "register": "注冊賬號",
+    "submit": "登入",
+    "username": "UID/用戶名/EMAIL"
+  },
+  "oAuth": {
+    "likedReceived": "收到的喜愛:",
+    "login": "登入",
+    "logout": "登出",
+    "postCreated": "已發布:",
+    "successfullyLogout": "成功登出",
+    "undefined": "不明",
+    "userProfile": {
+      "cancel": "取消",
+      "name": "名字",
+      "save": "儲存"
+    }
   },
   "position": {
     "currentArea": "所在地區",
