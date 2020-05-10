@@ -20,7 +20,6 @@ export default class ApplicationComponent<
   ChildState = {}
 > extends Component<ChildProps, ChildState> {
   static contextType = AppState;
-  private static labelLoaded = false;
   private readonly _localStorage = new LocalStorage();
   private readonly _appContext: AppContext = new AppContext();
   private readonly _imageProcessor: ImageProcessor = new ImageProcessor();
@@ -42,13 +41,7 @@ export default class ApplicationComponent<
   }
 
   get labels(): any {
-    if (!ApplicationComponent.labelLoaded) {
-      this._labelService.getLabels().then((result) => {
-        this.appState.labels.setLabels(result);
-      });
-      ApplicationComponent.labelLoaded = true;
-    }
-    return this.appState.labels;
+    return this._labelService.label;
   }
 
   get localStorage(): LocalStorage {
@@ -85,12 +78,13 @@ export default class ApplicationComponent<
       this.setCurrentPosition(),
     ]);
     if (value[0]) {
+      this._labelService.checkLabelVersion();
       this.checkOAuthFromUrl();
       this.getUserProfile();
-      await this._labelService.checkLabelVersion();
       await this.setCurrentAddress();
       await this.executeGetDeals();
     }
+    this.forceUpdate();
     return value[0];
   }
 
@@ -148,6 +142,16 @@ export default class ApplicationComponent<
         .execute(GET_DEALS(this.appState.address.selectedAddress))
         .then((getDealResponse: GetDealResponse) => {
           this.appState.deal.setDeals(getDealResponse.deals);
+        });
+    }
+  };
+
+  protected setDeals = (callBackFunction: (deals: any) => void) => {
+    if (this.appState.address.selectedAddress?.area) {
+      this.appContext.serviceExecutor
+        .execute(GET_DEALS(this.appState.address.selectedAddress))
+        .then((getDealResponse: GetDealResponse) => {
+          callBackFunction(getDealResponse.deals);
         });
     }
   };

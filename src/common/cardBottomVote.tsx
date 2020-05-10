@@ -11,6 +11,7 @@ import Icon from "./icon";
 export interface Props {
   deal: Deal;
   selectedAddress?: Address;
+  refreshDeal: () => void;
 }
 
 interface State {
@@ -103,25 +104,15 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
 
   // this method will call to update the vote, service will return the deal that was update, UI is responsible to map it
   protected onClickVote = () => {
+    console.debug("onClickVote");
     this.appContext.serviceExecutor
       .execute(VOTE_CHANGE(this.props.deal.id, !this.state.liked))
-      .then((result: Deal) => {
-        this.appState.deal.setDeals(
-          this.appState.deal.deals.map((deal) => {
-            if (deal.id === result.id) {
-              return result;
-            } else {
-              return deal;
-            }
-          })
-        );
+      .then(() => {
         this.setState({
           liked: !this.state.liked,
         });
+        this.props.refreshDeal();
       });
-    console.log(
-      "--- this feature is only for user who wants to likes a post or even attend an event anonymously, if any abusion is found, feature will be terminated! ---"
-    );
   };
 }
 

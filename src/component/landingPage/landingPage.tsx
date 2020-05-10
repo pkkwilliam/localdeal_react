@@ -2,10 +2,10 @@ import React from "react";
 import ApplicationComponent from "../../common/applicationComponent";
 import Deal from "../../modal/deal";
 import { LandingPageView } from ".";
-import {} from "../../common/middleware/service";
 import "../../App.css";
 
 export interface State {
+  deals: Deal[];
   isLoading: boolean;
 }
 
@@ -13,9 +13,24 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
+      deals: [],
       isLoading: true,
     };
   }
+
+  onSetDeals = (deals: Deal[]) => {
+    this.setState({
+      deals,
+    });
+  };
+
+  componentDidMount() {
+    this.refreshDeal();
+  }
+
+  refreshDeal = () => {
+    this.setDeals(this.onSetDeals);
+  };
 
   protected sortDeals(inputDeals: Deal[]): Deal[] {
     return inputDeals.sort((deal1, deal2) => {
@@ -24,13 +39,12 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
   }
 
   render() {
-    const sortedDeal: Deal[] = this.sortDeals(
-      this.appState.deal.deals ? this.appState.deal.deals : []
-    );
+    const sortedDeal: Deal[] = this.sortDeals(this.state.deals);
     return (
       <LandingPageView
         deals={sortedDeal}
         isLoadingDeals={this.state.isLoading}
+        refreshDeal={this.refreshDeal}
       />
     );
   }

@@ -1,16 +1,15 @@
 import { GET_LABEL } from "./service";
 import LocalStorage from "../localStorage";
 import ServiceExecutor from "./serviceExecutor";
+import chinese_traditional from "../../content/labels/chinese.traditional.json";
 
 export default class LabelService {
+  private static remoteLabel = null;
+
   constructor(
     readonly localStorage: LocalStorage,
     readonly serviceExecutor: ServiceExecutor
   ) {}
-
-  getLabels() {
-    return this.checkLabelVersion();
-  }
 
   async checkLabelVersion() {
     const labelName = this.getRequestParamLabelName(this.getLanguage());
@@ -24,7 +23,7 @@ export default class LabelService {
       ) {
         this.setNewLabel();
       } else {
-        return localLabel;
+        this.remoteLabel = localLabel;
       }
     } else {
       this.setNewLabel();
@@ -34,7 +33,7 @@ export default class LabelService {
   async setNewLabel() {
     const label = await this.getRemoteLabel();
     this.localStorage.setLabel(JSON.stringify(label));
-    this.checkLabelVersion();
+    this.remoteLabel = label;
   }
 
   getLanguage() {
@@ -58,5 +57,16 @@ export default class LabelService {
       default:
         return "label_chinese_traditional";
     }
+  }
+
+  get label() {
+    if (LabelService.remoteLabel === null) {
+      return chinese_traditional;
+    }
+    return LabelService.remoteLabel;
+  }
+
+  set remoteLabel(label: any) {
+    LabelService.remoteLabel = label;
   }
 }

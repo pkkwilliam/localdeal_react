@@ -16,6 +16,7 @@ const Slider = getLazyComponent(LazyLoadComponent.Slide);
 interface Props {
   deal: Deal;
   index: number; // This need to be remove and replace with deal.id!!!
+  refreshDeal: () => void;
 }
 
 interface State {
@@ -40,7 +41,12 @@ export default class DealCardV2 extends ApplicationComponent<Props, State> {
 
   protected DealCard() {
     const deal = this.props.deal;
-    const bottomToolBarContent = <CardBottomVote deal={this.props.deal} />;
+    const bottomToolBarContent = (
+      <CardBottomVote
+        deal={this.props.deal}
+        refreshDeal={this.props.refreshDeal}
+      />
+    );
     let showExpandSign: boolean =
       (deal.description !== null && deal.description !== "") ||
       deal.filesUrl.length > 1;

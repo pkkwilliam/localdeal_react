@@ -9,6 +9,7 @@ import DealSectionV2View from "./dealSection.v2.view";
 export interface Props {
   deals: Deal[];
   isLoadingDeals: boolean;
+  refreshDeal: () => void;
 }
 
 export default class LandingPageView extends ApplicationComponent<Props> {
@@ -23,7 +24,12 @@ export default class LandingPageView extends ApplicationComponent<Props> {
   BodySection = () => {
     const displayBody = () => {
       if (this.props.deals.length) {
-        return <DealSectionV2View deals={this.props.deals} />;
+        return (
+          <DealSectionV2View
+            deals={this.props.deals}
+            refreshDeal={this.props.refreshDeal}
+          />
+        );
       } else if (this.props.isLoadingDeals) {
         return <this.LoadingDeals />;
       } else {
