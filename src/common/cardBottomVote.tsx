@@ -107,7 +107,6 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
         this.setState({
           liked: !this.state.liked,
         });
-        this.props.refreshDeal(result);
       });
   };
 }
