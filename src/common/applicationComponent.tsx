@@ -72,17 +72,17 @@ export default class ApplicationComponent<
     window.history.pushState(null, document.title, "/");
   }
 
-  async executeInit() {
+  async executeInit(setDealsCallBack: (deal: any) => void) {
     let value = await Promise.all([
       this.getServerStatus().then((result) => result),
+      this._labelService.checkLabelVersion(),
       this.setCurrentPosition(),
     ]);
     if (value[0]) {
-      this._labelService.checkLabelVersion();
       this.checkOAuthFromUrl();
       this.getUserProfile();
       await this.setCurrentAddress();
-      await this.executeGetDeals();
+      await this.executeGetDeals(setDealsCallBack);
     }
     this.forceUpdate();
     return value[0];
@@ -136,22 +136,13 @@ export default class ApplicationComponent<
     });
   }
 
-  protected executeGetDeals = () => {
+  protected executeGetDeals = (setDealsCallBack: (deals: any) => void) => {
     if (this.appState.address.selectedAddress?.area) {
       this.appContext.serviceExecutor
         .execute(GET_DEALS(this.appState.address.selectedAddress))
         .then((getDealResponse: GetDealResponse) => {
+          setDealsCallBack(getDealResponse.deals);
           this.appState.deal.setDeals(getDealResponse.deals);
-        });
-    }
-  };
-
-  protected setDeals = (callBackFunction: (deals: any) => void) => {
-    if (this.appState.address.selectedAddress?.area) {
-      this.appContext.serviceExecutor
-        .execute(GET_DEALS(this.appState.address.selectedAddress))
-        .then((getDealResponse: GetDealResponse) => {
-          callBackFunction(getDealResponse.deals);
         });
     }
   };

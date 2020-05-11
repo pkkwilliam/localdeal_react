@@ -4,7 +4,7 @@ import { UserProfile } from "../../modal/userProfile";
 export default interface AppStateInterface {
   address: {
     addressesPrediction: Address[];
-    selectedAddress?: Address;
+    selectedAddress: Address;
     setPredicteAddresses: (addresses: Address[]) => {};
     setSelectedAddress: (address: Address) => {};
   };
@@ -18,6 +18,7 @@ export default interface AppStateInterface {
     deals: Deal[];
     draftDeal?: Deal;
     setDeals: (deals: Deal[]) => {};
+    updateDeal: (deal: Deal) => {};
   };
   position: {
     loadingPosition: boolean;

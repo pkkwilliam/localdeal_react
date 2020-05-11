@@ -15,7 +15,7 @@ import Room from "@material-ui/icons/Room";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import { styleSchema } from "./stylesheet";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Button } from "@material-ui/core";
+import { Button, withStyles } from "@material-ui/core";
 
 interface Props {
   onClick?: () => void;
@@ -54,20 +54,38 @@ export default class Icon extends Component<Props> {
     } else if (this.props.toolTipsMessage) {
       return (
         <Tooltip disableTouchListener title={this.props.toolTipsMessage}>
-          <Button style={styles.buttonStyle}>{icon}</Button>
+          <this.ButtonWrapper>{icon}</this.ButtonWrapper>
         </Tooltip>
       );
     } else {
-      return icon;
+      return <this.ButtonWrapper>{icon}</this.ButtonWrapper>;
     }
   }
 
   AddIcon = () => {
-    return <Add onClick={this.props.onClick} style={styles.add} />;
+    return (
+      <Add
+        onClick={this.props.onClick}
+        style={{ ...styles.add, ...this.props.style }}
+      />
+    );
   };
 
   AddLargeIcon = () => {
-    return <Add onClick={this.props.onClick} style={styles.addLarge} />;
+    return (
+      <Add
+        onClick={this.props.onClick}
+        style={{ ...styles.addLarge, ...this.props.style }}
+      />
+    );
+  };
+
+  ButtonWrapper = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <StyledButton onClick={this.props.onClick} style={styles.buttonStyle}>
+        {children}
+      </StyledButton>
+    );
   };
 
   CloseIcon = () => {
@@ -87,18 +105,11 @@ export default class Icon extends Component<Props> {
   };
 
   FavoriteBorderIcon = () => {
-    return (
-      <FavoriteBorderIcon
-        onClick={this.props.onClick}
-        style={styles.favorite}
-      />
-    );
+    return <FavoriteBorderIcon style={styles.favorite} />;
   };
 
   FavoriteIcon = () => {
-    return (
-      <FavoriteIcon onClick={this.props.onClick} style={styles.favorite} />
-    );
+    return <FavoriteIcon style={styles.favorite} />;
   };
 
   FolderOpenIcon = () => {
@@ -112,7 +123,7 @@ export default class Icon extends Component<Props> {
   };
 
   LocationIcon = () => {
-    return <Room style={styles.location} />;
+    return <Room style={{ ...styles.location, ...this.props.style }} />;
   };
 
   MenuIcon = () => {
@@ -192,7 +203,6 @@ const styles = {
   },
   expand: {
     color: styleSchema.color.primaryColor,
-    marginLeft: 10,
   },
   favorite: {
     color: styleSchema.color.red,
@@ -229,3 +239,9 @@ const styles = {
     fontSize: 20,
   },
 };
+
+const StyledButton = withStyles({
+  root: {
+    minWidth: 0,
+  },
+})(Button);

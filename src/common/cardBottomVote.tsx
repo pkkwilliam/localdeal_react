@@ -8,10 +8,10 @@ import { VOTE_CHANGE } from "./middleware/service";
 import { OAuthProvider } from "../modal/oAuthProvider";
 import Icon from "./icon";
 
-export interface Props {
+interface Props {
   deal: Deal;
   selectedAddress?: Address;
-  refreshDeal: () => void;
+  refreshDeal: (deal: Deal) => void;
 }
 
 interface State {
@@ -44,11 +44,7 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
     count: number;
   }) => {
     return (
-      <View
-        isFlexDirectionRow
-        onClick={this.onClickVote}
-        style={styles.countContainer}
-      >
+      <View isFlexDirectionRow style={styles.countContainer}>
         {icon}
         <H6 color="secondary" style={styles.countText}>
           {count}
@@ -65,9 +61,9 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
       likedValue = this.state.liked;
     }
     const icon = likedValue ? (
-      <Icon type="favroite" />
+      <Icon type="favroite" onClick={this.onClickVote} />
     ) : (
-      <Icon type="favroiteBorder" />
+      <Icon type="favroiteBorder" onClick={this.onClickVote} />
     );
     return (
       <this.CountContainer count={this.props.deal.likedCount} icon={icon} />
@@ -107,11 +103,11 @@ export default class CardBottomVote extends ApplicationComponent<Props, State> {
     console.debug("onClickVote");
     this.appContext.serviceExecutor
       .execute(VOTE_CHANGE(this.props.deal.id, !this.state.liked))
-      .then(() => {
+      .then((result) => {
         this.setState({
           liked: !this.state.liked,
         });
-        this.props.refreshDeal();
+        this.props.refreshDeal(result);
       });
   };
 }

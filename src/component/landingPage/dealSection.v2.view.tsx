@@ -4,7 +4,7 @@ import DealCardV2 from "./dealCardV2";
 
 interface Props {
   deals: Deal[];
-  refreshDeal: () => void;
+  refreshDeal: (deal: Deal) => void;
 }
 
 export default class DealSectionView extends Component<Props> {

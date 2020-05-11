@@ -16,7 +16,7 @@ const Slider = getLazyComponent(LazyLoadComponent.Slide);
 interface Props {
   deal: Deal;
   index: number; // This need to be remove and replace with deal.id!!!
-  refreshDeal: () => void;
+  refreshDeal: (deal: Deal) => void;
 }
 
 interface State {

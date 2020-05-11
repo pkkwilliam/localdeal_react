@@ -9,7 +9,7 @@ import DealSectionV2View from "./dealSection.v2.view";
 export interface Props {
   deals: Deal[];
   isLoadingDeals: boolean;
-  refreshDeal: () => void;
+  refreshDeal: (deal: Deal) => void;
 }
 
 export default class LandingPageView extends ApplicationComponent<Props> {

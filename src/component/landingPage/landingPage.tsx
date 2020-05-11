@@ -4,33 +4,22 @@ import Deal from "../../modal/deal";
 import { LandingPageView } from ".";
 import "../../App.css";
 
-export interface State {
+interface Props {
   deals: Deal[];
+  refreshDeal: (deal: Deal) => void;
+}
+
+interface State {
   isLoading: boolean;
 }
 
-export default class LandingPage extends ApplicationComponent<{}, State> {
-  constructor(props: {}) {
+export default class LandingPage extends ApplicationComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
-      deals: [],
       isLoading: true,
     };
   }
-
-  onSetDeals = (deals: Deal[]) => {
-    this.setState({
-      deals,
-    });
-  };
-
-  componentDidMount() {
-    this.refreshDeal();
-  }
-
-  refreshDeal = () => {
-    this.setDeals(this.onSetDeals);
-  };
 
   protected sortDeals(inputDeals: Deal[]): Deal[] {
     return inputDeals.sort((deal1, deal2) => {
@@ -39,12 +28,12 @@ export default class LandingPage extends ApplicationComponent<{}, State> {
   }
 
   render() {
-    const sortedDeal: Deal[] = this.sortDeals(this.state.deals);
+    const sortedDeal: Deal[] = this.sortDeals(this.props.deals);
     return (
       <LandingPageView
         deals={sortedDeal}
         isLoadingDeals={this.state.isLoading}
-        refreshDeal={this.refreshDeal}
+        refreshDeal={this.props.refreshDeal}
       />
     );
   }

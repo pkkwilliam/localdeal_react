@@ -139,7 +139,14 @@ export default class GlobalStateComponent extends Component<{}, State> {
     });
   };
 
-  protected updateDeal = (deal: Deal) => {};
+  protected updateDeal = (deal: Deal) => {
+    // this is not working well!!!
+    this.setState({
+      deal: {
+        ...this.state.deal,
+      },
+    });
+  };
 
   protected setShowBanner = (show: boolean) => {
     this.setState({

@@ -13,14 +13,11 @@ export interface Props {
   isCreateDealDrawerOpen: boolean;
   onClickCreateDeal: () => void;
   onCloseCreateDeal: () => void;
-  onClickRefresh: () => void;
   selectedAddress?: Address;
-  serverUp: boolean;
 }
 
 const CreateDealComponent = getLazyComponent(LazyLoadComponent.CreateDeal);
 const Drawer = getLazyComponent(LazyLoadComponent.Drawer);
-const Modal = getLazyComponent(LazyLoadComponent.Modal);
 
 export default class HeaderView extends ApplicationComponent<Props> {
   render() {
@@ -31,7 +28,6 @@ export default class HeaderView extends ApplicationComponent<Props> {
           isFlexDirectionRow={true}
           style={styles.rootContainer}
         >
-          <this.ServerErrorModal />
           <this.CreateDealDrawer />
           <this.HeaderTextAndLogo />
           <this.TopBarSection />
@@ -53,23 +49,13 @@ export default class HeaderView extends ApplicationComponent<Props> {
   };
 
   CreateNewDealButton = () => {
-    return <Icon onClick={this.props.onClickCreateDeal} type="add" />;
-  };
-
-  ServerErrorModal = () => {
-    if (!this.props.serverUp) {
-      const label = this.labels.header;
-      return (
-        <Modal
-          primaryButtonMessage={label.refresh}
-          onClickPrimaryButton={this.props.onClickRefresh}
-          message={label.serverError}
-          open={true}
-        ></Modal>
-      );
-    } else {
-      return null;
-    }
+    return (
+      <Icon
+        onClick={this.props.onClickCreateDeal}
+        type="add"
+        style={styles.headerIcon}
+      />
+    );
   };
 
   HeaderTextAndLogo = () => {
@@ -92,6 +78,7 @@ export default class HeaderView extends ApplicationComponent<Props> {
       <Icon
         toolTipsMessage={`${label.currentLocation} ${areaLabel}`}
         type="location"
+        style={styles.headerIcon}
       />
     );
   };
@@ -112,6 +99,9 @@ const styles = {
   buttonContainer: {
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  headerIcon: {
+    marginRight: 15,
   },
   rootContainer: {
     alignItems: "center",
