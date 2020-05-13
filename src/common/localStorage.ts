@@ -1,4 +1,4 @@
-enum StorageType {
+export enum StorageType {
   hideAnnouncement = "hideAnnouncement",
   Label = "Label",
 }
