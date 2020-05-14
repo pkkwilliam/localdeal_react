@@ -13,6 +13,7 @@ export default class DealSectionView extends Component<Props> {
       <DealCardV2
         deal={deal}
         index={index}
+        key={index}
         refreshDeal={this.props.refreshDeal}
       />
     ));
