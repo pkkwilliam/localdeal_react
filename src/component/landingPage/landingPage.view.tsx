@@ -15,7 +15,8 @@ export interface Props {
 export default class LandingPageView extends ApplicationComponent<Props> {
   render() {
     return (
-      <View style={styles.rootContainer}>
+
+      <View style={{overflowY: 'scroll', ...styles.rootContainer}}>
         <this.BodySection />
       </View>
     );
@@ -78,6 +79,8 @@ const styles = {
   },
   rootContainer: {
     alignItems: "center",
+    backgroundColor: styleSchema.color.greyLight,
+    height: '80vh',
     justifyContent: "center",
     padding: 15,
     width: styleSchema.dimension.FILL_ALL_WIDTH,

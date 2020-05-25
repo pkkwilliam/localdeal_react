@@ -109,5 +109,6 @@ const styles = {
     borderColor: styleSchema.color.greyDark,
     justifyContent: "space-between",
     padding: 15,
+    width: styleSchema.dimension.FILL_ALL_WIDTH
   },
 };

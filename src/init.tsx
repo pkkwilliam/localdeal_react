@@ -33,17 +33,13 @@ export default class Init extends ApplicationComponent<{}, State> {
     return (
       <Suspense fallback={<></>}>
         <this.ServerErrorModal />
-        <div className="App-header">
           <Header />
-        </div>
-        <Announcement />
+        {/* <Announcement /> */}
         <Banner />
-        <div className="Content">
           <LandingPage
             deals={this.state.deals}
             refreshDeal={this.refreshDeal}
           />
-        </div>
       </Suspense>
     );
   }
