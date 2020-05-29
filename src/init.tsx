@@ -7,11 +7,10 @@ import "slick-carousel/slick/slick-theme.css";
 import ApplicationComponent from "./common/applicationComponent";
 import Deal from "./modal/deal";
 
-const Announcement = getLazyComponent(LazyLoadComponent.Announcement);
 const Banner = getLazyComponent(LazyLoadComponent.Banner);
 const Header = getLazyComponent(LazyLoadComponent.Header);
 const LandingPage = getLazyComponent(LazyLoadComponent.LandingPage);
-const Modal = getLazyComponent(LazyLoadComponent.Modal);
+// const Modal = getLazyComponent(LazyLoadComponent.Modal);
 
 interface State {
   deals: Deal[];
@@ -32,14 +31,15 @@ export default class Init extends ApplicationComponent<{}, State> {
   render() {
     return (
       <Suspense fallback={<></>}>
-        <this.ServerErrorModal />
-          <Header />
+        {/* <this.ServerErrorModal /> */}
+        <Header />
         {/* <Announcement /> */}
         <Banner />
-          <LandingPage
-            deals={this.state.deals}
-            refreshDeal={this.refreshDeal}
-          />
+        <LandingPage
+          deals={this.state.deals}
+          initServiceCall={this.initServiceCall}
+          refreshDeal={this.refreshDeal}
+        />
       </Suspense>
     );
   }
@@ -66,19 +66,19 @@ export default class Init extends ApplicationComponent<{}, State> {
     );
   };
 
-  ServerErrorModal = () => {
-    if (!this.appState.service.serviceUp) {
-      const label = this.labels.header;
-      return (
-        <Modal
-          primaryButtonMessage={label.refresh}
-          onClickPrimaryButton={this.initServiceCall}
-          message={label.serverError}
-          open={true}
-        ></Modal>
-      );
-    } else {
-      return null;
-    }
-  };
+  // ServerErrorModal = () => {
+  //   if (!this.appState.service.serviceUp) {
+  //     const label = this.labels.header;
+  //     return (
+  //       <Modal
+  //         primaryButtonMessage={label.refresh}
+  //         onClickPrimaryButton={this.initServiceCall}
+  //         message={label.serverError}
+  //         open={true}
+  //       ></Modal>
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // };
 }

@@ -6,6 +6,7 @@ import "../../App.css";
 
 interface Props {
   deals: Deal[];
+  initServiceCall: () => void;
   refreshDeal: (deal: Deal) => void;
 }
 
@@ -32,6 +33,7 @@ export default class LandingPage extends ApplicationComponent<Props, State> {
     return (
       <LandingPageView
         deals={sortedDeal}
+        initServiceCall={this.props.initServiceCall}
         isLoadingDeals={this.state.isLoading}
         refreshDeal={this.props.refreshDeal}
       />

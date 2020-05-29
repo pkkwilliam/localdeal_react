@@ -5,9 +5,11 @@ import View from "../../common/view";
 import { styleSchema } from "../../common/stylesheet";
 import ApplicationComponent from "../../common/applicationComponent";
 import DealSectionV2View from "./dealSection.v2.view";
+import AlertBox from "../../common/alertBox";
 
 export interface Props {
   deals: Deal[];
+  initServiceCall: () => void;
   isLoadingDeals: boolean;
   refreshDeal: (deal: Deal) => void;
 }
@@ -15,8 +17,7 @@ export interface Props {
 export default class LandingPageView extends ApplicationComponent<Props> {
   render() {
     return (
-
-      <View style={{overflowY: 'scroll', ...styles.rootContainer}}>
+      <View style={styles.rootContainer}>
         <this.BodySection />
       </View>
     );
@@ -29,6 +30,15 @@ export default class LandingPageView extends ApplicationComponent<Props> {
           <DealSectionV2View
             deals={this.props.deals}
             refreshDeal={this.props.refreshDeal}
+          />
+        );
+      } else if (!this.appState.service.serviceUp) {
+        const label = this.labels.header;
+        return (
+          <AlertBox
+            primaryButtonMessage={label.refresh}
+            onClickPrimaryButton={this.props.initServiceCall}
+            message={label.serverError}
           />
         );
       } else if (this.props.isLoadingDeals) {
@@ -80,7 +90,6 @@ const styles = {
   rootContainer: {
     alignItems: "center",
     backgroundColor: styleSchema.color.greyLight,
-    height: '80vh',
     justifyContent: "center",
     padding: 15,
     width: styleSchema.dimension.FILL_ALL_WIDTH,
