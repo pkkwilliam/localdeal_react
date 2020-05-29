@@ -92,12 +92,14 @@ const styles = {
     fontWeight: "bold",
   },
   postContainer: {
+    marginTop: 50,
+    paddingBottom: 20,
     paddingLeft: (window.innerWidth - POST_CONTAINER_WIDTH) / 2,
     paddingRight: (window.innerWidth - POST_CONTAINER_WIDTH) / 2,
-    marginTop: 50,
   },
   rootContainer: {
     backgroundImage: `url(${BackgroundImage})`,
+    minHeight: window.innerHeight,
     paddingLeft: 20,
     paddingRight: 20,
     width: styleSchema.dimension.FILL_ALL_WIDTH,

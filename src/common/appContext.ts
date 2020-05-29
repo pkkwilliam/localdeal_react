@@ -34,9 +34,10 @@ export default class AppContext {
 
   get features(): Feature[] {
     return [
+      // Feature.CREATE_DEAL,
       Feature.CREATE_DEAL_DRAFT,
       Feature.CONTACT_SHOW_EMAIL,
-      Feature.HEADER_MENU,
+      // Feature.HEADER_MENU,
       Feature.LOGIN_GOOGLE_OAUTH,
       Feature.LOGIN_WECHAT_OAUTH,
     ];

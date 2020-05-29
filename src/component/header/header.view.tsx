@@ -8,6 +8,7 @@ import logo from "../../resouces/logo_icon_character-min.png";
 import { getLazyComponent } from "../../lazyLoad/lazyLoad";
 import { LazyLoadComponent } from "../../lazyLoad/lazyLoadComponent";
 import Icon from "../../common/icon";
+import { Feature } from "../../common/feature/feature";
 
 export interface Props {
   isCreateDealDrawerOpen: boolean;
@@ -49,13 +50,17 @@ export default class HeaderView extends ApplicationComponent<Props> {
   };
 
   CreateNewDealButton = () => {
-    return (
-      <Icon
-        onClick={this.props.onClickCreateDeal}
-        type="add"
-        style={styles.headerIcon}
-      />
-    );
+    if (this.appContext.features.includes(Feature.CREATE_DEAL)) {
+      return (
+        <Icon
+          onClick={this.props.onClickCreateDeal}
+          type="add"
+          style={styles.headerIcon}
+        />
+      );
+    } else {
+      return null;
+    }
   };
 
   HeaderTextAndLogo = () => {
@@ -107,8 +112,10 @@ const styles = {
     alignItems: "center",
     backgroundColor: styleSchema.color.white,
     borderColor: styleSchema.color.greyDark,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     justifyContent: "space-between",
     padding: 15,
-    width: styleSchema.dimension.FILL_ALL_WIDTH
+    width: styleSchema.dimension.FILL_ALL_WIDTH,
   },
 };
