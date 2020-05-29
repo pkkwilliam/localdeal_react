@@ -88,8 +88,9 @@ const styles = {
   headerContainer: {},
   headerText: {
     color: styleSchema.color.white,
-    fontSize: 56,
+    fontSize: 47,
     fontWeight: "bold",
+    marginTop: 20,
   },
   postContainer: {
     marginTop: 50,
@@ -102,6 +103,5 @@ const styles = {
     minHeight: window.innerHeight,
     paddingLeft: 20,
     paddingRight: 20,
-    width: styleSchema.dimension.FILL_ALL_WIDTH,
   },
 };
